@@ -209,6 +209,9 @@ export default function AnalyticsPage() {
               <h2 className="font-pixel text-4xl md:text-5xl mb-2">
                 {parseFloat(walletData.gasSpent.ethAmount).toFixed(2)} eth
               </h2>
+              <p className="font-pixel text-xl md:text-2xl mb-2 text-green-400">
+                ${walletData.gasSpent.usdAmount}
+              </p>
               <p className="font-pixel text-2xl md:text-3xl mb-4">
                 on Gas
               </p>
