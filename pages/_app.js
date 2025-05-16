@@ -1,10 +1,15 @@
 import '../styles/globals.css';
 import { AnimatePresence } from 'framer-motion';
 import Head from 'next/head';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useState } from 'react';
 
 function MyApp({ Component, pageProps, router }) {
+  // Create a client only once
+  const [queryClient] = useState(() => new QueryClient());
+
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <Head>
         <title>Base Gas Trackrr | Track your gas on Base</title>
         <meta name="description" content="Check your transaction count and gas spent on Base blockchain" />
@@ -14,7 +19,7 @@ function MyApp({ Component, pageProps, router }) {
       <AnimatePresence mode="wait">
         <Component {...pageProps} key={router.route} />
       </AnimatePresence>
-    </>
+    </QueryClientProvider>
   );
 }
 
