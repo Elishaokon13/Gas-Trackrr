@@ -13,9 +13,11 @@ export default function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Basic ETH address validation
-    if (!walletAddress.match(/^0x[a-fA-F0-9]{40}$/)) {
-      setError('Please enter a valid Ethereum address');
+    // Accept ETH address or .base.eth BaseName
+    const isEthAddress = /^0x[a-fA-F0-9]{40}$/.test(walletAddress);
+    const isBaseName = /^[a-zA-Z0-9]+\.base\.eth$/.test(walletAddress);
+    if (!isEthAddress && !isBaseName) {
+      setError('Please enter a valid Ethereum address or .base.eth name');
       return;
     }
     
@@ -84,7 +86,7 @@ export default function Home() {
                 type="text"
                 value={walletAddress}
                 onChange={(e) => setWalletAddress(e.target.value)}
-                placeholder="0x..."
+                placeholder="0x... or yourname.base.eth"
                 className="w-full p-4 bg-black/50 border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-base-blue transition-all duration-300"
               />
             </div>
