@@ -160,18 +160,38 @@ export default function AnalyticsPage() {
             </div>
           </motion.div>
 
-          {/* Volume Card (ETH & USDC, incoming/outgoing) */}
+          {/* ETH Volume Card */}
           <motion.div variants={itemVariants} className="glass-card p-6 md:p-8">
             <div className="text-center">
-              <h2 className="font-pixel text-2xl md:text-3xl mb-4 text-gradient">Volume</h2>
-              <div className="grid grid-cols-2 gap-4 mb-2">
+              <h2 className="font-pixel text-2xl md:text-3xl mb-4 text-gradient">ETH Volume</h2>
+              <div className="grid grid-cols-2 gap-4">
                 <div>
                   <div className="font-pixel text-xs text-gray-400 mb-1">INCOMING</div>
                   <div className="mb-1">
                     <span className="value-display text-yellow-400">{parseFloat(walletData.ethVolumeIn).toFixed(4)}</span>
                     <span className="font-pixel text-yellow-400 ml-1">ETH</span>
                   </div>
-                  <div className="text-xs text-gray-400 mb-2">${walletData.ethVolumeInUsd}</div>
+                  <div className="text-xs text-gray-400">${walletData.ethVolumeInUsd}</div>
+                </div>
+                <div>
+                  <div className="font-pixel text-xs text-gray-400 mb-1">OUTGOING</div>
+                  <div className="mb-1">
+                    <span className="value-display text-yellow-400">{parseFloat(walletData.ethVolumeOut).toFixed(4)}</span>
+                    <span className="font-pixel text-yellow-400 ml-1">ETH</span>
+                  </div>
+                  <div className="text-xs text-gray-400">${walletData.ethVolumeOutUsd}</div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* USDC Volume Card */}
+          <motion.div variants={itemVariants} className="glass-card p-6 md:p-8">
+            <div className="text-center">
+              <h2 className="font-pixel text-2xl md:text-3xl mb-4 text-gradient">USDC Volume</h2>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <div className="font-pixel text-xs text-gray-400 mb-1">INCOMING</div>
                   <div className="mb-1">
                     <span className="value-display text-blue-400">{parseFloat(walletData.usdcVolumeIn).toFixed(2)}</span>
                     <span className="font-pixel text-blue-400 ml-1">USDC</span>
@@ -180,11 +200,6 @@ export default function AnalyticsPage() {
                 </div>
                 <div>
                   <div className="font-pixel text-xs text-gray-400 mb-1">OUTGOING</div>
-                  <div className="mb-1">
-                    <span className="value-display text-yellow-400">{parseFloat(walletData.ethVolumeOut).toFixed(4)}</span>
-                    <span className="font-pixel text-yellow-400 ml-1">ETH</span>
-                  </div>
-                  <div className="text-xs text-gray-400 mb-2">${walletData.ethVolumeOutUsd}</div>
                   <div className="mb-1">
                     <span className="value-display text-blue-400">{parseFloat(walletData.usdcVolumeOut).toFixed(2)}</span>
                     <span className="font-pixel text-blue-400 ml-1">USDC</span>
