@@ -86,14 +86,16 @@ These features will make the app more comprehensive, competitive, and engaging f
 - [x] Optimize responsive design for all device sizes
 - [x] Replace particle background with animated line background
 - [ ] Multi-Chain Support: Not started
-- [ ] Historical Balance & Portfolio Chart: Not started
+- [ ] Historical Balance & Portfolio Chart: Backend function for daily ETH/USDC balances in progress
 - [ ] Protocol/Category Breakdown: Not started
 
 ## Current Status / Progress Tracking
 The application now has a sleek, modern UI with a pixel art aesthetic for the "Based Baby" brand. It features responsive glass-morphism cards, smooth animations, and an animated line background that creates a sophisticated, dynamic feel. The app displays transaction data (count and volume) and gas usage in both ETH and USD, with the UI optimized for all device sizes from mobile to desktop.
 
+Currently implementing: Backend function to fetch ETH and USDC balances for a given address at daily intervals over a date range using Alchemy.
+
 ## Executor's Feedback or Assistance Requests
-No current requests.
+- Starting backend implementation for historical balance charting. Will need Alchemy API key and USDC contract address for each chain supported.
 
 ## Lessons
 - Include info useful for debugging in the program output
