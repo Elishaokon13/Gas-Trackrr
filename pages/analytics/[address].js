@@ -98,7 +98,7 @@ export default function AnalyticsPage() {
   }
 
   // Format the wallet address for display
-  const displayAddress = `${walletData.address.slice(0, 6)}...${walletData.address.slice(-4)}`;
+  const displayAddress = walletData.baseName || `${walletData.address.slice(0, 6)}...${walletData.address.slice(-4)}`;
   const rank = walletData.transactionCount > 100 ? "Based Baby" : walletData.transactionCount > 50 ? "Base Beginner" : "Base Newbie";
 
   // Animation variants for staggered animations
@@ -137,6 +137,18 @@ export default function AnalyticsPage() {
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-pixel mb-6 tracking-wider text-gradient animate-float">
             {rank}
           </h1>
+          <div className="relative group">
+            <h2 className="text-xl sm:text-2xl font-pixel text-gray-300">
+              {displayAddress}
+            </h2>
+            {!walletData.baseName && (
+              <div className="absolute inset-x-0 -bottom-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                <div className="bg-black/80 text-xs p-2 rounded-lg">
+                  {walletData.address}
+                </div>
+              </div>
+            )}
+          </div>
         </motion.div>
         
         <motion.div 
