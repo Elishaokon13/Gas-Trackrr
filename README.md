@@ -1,109 +1,81 @@
-# Base Wrapped
+# Base Analytics Dashboard
 
-A Spotify Wrapped-style year-in-review analytics dashboard for Base blockchain activity.
+A modern, mobile-friendly analytics dashboard for Base, Optimism, and Ethereum wallets. Instantly view your transaction count, gas usage, and on-chain volume, with chain-aware name resolution and a one-click "Share as Image" export.
 
 ## Features
 
-- **Interactive Slides**: Navigate through a series of animated slides showing your Base activity
-- **Key Metrics**: View gas usage, transaction count, NFT minting stats, and more
-- **Protocol Analysis**: See which Base protocols you interacted with most
-- **Monthly Breakdown**: Discover your busiest month on Base
-- **Visual Summary**: Get a "Based Baby" summary of your on-chain activity
+- **Multi-Chain Support:** Analyze wallets on Base, Optimism, and Ethereum
+- **Key Metrics:** Transaction count, gas spent, incoming/outgoing ETH & USDC, all with USD values
+- **Chain-Aware Name Resolution:** Supports ENS (.eth), Optimism Name Service (.op), and Base Name Service (.base.eth)
+- **Dynamic UI:** Chain-specific theming, icons, and input validation
+- **Share as Image:** Export your analytics as a downloadable image with one click
+- **Mobile Responsive:** Pixel-art, glassmorphism, and animated backgrounds for a fun, branded experience
 
 ## Tech Stack
 
-- **Next.js**: React framework for building the UI
-- **Framer Motion**: For smooth animations and transitions
-- **TailwindCSS**: For styling and responsive design
-- **ethers.js**: For interacting with the Base blockchain
-- **react-tsparticles**: For particle background effects
-- **Zerion API**: For comprehensive blockchain data (recommended)
+- **Next.js** (React framework)
+- **TailwindCSS** (styling)
+- **ethers.js** (blockchain data)
+- **Framer Motion** (animations)
+- **html2canvas** (image export)
 
 ## Getting Started
 
 ### Prerequisites
-
 - Node.js 16+ and npm
 
 ### Installation
 
-1. Clone the repository
-```bash
-git clone https://github.com/yourusername/base-wrapped.git
-cd base-wrapped
+1. Clone the repository:
+   ```bash
+git clone <your-repo-url>
+cd <project-directory>
 ```
-
-2. Install dependencies
-```bash
+2. Install dependencies:
+   ```bash
 npm install
 ```
-
-3. Set up environment variables (optional, for better data fetching)
-Create a `.env.local` file in the root directory with the following variables:
-
-```
-# Base RPC URL - Default is the public endpoint
+3. Set up environment variables (optional, for better data and higher rate limits):
+   Create a `.env.local` file in the root directory with any of the following:
+   ```
+# Base, Ethereum, and Optimism RPC URLs (defaults provided)
 NEXT_PUBLIC_BASE_RPC_URL=https://mainnet.base.org
+NEXT_PUBLIC_ETH_MAINNET_RPC_URL=https://mainnet.infura.io/v3/your_infura_key
+NEXT_PUBLIC_OPTIMISM_MAINNET_RPC_URL=https://mainnet.optimism.io
 
-# RECOMMENDED: Zerion API Key for comprehensive blockchain data
-NEXT_PUBLIC_ZERION_API_KEY=your_zerion_api_key
+# API keys for scan APIs (optional, for higher rate limits)
+NEXT_PUBLIC_BASESCAN_API_KEY=your_basescan_key
+NEXT_PUBLIC_ETHERSCAN_API_KEY=your_etherscan_key
+NEXT_PUBLIC_OPTIMISM_ETHERSCAN_API_KEY=your_opscan_key
 
-# Optional - Alternative API providers if you don't use Zerion
-# NEXT_PUBLIC_ALCHEMY_API_KEY=your_alchemy_key_here
-# NEXT_PUBLIC_INFURA_API_KEY=your_infura_key_here
-# NEXT_PUBLIC_SIMPLEHASH_API_KEY=your_simplehash_key
-# NEXT_PUBLIC_COINGECKO_API_KEY=your_coingecko_key
+# Optional: Alchemy/Infura for enhanced reliability
+NEXT_PUBLIC_ALCHEMY_API_KEY=your_alchemy_key
+NEXT_PUBLIC_INFURA_API_KEY=your_infura_key
 ```
-
-4. Run the development server
-```bash
+4. Start the development server:
+   ```bash
 npm run dev
 ```
-
-5. Open [http://localhost:3000](http://localhost:3000) in your browser
-
-## Using API Providers for Better Data
-
-### Recommended: Zerion API (Most Complete Solution)
-The app now primarily uses Zerion API for the most comprehensive and accurate data:
-- [Zerion Developer API](https://developers.zerion.io/) - Sign up for an API key
-- Provides accurate protocol detection, transaction history, NFT data, and more
-- Handles all Base blockchain data needs through a single API
-- Format: Basic Auth key provided from Zerion dashboard
-
-### Alternative Providers
-
-#### RPC Providers (for blockchain interactions)
-- [Alchemy](https://www.alchemy.com/) - Create an account and get an API key for Base
-- [Infura](https://infura.io/) - Create an account and set up a Base endpoint
-
-#### NFT Data (if not using Zerion)
-- [SimpleHash](https://simplehash.com/) - Offers a free tier that works well for this application
-
-#### Price Data
-- [CoinGecko Pro](https://www.coingecko.com/en/api/pricing) - The free API works but has rate limits
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Usage
 
-1. Enter your Base wallet address on the homepage
-2. View your personalized Base Wrapped experience
-3. Navigate through slides to see different aspects of your activity
+1. Enter a wallet address or supported name (ENS, .op, .base.eth) on the homepage.
+2. Select the chain (Base, Optimism, Ethereum) from the dropdown.
+3. View your analytics: transaction count, gas spent, incoming/outgoing ETH & USDC, and more.
+4. **To share your results:** Click the "Share as Image" button at the bottom of the analytics page. An image will be downloaded to your device.
 
 ## Limitations
-
-This is a prototype version with some limitations:
-
-- Uses a simplified approach to fetch transaction history when API keys aren't provided
-- Limited to recent transactions due to RPC limitations
-- Default values used for certain metrics when data is unavailable
+- Some metrics may use default values if API rate limits are hit or data is unavailable.
+- Name resolution depends on public RPC endpoints and may be affected by provider outages.
+- The historical portfolio chart is currently disabled due to upstream API limitations.
 
 ## Future Enhancements
-
-- Add support for comparing multiple wallets
-- Integrate with more data sources for enhanced analytics
-- Add sharing functionality for social media
-- Implement more detailed protocol-specific metrics
+- Protocol/category breakdowns
+- Leaderboards
+- Multi-chain portfolio charts
+- Social media sharing
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details. 
+MIT License. See LICENSE file for details. 
