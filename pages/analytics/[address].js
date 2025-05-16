@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { motion } from 'framer-motion';
@@ -6,6 +6,7 @@ import { getWalletData } from '../../lib/blockchain';
 import { BackgroundLines } from '../../components/BackgroundLines';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend, CartesianGrid, AreaChart, Area } from 'recharts';
 import ChainIcon from '../../components/ChainIcon';
+import html2canvas from 'html2canvas';
 
 const CHAIN_OPTIONS = [
   { value: 'base', label: 'Base', color: 'bg-base-blue', accent: 'text-base-blue' },
@@ -47,6 +48,8 @@ export default function AnalyticsPage() {
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().toLocaleString('default', { month: 'short' }).toUpperCase();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const resultsRef = useRef(null);
+  const [downloading, setDownloading] = useState(false);
 
   // Fetch data when address or chain is available
   useEffect(() => {
@@ -167,6 +170,30 @@ export default function AnalyticsPage() {
     show: { y: 0, opacity: 1, transition: { duration: 0.5 } }
   };
 
+  // Share/export as image handler
+  const handleShare = async () => {
+    if (!resultsRef.current) return;
+    setDownloading(true);
+    try {
+      const canvas = await html2canvas(resultsRef.current, {
+        backgroundColor: '#000',
+        useCORS: true,
+        scale: 2,
+      });
+      const dataUrl = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.href = dataUrl;
+      link.download = `${walletData.baseName || walletData.address}_analytics.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err) {
+      alert('Failed to export image.');
+    } finally {
+      setDownloading(false);
+    }
+  };
+
   return (
     <BackgroundLines
       className="min-h-screen text-white relative"
@@ -212,192 +239,203 @@ export default function AnalyticsPage() {
             )}
           </div>
         </div>
-        <motion.div
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="text-center mb-8 md:mb-12"
-        >
-          <h1 className={`text-4xl sm:text-5xl md:text-6xl font-pixel mb-6 tracking-wider ${chainTheme.accent} animate-float`}>
-            {rank}
-          </h1>
-          <div className="relative group">
-            <h2 className="text-xl sm:text-2xl font-pixel text-gray-300">
-              {displayAddress}
-            </h2>
-            {!walletData.baseName && (
-              <div className="absolute inset-x-0 -bottom-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                <div className="bg-black/80 text-xs p-2 rounded-lg">
-                  {walletData.address}
-                </div>
-              </div>
-            )}
-            {/* Show BaseName if found and user entered an address */}
-            {walletData.baseName && walletData.baseName.endsWith('.base.eth') && walletData.baseName !== displayAddress && (
-              <div className="mt-2 text-base-blue font-pixel text-sm">
-                BaseName: <span className="text-white">{walletData.baseName}</span>
-              </div>
-            )}
-          </div>
-        </motion.div>
-        
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          animate="show"
-          className="grid grid-cols-1 gap-8 mb-12 md:mb-16 max-w-3xl mx-auto"
-        >
-          {/* Transactions Card */}
-          <motion.div variants={itemVariants} className="glass-card p-6 md:p-8">
-            <div className="text-center">
-              <h2 className="value-display">
-                {walletData.transactionCount}
+        <div ref={resultsRef}>
+          <motion.div
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="text-center mb-8 md:mb-12"
+          >
+            <h1 className={`text-4xl sm:text-5xl md:text-6xl font-pixel mb-6 tracking-wider ${chainTheme.accent} animate-float`}>
+              {rank}
+            </h1>
+            <div className="relative group">
+              <h2 className="text-xl sm:text-2xl font-pixel text-gray-300">
+                {displayAddress}
               </h2>
-              <p className="font-pixel text-2xl md:text-3xl mb-4 text-gradient">
-                Txns
-              </p>
-              <p className="text-sm font-pixel text-gray-400">
-                {walletData.outgoingTransactions} outgoing transactions<br />on Base blockchain
-              </p>
+              {!walletData.baseName && (
+                <div className="absolute inset-x-0 -bottom-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                  <div className="bg-black/80 text-xs p-2 rounded-lg">
+                    {walletData.address}
+                  </div>
+                </div>
+              )}
+              {/* Show BaseName if found and user entered an address */}
+              {walletData.baseName && walletData.baseName.endsWith('.base.eth') && walletData.baseName !== displayAddress && (
+                <div className="mt-2 text-base-blue font-pixel text-sm">
+                  BaseName: <span className="text-white">{walletData.baseName}</span>
+                </div>
+              )}
             </div>
           </motion.div>
-
-          {/* Volume Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-            {/* Incoming ETH Card */}
-            <motion.div variants={itemVariants} className="glass-card p-6 relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative z-10">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-pixel text-lg text-yellow-400">Incoming ETH</h3>
-                  <div className="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center">
-                    <svg className="w-4 h-4 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                    </svg>
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex items-baseline justify-between">
-                    <span className="text-2xl font-bold font-pixel text-yellow-400">
-                      {parseFloat(walletData.ethVolumeIn).toFixed(4)}
-                    </span>
-                    <span className="text-sm font-pixel text-yellow-400/70">ETH</span>
-                  </div>
-                  <div className="text-sm font-pixel text-gray-400">
-                    ${walletData.ethVolumeInUsd}
-                  </div>
-                </div>
+          
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            animate="show"
+            className="grid grid-cols-1 gap-8 mb-12 md:mb-16 max-w-3xl mx-auto"
+          >
+            {/* Transactions Card */}
+            <motion.div variants={itemVariants} className="glass-card p-6 md:p-8">
+              <div className="text-center">
+                <h2 className="value-display">
+                  {walletData.transactionCount}
+                </h2>
+                <p className="font-pixel text-2xl md:text-3xl mb-4 text-gradient">
+                  Txns
+                </p>
+                <p className="text-sm font-pixel text-gray-400">
+                  {walletData.outgoingTransactions} outgoing transactions<br />on Base blockchain
+                </p>
               </div>
             </motion.div>
 
-            {/* Outgoing ETH Card */}
-            <motion.div variants={itemVariants} className="glass-card p-6 relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative z-10">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-pixel text-lg text-red-400">Outgoing ETH</h3>
-                  <div className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center">
-                    <svg className="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                    </svg>
+            {/* Volume Cards Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+              {/* Incoming ETH Card */}
+              <motion.div variants={itemVariants} className="glass-card p-6 relative overflow-hidden group">
+                <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="font-pixel text-lg text-yellow-400">Incoming ETH</h3>
+                    <div className="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center">
+                      <svg className="w-4 h-4 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-baseline justify-between">
+                      <span className="text-2xl font-bold font-pixel text-yellow-400">
+                        {parseFloat(walletData.ethVolumeIn).toFixed(4)}
+                      </span>
+                      <span className="text-sm font-pixel text-yellow-400/70">ETH</span>
+                    </div>
+                    <div className="text-sm font-pixel text-gray-400">
+                      ${walletData.ethVolumeInUsd}
+                    </div>
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <div className="flex items-baseline justify-between">
-                    <span className="text-2xl font-bold font-pixel text-red-400">
-                      {parseFloat(walletData.ethVolumeOut).toFixed(4)}
-                    </span>
-                    <span className="text-sm font-pixel text-red-400/70">ETH</span>
-                  </div>
-                  <div className="text-sm font-pixel text-gray-400">
-                    ${walletData.ethVolumeOutUsd}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+              </motion.div>
 
-            {/* Incoming USDC Card */}
-            <motion.div variants={itemVariants} className="glass-card p-6 relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative z-10">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-pixel text-lg text-blue-400">Incoming USDC</h3>
-                  <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center">
-                    <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                    </svg>
+              {/* Outgoing ETH Card */}
+              <motion.div variants={itemVariants} className="glass-card p-6 relative overflow-hidden group">
+                <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="font-pixel text-lg text-red-400">Outgoing ETH</h3>
+                    <div className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center">
+                      <svg className="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-baseline justify-between">
+                      <span className="text-2xl font-bold font-pixel text-red-400">
+                        {parseFloat(walletData.ethVolumeOut).toFixed(4)}
+                      </span>
+                      <span className="text-sm font-pixel text-red-400/70">ETH</span>
+                    </div>
+                    <div className="text-sm font-pixel text-gray-400">
+                      ${walletData.ethVolumeOutUsd}
+                    </div>
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <div className="flex items-baseline justify-between">
-                    <span className="text-2xl font-bold font-pixel text-blue-400">
-                      {parseFloat(walletData.usdcVolumeIn).toFixed(2)}
-                    </span>
-                    <span className="text-sm font-pixel text-blue-400/70">USDC</span>
-                  </div>
-                  <div className="text-sm font-pixel text-gray-400">
-                    ${walletData.usdcVolumeInUsd}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+              </motion.div>
 
-            {/* Outgoing USDC Card */}
-            <motion.div variants={itemVariants} className="glass-card p-6 relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative z-10">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-pixel text-lg text-purple-400">Outgoing USDC</h3>
-                  <div className="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center">
-                    <svg className="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                    </svg>
+              {/* Incoming USDC Card */}
+              <motion.div variants={itemVariants} className="glass-card p-6 relative overflow-hidden group">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="font-pixel text-lg text-blue-400">Incoming USDC</h3>
+                    <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center">
+                      <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-baseline justify-between">
+                      <span className="text-2xl font-bold font-pixel text-blue-400">
+                        {parseFloat(walletData.usdcVolumeIn).toFixed(2)}
+                      </span>
+                      <span className="text-sm font-pixel text-blue-400/70">USDC</span>
+                    </div>
+                    <div className="text-sm font-pixel text-gray-400">
+                      ${walletData.usdcVolumeInUsd}
+                    </div>
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <div className="flex items-baseline justify-between">
-                    <span className="text-2xl font-bold font-pixel  text-purple-400">
-                      {parseFloat(walletData.usdcVolumeOut).toFixed(2)}
-                    </span>
-                    <span className="text-sm font-pixel text-purple-400/70">USDC</span>
-                  </div>
-                  <div className="text-sm font-pixel text-gray-400">
-                    ${walletData.usdcVolumeOutUsd}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
+              </motion.div>
 
-          {/* Gas Card */}
-          <motion.div variants={itemVariants} className="glass-card p-6 md:p-8">
-            <div className="text-center">
-              <h2 className="value-display">
-                {parseFloat(walletData.gasSpent.ethAmount).toFixed(4)} <span className="text-yellow-400">ETH</span>
-              </h2>
-              <p className="usd-value mb-2">
-                ${walletData.gasSpent.usdAmount}
-              </p>
-              <p className="font-pixel text-xl md:text-2xl mb-4 text-gradient">
-                Gas Spent
-              </p>
-              <p className="text-sm font-pixel text-gray-400">
-                Current ETH price: ${walletData.ethPrice?.toFixed(2) || "N/A"}
-                {walletData.ethPrice && Number(walletData.ethPrice) === 3000 && (
-                  <span className="text-red-400 ml-2">(Not live - using fallback)</span>
-                )}
-              </p>
+              {/* Outgoing USDC Card */}
+              <motion.div variants={itemVariants} className="glass-card p-6 relative overflow-hidden group">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="font-pixel text-lg text-purple-400">Outgoing USDC</h3>
+                    <div className="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center">
+                      <svg className="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-baseline justify-between">
+                      <span className="text-2xl font-bold font-pixel  text-purple-400">
+                        {parseFloat(walletData.usdcVolumeOut).toFixed(2)}
+                      </span>
+                      <span className="text-sm font-pixel text-purple-400/70">USDC</span>
+                    </div>
+                    <div className="text-sm font-pixel text-gray-400">
+                      ${walletData.usdcVolumeOutUsd}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
             </div>
+
+            {/* Gas Card */}
+            <motion.div variants={itemVariants} className="glass-card p-6 md:p-8">
+              <div className="text-center">
+                <h2 className="value-display">
+                  {parseFloat(walletData.gasSpent.ethAmount).toFixed(4)} <span className="text-yellow-400">ETH</span>
+                </h2>
+                <p className="usd-value mb-2">
+                  ${walletData.gasSpent.usdAmount}
+                </p>
+                <p className="font-pixel text-xl md:text-2xl mb-4 text-gradient">
+                  Gas Spent
+                </p>
+                <p className="text-sm font-pixel text-gray-400">
+                  Current ETH price: ${walletData.ethPrice?.toFixed(2) || "N/A"}
+                  {walletData.ethPrice && Number(walletData.ethPrice) === 3000 && (
+                    <span className="text-red-400 ml-2">(Not live - using fallback)</span>
+                  )}
+                </p>
+              </div>
+            </motion.div>
           </motion.div>
-        </motion.div>
+        </div>
         
-        {/* Bottom Action Button */}
+        {/* Bottom Action Buttons */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 0.5 }}
-          className="text-center"
+          className="text-center flex flex-col md:flex-row gap-4 justify-center items-center mt-8"
         >
+          <motion.button
+            onClick={handleShare}
+            className="px-8 py-4 bg-gradient-to-r from-base-blue to-purple-600 font-pixel text-white rounded-lg transition-all duration-300 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-900/20 mb-2 md:mb-0"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            disabled={downloading}
+          >
+            {downloading ? 'Exporting...' : 'Share as Image'}
+          </motion.button>
           <motion.button
             onClick={() => router.push('/')}
             className="px-8 py-4 bg-base-blue font-pixel text-white rounded-lg transition-all duration-300 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-900/20"
