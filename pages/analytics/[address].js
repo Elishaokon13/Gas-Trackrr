@@ -285,14 +285,7 @@ export default function AnalyticsPage() {
             className="text-center mb-8 md:mb-12"
           >
             <div className="relative group flex items-center justify-center gap-3">
-              {walletData.avatarUrl && (
-                <img
-                  src={walletData.avatarUrl}
-                  alt="Profile Avatar"
-                  className="w-10 h-10 rounded-full border-2 border-base-blue shadow"
-                  style={{ objectFit: 'cover' }}
-                />
-              )}
+              
               <h1 className={`text-4xl sm:text-5xl md:text-6xl font-pixel mb-6 tracking-wider ${chainTheme.accent} animate-float`}>
                 {rank}
               </h1>
