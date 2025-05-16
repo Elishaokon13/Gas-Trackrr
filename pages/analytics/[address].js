@@ -6,49 +6,47 @@ import { getWalletData } from '../../lib/blockchain';
 import { BackgroundLines } from '../../components/BackgroundLines';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend, CartesianGrid, AreaChart, Area } from 'recharts';
 
+const CHAIN_OPTIONS = [
+  { value: 'base', label: 'Base', color: 'bg-base-blue', accent: 'text-base-blue' },
+  { value: 'optimism', label: 'Optimism', color: 'bg-red-600', accent: 'text-red-400' },
+  { value: 'ethereum', label: 'Ethereum', color: 'bg-purple-700', accent: 'text-purple-400' },
+];
+
 export default function AnalyticsPage() {
   const router = useRouter();
   const { address } = router.query;
   const [walletData, setWalletData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedChain, setSelectedChain] = useState('base');
   const [history, setHistory] = useState([]);
   const [historyLoading, setHistoryLoading] = useState(true);
   const [historyError, setHistoryError] = useState(null);
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().toLocaleString('default', { month: 'short' }).toUpperCase();
 
-  // Fetch data when address is available
+  // Fetch data when address or chain is available
   useEffect(() => {
     if (!address) return;
-
     async function fetchData() {
       try {
         setLoading(true);
         setError(null);
-        
-        // Decode the address/name from the URL
         const decodedAddress = decodeURIComponent(address);
-        console.log(`Fetching data for: ${decodedAddress}`);
-        
-        const data = await getWalletData(decodedAddress);
-        console.log('Received wallet data:', data);
-        
+        const data = await getWalletData(decodedAddress, selectedChain);
         if (!data.success) {
           setError(data.error || 'Failed to fetch wallet data');
         } else {
           setWalletData(data);
         }
       } catch (err) {
-        console.error('Error in data fetching:', err);
         setError(err.message || 'Failed to load wallet data');
       } finally {
         setLoading(false);
       }
     }
-
     fetchData();
-  }, [address]);
+  }, [address, selectedChain]);
 
   // Fetch historical balances for the last 30 days
   useEffect(() => {
@@ -77,6 +75,9 @@ export default function AnalyticsPage() {
     }
     fetchHistory();
   }, [walletData?.address]);
+
+  // Theme colors based on chain
+  const chainTheme = CHAIN_OPTIONS.find(c => c.value === selectedChain) || CHAIN_OPTIONS[0];
 
   // Show loading state
   if (loading) {
@@ -187,13 +188,25 @@ export default function AnalyticsPage() {
       </Head>
       
       <div className="container mx-auto max-w-4xl px-4 py-8 md:py-12 relative z-10 content-container">
+        {/* Chain Selector Dropdown */}
+        <div className="flex justify-center mb-8">
+          <select
+            value={selectedChain}
+            onChange={e => setSelectedChain(e.target.value)}
+            className={`font-pixel text-lg rounded-lg px-4 py-2 border-2 border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 ${chainTheme.color} text-white`}
+          >
+            {CHAIN_OPTIONS.map(opt => (
+              <option key={opt.value} value={opt.value}>{opt.label}</option>
+            ))}
+          </select>
+        </div>
         <motion.div
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="text-center mb-8 md:mb-12"
         >
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-pixel mb-6 tracking-wider text-gradient animate-float">
+          <h1 className={`text-4xl sm:text-5xl md:text-6xl font-pixel mb-6 tracking-wider ${chainTheme.accent} animate-float`}>
             {rank}
           </h1>
           <div className="relative group">
