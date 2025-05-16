@@ -158,7 +158,7 @@ export default function AnalyticsPage() {
             </div>
           </motion.div>
           
-          {/* NFTs Card (simulated) */}
+          {/* Volume Card */}
           <motion.div
             initial={{ x: 50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
@@ -166,14 +166,17 @@ export default function AnalyticsPage() {
             className="bg-black/30 backdrop-blur-sm rounded-lg p-6 border border-gray-800"
           >
             <div className="text-center">
-              <h2 className="font-pixel text-5xl md:text-6xl mb-2">
-                {estimatedNfts}
+              <h2 className="font-pixel text-4xl md:text-5xl mb-2">
+                {parseFloat(walletData.volume.ethAmount).toFixed(2)} eth
               </h2>
+              <p className="font-pixel text-xl md:text-2xl mb-2 text-green-400">
+                ${walletData.volume.usdAmount}
+              </p>
               <p className="font-pixel text-2xl md:text-3xl mb-4">
-                NFTs Minted
+                Volume
               </p>
               <p className="text-sm text-gray-400">
-                your collection's growing<br />faster than gas spikes during a bull run
+                your trading activity is<br />making waves in the Base ocean
               </p>
             </div>
           </motion.div>
