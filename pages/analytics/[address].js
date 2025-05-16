@@ -110,7 +110,6 @@ export default function AnalyticsPage() {
     const ranks = RANKS[chain] || RANKS.base;
     return ranks.find(r => txCount >= r.min && txCount <= r.max)?.name || '';
   }
-  const rank = getRank(selectedChain, walletData.transactionCount);
 
   // Show loading state
   if (loading) {
@@ -166,6 +165,9 @@ export default function AnalyticsPage() {
   if (!walletData) {
     return null;
   }
+
+  // Calculate rank after we know walletData exists
+  const rank = getRank(selectedChain, walletData.transactionCount);
 
   // Format the wallet address for display
   const displayAddress = walletData.baseName || `${walletData.address.slice(0, 6)}...${walletData.address.slice(-4)}`;
