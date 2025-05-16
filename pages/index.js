@@ -58,7 +58,7 @@ export default function Home() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-4xl sm:text-5xl font-pixel text-white mb-4 tracking-wider text-gradient animate-float"
             >
-              Based Baby
+              
             </motion.h1>
             <motion.p 
               initial={{ opacity: 0 }}
