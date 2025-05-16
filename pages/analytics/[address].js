@@ -298,7 +298,9 @@ export default function AnalyticsPage() {
               </h1>
             </div>
             <div className="relative group">
-              
+              <h2 className="text-xl sm:text-2xl font-pixel text-gray-300">
+                {walletData.profileName || displayAddress}
+              </h2>
               {!walletData.baseName && (
                 <div className="absolute inset-x-0 -bottom-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                   <div className="bg-black/80 text-xs p-2 rounded-lg">
