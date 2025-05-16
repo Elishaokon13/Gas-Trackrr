@@ -208,4 +208,71 @@ Currently implementing: Backend function to fetch ETH and USDC balances for a gi
 - Use CSS custom properties for better theming and consistency across components
 - Implement progressive enhancement for animations to ensure they don't affect performance on lower-end devices
 - Consider the visual weight of animated elements to avoid overwhelming the user interface
-- None yet. 
+- None yet.
+
+## Mini App Conversion Plan (Coinbase MiniKit)
+
+### Background and Motivation
+The goal is to convert the existing multi-chain wallet analytics dashboard into a Coinbase Mini App using MiniKit. This will allow the app to run natively inside Farcaster Frames and Coinbase Wallet, leveraging MiniKit's hooks, notifications, and social features for a seamless, integrated user experience.
+
+### Key Challenges and Analysis
+- Adapting the Next.js app structure to MiniKit's requirements (provider, hooks, manifest)
+- Ensuring compatibility with OnchainKit components and hooks
+- Handling authentication, notifications, and frame context
+- Preserving all current analytics features and UI/UX
+- Testing in both standalone and mini app (frame) contexts
+
+### High-level Task Breakdown
+1. **Research & Preparation**
+   - [ ] Review MiniKit and OnchainKit documentation for latest requirements
+   - [ ] Identify any breaking changes or required refactors for MiniKit compatibility
+   - [ ] Ensure all dependencies are up to date
+   - **Success Criteria:** Clear understanding of MiniKit integration steps and requirements
+
+2. **Install and Configure MiniKit**
+   - [ ] Add `@coinbase/onchainkit` and MiniKit dependencies to the project
+   - [ ] Set up required environment variables (API keys, project ID, etc.)
+   - **Success Criteria:** MiniKit and dependencies installed, env vars configured
+
+3. **Provider Integration**
+   - [ ] Wrap the app with `MiniKitProvider` in `_app.js` (or equivalent)
+   - [ ] Pass required props (projectId, notificationProxyUrl, etc.)
+   - [ ] Remove or refactor any redundant providers (wagmi, react-query) if MiniKit handles them
+   - **Success Criteria:** App runs with MiniKitProvider, no provider conflicts
+
+4. **Frame Context & Hooks**
+   - [ ] Refactor main page(s) to use `useMiniKit` for frame context
+   - [ ] Implement `setFrameReady` logic for frame readiness
+   - [ ] Add hooks for notifications, openUrl, close, viewProfile, and primary button as needed
+   - **Success Criteria:** App responds to frame context, hooks work as expected
+
+5. **Manifest & Account Association**
+   - [ ] Generate and configure the Farcaster manifest using the CLI
+   - [ ] Add required .env variables for manifest (header, payload, signature)
+   - [ ] Test manifest with Warpcast Frames Developer Tools
+   - **Success Criteria:** App can be added as a mini app in Warpcast, manifest is valid
+
+6. **Notification Proxy & Webhooks**
+   - [ ] Implement `/api/notification` proxy route for notifications
+   - [ ] Set up webhooks for frame events if needed
+   - **Success Criteria:** Notifications can be sent to users, webhooks respond to events
+
+7. **Testing & Deployment**
+   - [ ] Test locally with ngrok for live URL
+   - [ ] Deploy to Vercel (recommended) and set all required environment variables
+   - [ ] Test in Warpcast and Coinbase Wallet
+   - **Success Criteria:** App works as a mini app in all target environments
+
+### Success Criteria (Overall)
+- All analytics features and UI/UX are preserved
+- App loads and functions inside Farcaster Frames and Coinbase Wallet
+- MiniKit hooks (notifications, openUrl, close, viewProfile, primary button) are integrated and working
+- Manifest and account association are valid and tested
+- No regressions in standalone web app mode
+
+### Key Considerations
+- Maintain backward compatibility for standalone web users if possible
+- Document any new environment variables and deployment steps
+- Ensure all analytics and blockchain data fetching works in the mini app context
+
+--- 
