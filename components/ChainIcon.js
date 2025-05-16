@@ -5,7 +5,7 @@ export default function ChainIcon({ chain, size = 20 }) {
   const logoMap = {
     base: '/logo/base.svg',
     optimism: '/logo/op.svg',
-    ethereum: '/logo/ethereum.svg',
+    ethereum: '/logo/eth.svg',
   };
   if (logoMap[chain]) {
     return (
