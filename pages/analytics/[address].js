@@ -221,10 +221,10 @@ export default function AnalyticsPage() {
                 </div>
                 <div className="space-y-2">
                   <div className="flex items-baseline justify-between">
-                    <span className="text-2xl font-bold  text-yellow-400">
+                    <span className="text-2xl font-bold font-pixel text-yellow-400">
                       {parseFloat(walletData.ethVolumeIn).toFixed(4)}
                     </span>
-                    <span className="text-sm text-yellow-400/70">ETH</span>
+                    <span className="text-sm font-pixel text-yellow-400/70">ETH</span>
                   </div>
                   <div className="text-sm font-pixel text-gray-400">
                     ${walletData.ethVolumeInUsd}
@@ -247,10 +247,10 @@ export default function AnalyticsPage() {
                 </div>
                 <div className="space-y-2">
                   <div className="flex items-baseline justify-between">
-                    <span className="text-2xl font-bold text-red-400">
+                    <span className="text-2xl font-bold font-pixel text-red-400">
                       {parseFloat(walletData.ethVolumeOut).toFixed(4)}
                     </span>
-                    <span className="text-sm text-red-400/70">ETH</span>
+                    <span className="text-sm font-pixel text-red-400/70">ETH</span>
                   </div>
                   <div className="text-sm font-pixel text-gray-400">
                     ${walletData.ethVolumeOutUsd}
@@ -273,10 +273,10 @@ export default function AnalyticsPage() {
                 </div>
                 <div className="space-y-2">
                   <div className="flex items-baseline justify-between">
-                    <span className="text-2xl font-bold text-blue-400">
+                    <span className="text-2xl font-bold font-pixel text-blue-400">
                       {parseFloat(walletData.usdcVolumeIn).toFixed(2)}
                     </span>
-                    <span className="text-sm text-blue-400/70">USDC</span>
+                    <span className="text-sm font-pixel text-blue-400/70">USDC</span>
                   </div>
                   <div className="text-sm font-pixel text-gray-400">
                     ${walletData.usdcVolumeInUsd}
@@ -299,10 +299,10 @@ export default function AnalyticsPage() {
                 </div>
                 <div className="space-y-2">
                   <div className="flex items-baseline justify-between">
-                    <span className="text-2xl font-bold text-purple-400">
+                    <span className="text-2xl font-bold font-pixel  text-purple-400">
                       {parseFloat(walletData.usdcVolumeOut).toFixed(2)}
                     </span>
-                    <span className="text-sm text-purple-400/70">USDC</span>
+                    <span className="text-sm font-pixel text-purple-400/70">USDC</span>
                   </div>
                   <div className="text-sm font-pixel text-gray-400">
                     ${walletData.usdcVolumeOutUsd}
