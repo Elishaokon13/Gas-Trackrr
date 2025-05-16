@@ -40,7 +40,7 @@ export default function Home() {
       svgOptions={{ duration: 15 }}
     >
       <Head>
-        <title>Based Baby | Your Base Wrapped Experience</title>
+        <title>Base Gas Trackrr | Track your gas on Base</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       </Head>
       
