@@ -3,7 +3,7 @@ import React from 'react';
 export default function ChainIcon({ chain, size = 20 }) {
   // Map chain to logo filename
   const logoMap = {
-    base: '/logo/baselo.svg',
+    base: '/logo/baselogo.svg',
     optimism: '/logo/op.svg',
     ethereum: '/logo/eth.svg',
   };
