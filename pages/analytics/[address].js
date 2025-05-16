@@ -23,8 +23,11 @@ export default function AnalyticsPage() {
         setLoading(true);
         setError(null);
         
-        console.log(`Fetching data for address: ${address}`);
-        const data = await getWalletData(address);
+        // Decode the address/name from the URL
+        const decodedAddress = decodeURIComponent(address);
+        console.log(`Fetching data for: ${decodedAddress}`);
+        
+        const data = await getWalletData(decodedAddress);
         console.log('Received wallet data:', data);
         
         if (!data.success) {
@@ -77,8 +80,9 @@ export default function AnalyticsPage() {
             <p>Possible issues:</p>
             <ul className="list-disc pl-5 mt-2 space-y-1">
               <li>The Basescan API may be rate limited</li>
-              <li>The wallet address may not exist on Base</li>
+              <li>The wallet address or BaseName may not exist on Base</li>
               <li>There may be network issues</li>
+              <li>Invalid BaseName format (should be name.base or name.base.eth)</li>
             </ul>
           </div>
           <button
