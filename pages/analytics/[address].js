@@ -64,6 +64,15 @@ function getProviderForChain(chain) {
   return null;
 }
 
+// Helper to get native token symbol for each chain
+function getNativeSymbol(chain) {
+  if (chain === 'assetchain') return 'RWA';
+  if (chain === 'ethereum') return 'ETH';
+  if (chain === 'optimism') return 'ETH';
+  if (chain === 'base') return 'ETH';
+  return 'ETH';
+}
+
 export default function AnalyticsPage() {
   const router = useRouter();
   const { address } = router.query;
@@ -335,7 +344,7 @@ export default function AnalyticsPage() {
                       <span className="text-2xl font-bold font-pixel text-yellow-400">
                         {parseFloat(walletData.ethVolumeIn).toFixed(4)}
                       </span>
-                      <span className="text-sm font-pixel text-yellow-400/70">ETH</span>
+                      <span className="text-sm font-pixel text-yellow-400/70">{getNativeSymbol(selectedChain)}</span>
                     </div>
                     <div className="text-sm font-pixel text-gray-400">
                       ${walletData.ethVolumeInUsd}
@@ -361,7 +370,7 @@ export default function AnalyticsPage() {
                       <span className="text-2xl font-bold font-pixel text-red-400">
                         {parseFloat(walletData.ethVolumeOut).toFixed(4)}
                       </span>
-                      <span className="text-sm font-pixel text-red-400/70">ETH</span>
+                      <span className="text-sm font-pixel text-red-400/70">{getNativeSymbol(selectedChain)}</span>
                     </div>
                     <div className="text-sm font-pixel text-gray-400">
                       ${walletData.ethVolumeOutUsd}
@@ -427,7 +436,7 @@ export default function AnalyticsPage() {
             <motion.div variants={itemVariants} className="glass-card p-6 md:p-8">
               <div className="text-center">
                 <h2 className="value-display">
-                  {parseFloat(walletData.gasSpent.ethAmount).toFixed(4)} <span className="text-yellow-400">ETH</span>
+                  {parseFloat(walletData.gasSpent.ethAmount).toFixed(4)} <span className="text-yellow-400">{getNativeSymbol(selectedChain)}</span>
                 </h2>
                 <p className="usd-value mb-2">
                   ${walletData.gasSpent.usdAmount}
