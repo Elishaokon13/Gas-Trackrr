@@ -54,7 +54,7 @@ export default function AnalyticsPage() {
           className="text-center"
         >
           <h1 className="text-2xl font-pixel text-white mb-4 text-gradient">Loading Wallet Data</h1>
-          <p className="text-gray-400 mb-6">Fetching data from Base blockchain...</p>
+          {/* <p className="text-gray-400 mb-6">Fetching data from Base blockchain...</p> */}
           <div className="w-12 h-12 border-t-2 border-b-2 border-base-blue border-solid rounded-full animate-spin mx-auto"></div>
         </motion.div>
       </div>
