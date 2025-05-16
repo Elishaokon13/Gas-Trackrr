@@ -18,25 +18,25 @@ const CHAIN_OPTIONS = [
 
 const RANKS = {
   base: [
-    { min: 0, max: 9, name: 'Base Newborn' },
-    { min: 10, max: 49, name: 'Base Explorer' },
-    { min: 50, max: 99, name: 'Base DeFi Kid' },
-    { min: 100, max: 499, name: 'Base OG' },
-    { min: 500, max: Infinity, name: 'Base Legend' },
+    { min: 0, max: 9, name: 'Base Newborn', emoji: '🍼', description: 'Just getting started on Base!' },
+    { min: 10, max: 49, name: 'Base Explorer', emoji: '🧭', description: 'Exploring the Base ecosystem.' },
+    { min: 50, max: 99, name: 'Base DeFi Kid', emoji: '🦄', description: 'Diving into DeFi on Base.' },
+    { min: 100, max: 499, name: 'Base OG', emoji: '🧙‍♂️', description: 'A true Base veteran.' },
+    { min: 500, max: Infinity, name: 'Base Legend', emoji: '👑', description: 'Legendary status achieved!' },
   ],
   optimism: [
-    { min: 0, max: 9, name: 'OP Newbie' },
-    { min: 10, max: 49, name: 'OP Explorer' },
-    { min: 50, max: 99, name: 'OP DeFi Kid' },
-    { min: 100, max: 499, name: 'OP OG' },
-    { min: 500, max: Infinity, name: 'OP Legend' },
+    { min: 0, max: 9, name: 'OP Newbie', emoji: '🌱', description: 'Welcome to Optimism!' },
+    { min: 10, max: 49, name: 'OP Explorer', emoji: '🚀', description: 'Exploring the OP chain.' },
+    { min: 50, max: 99, name: 'OP DeFi Kid', emoji: '💎', description: 'DeFi adventures on Optimism.' },
+    { min: 100, max: 499, name: 'OP OG', emoji: '🦸‍♂️', description: 'Optimistic OG.' },
+    { min: 500, max: Infinity, name: 'OP Legend', emoji: '🏆', description: 'Legend of Optimism.' },
   ],
   ethereum: [
-    { min: 0, max: 19, name: 'ETH Newborn' },
-    { min: 20, max: 99, name: 'ETH Explorer' },
-    { min: 100, max: 499, name: 'ETH DeFi Kid' },
-    { min: 500, max: 1999, name: 'ETH OG' },
-    { min: 2000, max: Infinity, name: 'ETH Legend' },
+    { min: 0, max: 19, name: 'ETH Newborn', emoji: '🌱', description: 'Just getting started on Ethereum.' },
+    { min: 20, max: 99, name: 'ETH Explorer', emoji: '🧭', description: 'Exploring the Ethereum world.' },
+    { min: 100, max: 499, name: 'ETH DeFi Kid', emoji: '🦄', description: 'DeFi enthusiast on Ethereum.' },
+    { min: 500, max: 1999, name: 'ETH OG', emoji: '🦍', description: 'Ethereum OG.' },
+    { min: 2000, max: Infinity, name: 'ETH Legend', emoji: '👑', description: 'Legendary Ethereum user.' },
   ],
   // assetchain: [ ... ],
 };
@@ -232,6 +232,9 @@ export default function AnalyticsPage() {
     }
   };
 
+  // In the component, get the rank object:
+  const rankObj = (RANKS[selectedChain] || RANKS.base).find(r => walletData.transactionCount >= r.min && walletData.transactionCount <= r.max) || RANKS.base[0];
+
   return (
     <BackgroundLines
       className="min-h-screen text-white relative"
@@ -284,17 +287,24 @@ export default function AnalyticsPage() {
             transition={{ duration: 0.7, ease: "easeOut" }}
             className="text-center mb-8 md:mb-12"
           >
-            <div className="relative group flex items-center justify-center gap-3">
-              
-              <h1 className={`text-4xl sm:text-5xl md:text-6xl font-pixel mb-6 tracking-wider ${chainTheme.accent} animate-float`}>
-                {rank}
-              </h1>
+            <div className="flex flex-col items-center justify-center mb-2">
+              <span className="text-4xl md:text-5xl mb-1">{rankObj.emoji}</span>
+              <span className={`font-pixel text-2xl md:text-3xl mb-1 ${chainTheme.accent}`}>{rankObj.name}</span>
             </div>
-            <div className="relative group">
-              >
+            <div className="flex items-center justify-center gap-3 mb-4">
+              {walletData.avatarUrl && (
+                <img
+                  src={walletData.avatarUrl}
+                  alt="Profile Avatar"
+                  className="w-10 h-10 rounded-full border-2 border-base-blue shadow"
+                  style={{ objectFit: 'cover' }}
+                />
+              )}
               <h2 className="text-xl sm:text-2xl font-pixel text-gray-300">
                 {walletData.profileName || displayAddress}
               </h2>
+            </div>
+            <div className="relative group">
               {!walletData.baseName && (
                 <div className="absolute inset-x-0 -bottom-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                   <div className="bg-black/80 text-xs p-2 rounded-lg">
