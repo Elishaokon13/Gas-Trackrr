@@ -37,12 +37,45 @@ cd base-wrapped
 npm install
 ```
 
-3. Run the development server
+3. Set up environment variables (optional, for better data fetching)
+Create a `.env.local` file in the root directory with the following variables:
+
+```
+# Base RPC URL - Default is the public endpoint
+NEXT_PUBLIC_BASE_RPC_URL=https://mainnet.base.org
+
+# Optional - If you want to use a paid API provider for better performance
+# NEXT_PUBLIC_ALCHEMY_API_KEY=your_alchemy_key_here
+# NEXT_PUBLIC_INFURA_API_KEY=your_infura_key_here
+
+# NFT data API key (for real NFT data instead of mock)
+# NEXT_PUBLIC_SIMPLEHASH_API_KEY=your_simplehash_key
+
+# CoinGecko API key (for better rate limits on price data)
+# NEXT_PUBLIC_COINGECKO_API_KEY=your_coingecko_key
+```
+
+4. Run the development server
 ```bash
 npm run dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
+5. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+## Using API Providers for Better Data
+
+### RPC Providers
+The app uses public RPC endpoints by default, but for better performance and reliability, you can use:
+- [Alchemy](https://www.alchemy.com/) - Create an account and get an API key for Base
+- [Infura](https://infura.io/) - Create an account and set up a Base endpoint
+
+### NFT Data
+For real NFT data (instead of mock data):
+- [SimpleHash](https://simplehash.com/) - Offers a free tier that works well for this application
+
+### Price Data
+For more reliable price data and higher rate limits:
+- [CoinGecko Pro](https://www.coingecko.com/en/api/pricing) - The free API works but has rate limits
 
 ## Usage
 
