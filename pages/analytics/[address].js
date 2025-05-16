@@ -108,7 +108,7 @@ export default function AnalyticsPage() {
     } else if (walletData.transactionCount > 50) {
       return `With ${walletData.transactionCount} transactions on Base, you're starting to make some waves! Your transaction volume of $${walletData.volume.usdAmount} shows you're getting comfortable with Base.`;
     } else {
-      return `Just ${walletData.transactionCount} transactions? You're just dipping your toes into the Based waters with $${walletData.volume.usdAmount} in volume. Time to dive in deeper in ${currentYear}!`;
+      return `${walletData.transactionCount} transactions on Base with a volume of $${walletData.volume.usdAmount}`;
     }
   };
 
