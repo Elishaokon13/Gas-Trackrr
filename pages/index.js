@@ -1,30 +1,35 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import { motion } from 'framer-motion';
 import { BackgroundLines } from '../components/BackgroundLines';
 
 export default function Home() {
-  const [address, setAddress] = useState('');
+  const [walletAddress, setWalletAddress] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-
-    if (!address) {
-      setError('Please enter a wallet address');
-      return;
-    }
-
-    // Basic address validation
-    if (!/^0x[a-fA-F0-9]{40}$/.test(address)) {
+    
+    // Basic ETH address validation
+    if (!walletAddress.match(/^0x[a-fA-F0-9]{40}$/)) {
       setError('Please enter a valid Ethereum address');
       return;
     }
-
-    router.push(`/wrapped/${address}`);
+    
+    setIsLoading(true);
+    setError('');
+    
+    try {
+      // Navigate to analytics page
+      router.push(`/analytics/${walletAddress}`);
+    } catch (error) {
+      console.error('Error:', error);
+      setError('Something went wrong. Please try again.');
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -71,14 +76,14 @@ export default function Home() {
             className="w-full glass-card p-8"
           >
             <div className="mb-6">
-              <label htmlFor="address" className="block text-white font-pixel text-sm mb-3 text-gradient">
+              <label htmlFor="wallet-address" className="block text-white font-pixel text-sm mb-3 text-gradient">
                 ENTER WALLET ADDRESS
               </label>
               <input
-                id="address"
+                id="wallet-address"
                 type="text"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
+                value={walletAddress}
+                onChange={(e) => setWalletAddress(e.target.value)}
                 placeholder="0x..."
                 className="w-full p-4 bg-black/50 border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-base-blue transition-all duration-300"
               />
@@ -96,11 +101,16 @@ export default function Home() {
             
             <motion.button
               type="submit"
+              disabled={isLoading}
               className="w-full py-4 px-6 bg-base-blue hover:bg-blue-700 text-white font-pixel text-sm rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-blue-900/20"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              View Analytics
+              {isLoading ? (
+                <span className="inline-block animate-spin mr-2">↻</span>
+              ) : (
+                'GET YOUR WRAPPED'
+              )}
             </motion.button>
           </motion.form>
           

@@ -6,8 +6,8 @@
 
 :root {
   --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 17, 24, 39;
-  --background-end-rgb: 30, 41, 59;
+  --background-start-rgb: 0, 0, 15;
+  --background-end-rgb: 5, 10, 30;
 }
 
 * {
@@ -17,7 +17,7 @@
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
-    to bottom right,
+    to bottom,
     rgb(var(--background-start-rgb)),
     rgb(var(--background-end-rgb))
   );
@@ -64,19 +64,13 @@ body {
 
 /* Custom animations */
 @keyframes float {
-  0% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
 }
 
 .animate-float {
-  animation: float 3s ease-in-out infinite;
+  animation: float 5s ease-in-out infinite;
 }
 
 /* Custom scrollbar */
@@ -85,25 +79,12 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
+  background: rgba(5, 10, 30, 0.5);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-/* Glass morphism */
-.glass {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #0052FF;
+  border-radius: 10px;
 }
 
 /* Value displays */
