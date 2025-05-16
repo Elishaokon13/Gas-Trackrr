@@ -1,25 +1,60 @@
 # Project Scratchpad
 
 ## Background and Motivation
-This project is a Base blockchain wallet analytics tool that allows users to check their transaction count and gas usage. It has evolved from a comprehensive "Base Wrapped" application to a more focused tool that tracks just transaction count and gas spent. Now we want to update the UI to match the "Base Wrapped" aesthetic with a pixel art style and confetti elements.
+This project is a multi-chain wallet analytics tool that allows users to check their transaction metrics across different chains (Base, Ethereum, and Optimism). The application has evolved from a Base-only analytics tool to a comprehensive multi-chain solution that provides detailed insights into user's onchain activity.
 
-The user wants to significantly enhance the wallet analytics tool with three major features:
-1. **Multi-Chain Support**: Let users view analytics for the same address across multiple chains (Ethereum, Optimism, Arbitrum, etc.).
-2. **Historical Balance & Portfolio Chart**: Visualize the user's ETH/USDC balance and portfolio value (in USD) over time.
-3. **Protocol/Category Breakdown**: Show which protocols/dApps the user interacts with most, by volume or count, with a pie or bar chart.
-
-These features will make the app more comprehensive, competitive, and engaging for users who use multiple chains and want deeper insights into their onchain activity.
+Current Features:
+- Multi-chain support (Base, Ethereum, Optimism)
+- Transaction count and gas usage tracking
+- USD conversion for all metrics
+- Chain-specific name resolution (.eth, .op, .base.eth)
+- Chain-specific rank system with custom thresholds
+- Profile/avatar integration
+- Modern, responsive UI with chain-specific theming
 
 ## Key Challenges and Analysis
-- Integration with blockchain data sources (initially used ethers.js provider, later switched to Basescan API)
-- Handling blockchain data retrieval and processing efficiently
-- Error handling for blockchain API calls
-- Responsive design for both desktop and mobile users
-- Implementing a pixelated/retro UI with animated elements
-- Adding real-time ETH price conversion for gas calculations
-- Calculating total transaction volume from transaction history
-- Creating a sleek, modern UI that adapts to all device sizes
-- Implementing animated line background for a more professional look
+1. Data Consistency Across Chains:
+   - Different APIs (Basescan, Etherscan, Optimistic Etherscan)
+   - Varying data formats and response structures
+   - Chain-specific token contracts and addresses
+   - Rate limiting and API reliability
+
+2. Name Resolution:
+   - Chain-specific naming services (ENS, Optimism Name Service, Base Name Service)
+   - Different resolver contracts and methods
+   - Handling resolution failures gracefully
+   - Caching resolved names for performance
+
+3. UI/UX Considerations:
+   - Chain-specific theming and branding
+   - Responsive design across all device sizes
+   - Clear error messaging for chain-specific issues
+   - Intuitive chain switching experience
+
+## High-level Task Breakdown
+1. Data Fetching and Processing
+   - [ ] Review and optimize chain-specific API calls
+   - [ ] Implement proper error handling for each chain's API
+   - [ ] Add caching layer for frequently accessed data
+   - [ ] Validate data consistency across chains
+
+2. Name Resolution Enhancement
+   - [ ] Implement proper error handling for each naming service
+   - [ ] Add caching for resolved names
+   - [ ] Improve error messages for resolution failures
+   - [ ] Add support for reverse resolution
+
+3. UI/UX Improvements
+   - [ ] Enhance chain switching experience
+   - [ ] Add loading states for chain-specific operations
+   - [ ] Improve error message presentation
+   - [ ] Add tooltips for chain-specific features
+
+4. Testing and Validation
+   - [ ] Add unit tests for chain-specific logic
+   - [ ] Implement integration tests for multi-chain features
+   - [ ] Add end-to-end tests for critical user flows
+   - [ ] Test with various wallet addresses across chains
 
 ## Multi-Chain Support
 - Abstracting data-fetching logic to support multiple chains with different APIs and data formats.
