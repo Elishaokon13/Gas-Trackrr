@@ -70,9 +70,9 @@ export default function WrappedPage() {
           <ParticleBackground />
           <div className="h-full flex flex-col items-center justify-center">
             <div className="text-center px-4">
-              <h1 className="text-2xl font-pixel text-white mb-3">Loading Your Base Wrapped</h1>
-              <p className="text-white/70 font-mono text-sm">Analyzing your on-chain activity...</p>
-              <div className="mt-5 w-10 h-10 border-t-3 border-blue-500 border-solid rounded-full animate-spin mx-auto"></div>
+              <h1 className="text-xl sm:text-2xl font-pixel text-white mb-2 sm:mb-3">Loading Your Base Wrapped</h1>
+              <p className="text-white/70 font-mono text-xs sm:text-sm">Analyzing your on-chain activity...</p>
+              <div className="mt-3 sm:mt-5 w-8 h-8 sm:w-10 sm:h-10 border-t-2 sm:border-t-3 border-blue-500 border-solid rounded-full animate-spin mx-auto"></div>
             </div>
           </div>
         </div>
@@ -92,11 +92,11 @@ export default function WrappedPage() {
           <ParticleBackground />
           <div className="h-full flex flex-col items-center justify-center">
             <div className="text-center max-w-xs mx-auto px-4">
-              <h1 className="text-2xl font-pixel text-white mb-3">Oops!</h1>
-              <p className="text-white/70 font-mono text-sm mb-5">{error}</p>
+              <h1 className="text-xl sm:text-2xl font-pixel text-white mb-2 sm:mb-3">Oops!</h1>
+              <p className="text-white/70 font-mono text-xs sm:text-sm mb-3 sm:mb-5">{error}</p>
               <button
                 onClick={() => router.push('/')}
-                className="font-pixel text-sm text-white bg-base-blue px-5 py-2 rounded-full shadow-lg hover:bg-blue-700 transition-colors"
+                className="font-pixel text-xs sm:text-sm text-white bg-base-blue px-4 py-2 sm:px-5 sm:py-2 rounded-full shadow-lg hover:bg-blue-700 transition-colors"
               >
                 Try Again
               </button>
@@ -169,14 +169,16 @@ export default function WrappedPage() {
             <SlideParagraph>
               Your favorite places on Base
             </SlideParagraph>
-            {wrappedData.protocolInteractions.map((protocol, index) => (
-              <StatDisplay
-                key={protocol.address}
-                value={protocol.name}
-                label={`${protocol.count} interactions`}
-                custom={index + 2}
-              />
-            ))}
+            <div className="w-full max-h-[60vh] overflow-y-auto px-2">
+              {wrappedData.protocolInteractions.map((protocol, index) => (
+                <StatDisplay
+                  key={protocol.address}
+                  value={protocol.name}
+                  label={`${protocol.count} interactions`}
+                  custom={index + 2}
+                />
+              ))}
+            </div>
           </Slide>
         );
       
@@ -224,7 +226,7 @@ export default function WrappedPage() {
             <SlideParagraph>
               Looks like Jesse Pollak can't keep up with your {wrappedData.transactionCount} transactions on Base Wrapped in 2024! With a total volume of $1.8k, you're more of a minnow than a whale. Let's step up those onchain moves in 2025!
             </SlideParagraph>
-            <div className="grid grid-cols-2 gap-3 w-full px-3 mt-2">
+            <div className="grid grid-cols-2 gap-2 sm:gap-3 w-full px-2 sm:px-3 mt-1 sm:mt-2">
               <StatDisplay
                 value={`${wrappedData.transactionCount} Txns`}
                 label="just dipping your toes into the Based waters"
@@ -251,12 +253,12 @@ export default function WrappedPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1, duration: 1 }}
-              className="absolute bottom-14 w-full z-10"
+              className="absolute bottom-8 sm:bottom-14 w-full z-10"
             >
               <div className="text-center">
                 <button
                   onClick={() => router.push('/')}
-                  className="font-pixel text-sm text-white bg-blue-700 px-5 py-2 rounded-full shadow-lg hover:bg-blue-800 transition-colors"
+                  className="font-pixel text-xs sm:text-sm text-white bg-blue-700 px-4 py-1.5 sm:px-5 sm:py-2 rounded-full shadow-lg hover:bg-blue-800 transition-colors"
                 >
                   Try Another Wallet
                 </button>
