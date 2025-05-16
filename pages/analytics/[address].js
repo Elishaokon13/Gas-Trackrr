@@ -143,7 +143,7 @@ export default function AnalyticsPage() {
           variants={containerVariants}
           initial="hidden"
           animate="show"
-          className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 mb-12 md:mb-16 max-w-3xl mx-auto"
+          className="grid grid-cols-1 gap-8 mb-12 md:mb-16 max-w-3xl mx-auto"
         >
           {/* Transactions Card */}
           <motion.div variants={itemVariants} className="glass-card p-6 md:p-8">
@@ -159,27 +159,44 @@ export default function AnalyticsPage() {
               </p>
             </div>
           </motion.div>
-          
-          {/* Volume Card */}
+
+          {/* Volume Card (ETH & USDC, incoming/outgoing) */}
           <motion.div variants={itemVariants} className="glass-card p-6 md:p-8">
             <div className="text-center">
-              <h2 className="value-display">
-                {parseFloat(walletData.volume.ethAmount).toFixed(2)} <span className="text-base-blue">ETH</span>
-              </h2>
-              <p className="usd-value mb-2">
-                ${walletData.volume.usdAmount}
-              </p>
-              <p className="font-pixel text-xl md:text-2xl mb-4 text-gradient">
-                Volume
-              </p>
-              <p className="text-sm text-gray-400">
-                total transaction volume<br />on Base blockchain
-              </p>
+              <h2 className="font-pixel text-2xl md:text-3xl mb-4 text-gradient">Volume</h2>
+              <div className="grid grid-cols-2 gap-4 mb-2">
+                <div>
+                  <div className="font-pixel text-xs text-gray-400 mb-1">INCOMING</div>
+                  <div className="mb-1">
+                    <span className="value-display text-yellow-400">{parseFloat(walletData.ethVolumeIn).toFixed(4)}</span>
+                    <span className="font-pixel text-yellow-400 ml-1">ETH</span>
+                  </div>
+                  <div className="text-xs text-gray-400 mb-2">${walletData.ethVolumeInUsd}</div>
+                  <div className="mb-1">
+                    <span className="value-display text-blue-400">{parseFloat(walletData.usdcVolumeIn).toFixed(2)}</span>
+                    <span className="font-pixel text-blue-400 ml-1">USDC</span>
+                  </div>
+                  <div className="text-xs text-gray-400">${walletData.usdcVolumeInUsd}</div>
+                </div>
+                <div>
+                  <div className="font-pixel text-xs text-gray-400 mb-1">OUTGOING</div>
+                  <div className="mb-1">
+                    <span className="value-display text-yellow-400">{parseFloat(walletData.ethVolumeOut).toFixed(4)}</span>
+                    <span className="font-pixel text-yellow-400 ml-1">ETH</span>
+                  </div>
+                  <div className="text-xs text-gray-400 mb-2">${walletData.ethVolumeOutUsd}</div>
+                  <div className="mb-1">
+                    <span className="value-display text-blue-400">{parseFloat(walletData.usdcVolumeOut).toFixed(2)}</span>
+                    <span className="font-pixel text-blue-400 ml-1">USDC</span>
+                  </div>
+                  <div className="text-xs text-gray-400">${walletData.usdcVolumeOutUsd}</div>
+                </div>
+              </div>
             </div>
           </motion.div>
-          
+
           {/* Gas Card */}
-          <motion.div variants={itemVariants} className="glass-card p-6 md:p-8 sm:col-span-2">
+          <motion.div variants={itemVariants} className="glass-card p-6 md:p-8">
             <div className="text-center">
               <h2 className="value-display">
                 {parseFloat(walletData.gasSpent.ethAmount).toFixed(4)} <span className="text-yellow-400">ETH</span>
