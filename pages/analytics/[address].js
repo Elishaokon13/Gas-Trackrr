@@ -44,9 +44,6 @@ export default function AnalyticsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedChain, setSelectedChain] = useState('base');
-  const [history, setHistory] = useState([]);
-  const [historyLoading, setHistoryLoading] = useState(true);
-  const [historyError, setHistoryError] = useState(null);
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().toLocaleString('default', { month: 'short' }).toUpperCase();
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -73,34 +70,6 @@ export default function AnalyticsPage() {
     }
     fetchData();
   }, [address, selectedChain]);
-
-  // Fetch historical balances for the last 30 days
-  useEffect(() => {
-    if (!walletData?.address) return;
-    async function fetchHistory() {
-      setHistoryLoading(true);
-      setHistoryError(null);
-      try {
-        const end = new Date();
-        const start = new Date();
-        start.setDate(end.getDate() - 29);
-        const startStr = start.toISOString().slice(0, 10);
-        const endStr = end.toISOString().slice(0, 10);
-        const res = await fetch(`/api/historical-balances?address=${walletData.address}&start=${startStr}&end=${endStr}`);
-        const json = await res.json();
-        if (json.success) {
-          setHistory(json.data);
-        } else {
-          setHistoryError(json.error || 'Failed to fetch history');
-        }
-      } catch (err) {
-        setHistoryError(err.message || 'Failed to fetch history');
-      } finally {
-        setHistoryLoading(false);
-      }
-    }
-    fetchHistory();
-  }, [walletData?.address]);
 
   // Theme colors based on chain
   const chainTheme = CHAIN_OPTIONS.find(c => c.value === selectedChain) || CHAIN_OPTIONS[0];
@@ -421,34 +390,6 @@ export default function AnalyticsPage() {
             </div>
           </motion.div>
         </motion.div>
-        
-        {/* Historical Balance Chart */}
-        {/*
-        <div className="mt-12">
-          <h2 className="font-pixel text-2xl mb-4 text-gradient text-center">Portfolio Value (USD, 30d)</h2>
-          {historyLoading ? (
-            <div className="text-center text-gray-400">Loading chart...</div>
-          ) : historyError ? (
-            <div className="text-center text-red-400">{historyError}</div>
-          ) : (
-            <ResponsiveContainer width="100%" height={320}>
-              <AreaChart data={history} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
-                <defs>
-                  <linearGradient id="usdGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#a78bfa" stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor="#6366f1" stopOpacity={0.2}/>
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#2226" />
-                <XAxis dataKey="date" tick={{ fontFamily: 'monospace', fontSize: 12, fill: '#a3e635' }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fontFamily: 'monospace', fontSize: 12, fill: '#a3e635' }} axisLine={false} tickLine={false} domain={['auto', 'auto']} />
-                <Tooltip contentStyle={{ background: '#18181b', border: 'none', borderRadius: 8, color: '#fff' }} labelStyle={{ color: '#a3e635' }} />
-                <Area type="monotone" dataKey="usd" stroke="#a78bfa" fillOpacity={1} fill="url(#usdGradient)" strokeWidth={3} name="Portfolio USD" />
-              </AreaChart>
-            </ResponsiveContainer>
-          )}
-        </div>
-        */}
         
         {/* Bottom Action Button */}
         <motion.div
