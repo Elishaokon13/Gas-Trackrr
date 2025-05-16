@@ -62,11 +62,19 @@ export default function WrappedPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <ParticleBackground />
-        <div className="text-center">
-          <h1 className="text-3xl font-pixel text-white mb-4">Loading Your Base Wrapped</h1>
-          <p className="text-white/70 font-mono">Analyzing your on-chain activity...</p>
-          <div className="mt-6 w-12 h-12 border-t-4 border-blue-500 border-solid rounded-full animate-spin mx-auto"></div>
+        <Head>
+          <title>Loading | Base Wrapped</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        </Head>
+        <div className="app-container">
+          <ParticleBackground />
+          <div className="h-full flex flex-col items-center justify-center">
+            <div className="text-center px-4">
+              <h1 className="text-2xl font-pixel text-white mb-3">Loading Your Base Wrapped</h1>
+              <p className="text-white/70 font-mono text-sm">Analyzing your on-chain activity...</p>
+              <div className="mt-5 w-10 h-10 border-t-3 border-blue-500 border-solid rounded-full animate-spin mx-auto"></div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -76,16 +84,24 @@ export default function WrappedPage() {
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <ParticleBackground />
-        <div className="text-center max-w-md mx-auto">
-          <h1 className="text-3xl font-pixel text-white mb-4">Oops!</h1>
-          <p className="text-white/70 font-mono mb-6">{error}</p>
-          <button
-            onClick={() => router.push('/')}
-            className="font-pixel text-white bg-base-blue px-6 py-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors"
-          >
-            Try Again
-          </button>
+        <Head>
+          <title>Error | Base Wrapped</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        </Head>
+        <div className="app-container">
+          <ParticleBackground />
+          <div className="h-full flex flex-col items-center justify-center">
+            <div className="text-center max-w-xs mx-auto px-4">
+              <h1 className="text-2xl font-pixel text-white mb-3">Oops!</h1>
+              <p className="text-white/70 font-mono text-sm mb-5">{error}</p>
+              <button
+                onClick={() => router.push('/')}
+                className="font-pixel text-sm text-white bg-base-blue px-5 py-2 rounded-full shadow-lg hover:bg-blue-700 transition-colors"
+              >
+                Try Again
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -208,7 +224,7 @@ export default function WrappedPage() {
             <SlideParagraph>
               Looks like Jesse Pollak can't keep up with your {wrappedData.transactionCount} transactions on Base Wrapped in 2024! With a total volume of $1.8k, you're more of a minnow than a whale. Let's step up those onchain moves in 2025!
             </SlideParagraph>
-            <div className="grid grid-cols-2 gap-6 max-w-2xl mx-auto w-full">
+            <div className="grid grid-cols-2 gap-3 w-full px-3 mt-2">
               <StatDisplay
                 value={`${wrappedData.transactionCount} Txns`}
                 label="just dipping your toes into the Based waters"
@@ -235,12 +251,12 @@ export default function WrappedPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1, duration: 1 }}
-              className="absolute bottom-20 w-full z-10"
+              className="absolute bottom-14 w-full z-10"
             >
               <div className="text-center">
                 <button
                   onClick={() => router.push('/')}
-                  className="font-pixel text-white bg-blue-700 px-6 py-3 rounded-full shadow-lg hover:bg-blue-800 transition-colors"
+                  className="font-pixel text-sm text-white bg-blue-700 px-5 py-2 rounded-full shadow-lg hover:bg-blue-800 transition-colors"
                 >
                   Try Another Wallet
                 </button>
@@ -255,12 +271,15 @@ export default function WrappedPage() {
   };
 
   return (
-    <div className="relative min-h-screen">
+    <div className="min-h-screen flex items-center justify-center">
       <Head>
         <title>Your Base Wrapped | 2024 Review</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       </Head>
-      <ParticleBackground />
-      {renderSlide()}
+      <div className="app-container">
+        <ParticleBackground />
+        {renderSlide()}
+      </div>
     </div>
   );
 } 
