@@ -226,7 +226,7 @@ export default function AnalyticsPage() {
                     </span>
                     <span className="text-sm text-yellow-400/70">ETH</span>
                   </div>
-                  <div className="text-sm text-gray-400">
+                  <div className="text-sm  text-gray-400">
                     ${walletData.ethVolumeInUsd}
                   </div>
                 </div>
