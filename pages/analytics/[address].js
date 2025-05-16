@@ -294,7 +294,7 @@ export default function AnalyticsPage() {
             </div>
             <div className="flex items-center justify-center gap-3 mb-4">
               {walletData.address && (
-                <Avatar address={walletData.address} size={40} />
+                <Avatar address={walletData.address} size={10} />
               )}
               <h2 className="text-xl sm:text-2xl font-pixel text-gray-300">
                 {walletData.profileName || displayAddress}
