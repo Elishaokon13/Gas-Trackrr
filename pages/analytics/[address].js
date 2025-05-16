@@ -4,6 +4,7 @@ import Head from 'next/head';
 import { motion } from 'framer-motion';
 import { getWalletData } from '../../lib/blockchain';
 import { BackgroundLines } from '../../components/BackgroundLines';
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend, CartesianGrid } from 'recharts';
 
 export default function AnalyticsPage() {
   const router = useRouter();
@@ -11,6 +12,9 @@ export default function AnalyticsPage() {
   const [walletData, setWalletData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [history, setHistory] = useState([]);
+  const [historyLoading, setHistoryLoading] = useState(true);
+  const [historyError, setHistoryError] = useState(null);
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().toLocaleString('default', { month: 'short' }).toUpperCase();
 
@@ -45,6 +49,34 @@ export default function AnalyticsPage() {
 
     fetchData();
   }, [address]);
+
+  // Fetch historical balances for the last 30 days
+  useEffect(() => {
+    if (!walletData?.address) return;
+    async function fetchHistory() {
+      setHistoryLoading(true);
+      setHistoryError(null);
+      try {
+        const end = new Date();
+        const start = new Date();
+        start.setDate(end.getDate() - 29);
+        const startStr = start.toISOString().slice(0, 10);
+        const endStr = end.toISOString().slice(0, 10);
+        const res = await fetch(`/api/historical-balances?address=${walletData.address}&start=${startStr}&end=${endStr}`);
+        const json = await res.json();
+        if (json.success) {
+          setHistory(json.data);
+        } else {
+          setHistoryError(json.error || 'Failed to fetch history');
+        }
+      } catch (err) {
+        setHistoryError(err.message || 'Failed to fetch history');
+      } finally {
+        setHistoryLoading(false);
+      }
+    }
+    fetchHistory();
+  }, [walletData?.address]);
 
   // Show loading state
   if (loading) {
@@ -333,6 +365,28 @@ export default function AnalyticsPage() {
             </div>
           </motion.div>
         </motion.div>
+        
+        {/* Historical Balance Chart */}
+        <div className="mt-12">
+          <h2 className="font-pixel text-2xl mb-4 text-gradient text-center">Historical Balances (30d)</h2>
+          {historyLoading ? (
+            <div className="text-center text-gray-400">Loading chart...</div>
+          ) : historyError ? (
+            <div className="text-center text-red-400">{historyError}</div>
+          ) : (
+            <ResponsiveContainer width="100%" height={320}>
+              <LineChart data={history} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#2226" />
+                <XAxis dataKey="date" tick={{ fontFamily: 'monospace', fontSize: 12 }} />
+                <YAxis tick={{ fontFamily: 'monospace', fontSize: 12 }} />
+                <Tooltip />
+                <Legend />
+                <Line type="monotone" dataKey="eth" stroke="#facc15" name="ETH" dot={false} strokeWidth={2} />
+                <Line type="monotone" dataKey="usdc" stroke="#60a5fa" name="USDC" dot={false} strokeWidth={2} />
+              </LineChart>
+            </ResponsiveContainer>
+          )}
+        </div>
         
         {/* Bottom Action Button */}
         <motion.div
