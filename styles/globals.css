@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto+Mono:wght@400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 5, 12, 23;
+  --background-end-rgb: 10, 20, 40;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+    to bottom,
+    rgb(var(--background-start-rgb)),
+    rgb(var(--background-end-rgb))
+  );
+  min-height: 100vh;
+}
+
+.slide-container {
+  @apply w-full h-screen flex flex-col items-center justify-center overflow-hidden;
+}
+
+.pixel-text {
+  @apply font-pixel text-white leading-relaxed;
+}
+
+.stat-card {
+  @apply bg-black/30 backdrop-blur-md rounded-xl p-6 shadow-lg border border-white/10;
+}
+
+.stat-value {
+  @apply font-pixel text-5xl md:text-6xl text-white my-4;
+}
+
+.stat-label {
+  @apply font-mono text-base md:text-lg text-white/70;
+} 
