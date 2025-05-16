@@ -297,7 +297,7 @@ export default function WrappedPage() {
           <Slide isLast={true}>
             <SlideHeading>Based Baby</SlideHeading>
             <SlideParagraph>
-              Looks like Jesse Pollak can't keep up with your {wrappedData.transactionCount} transactions on Base Wrapped in 2024! With a total volume of $1.8k, you're more of a minnow than a whale. Let's step up those onchain moves in 2025!
+              Looks like Jesse Pollak can't keep up with your {wrappedData.transactionCount} transactions on Base Wrapped in 2024! With gas expenses of ${wrappedData.gasExpenses.totalGasUsd}, you're keeping the validators well-fed. Let's step up those onchain moves in 2025!
             </SlideParagraph>
             <div className="grid grid-cols-2 gap-2 sm:gap-3 w-full px-2 sm:px-3 mt-1 sm:mt-2">
               <StatDisplay
@@ -316,8 +316,8 @@ export default function WrappedPage() {
                 custom={4}
               />
               <StatDisplay
-                value={`${wrappedData.gasMetrics.gasCostEth} eth`}
-                label="on Gas"
+                value={`$${wrappedData.gasExpenses.totalGasUsd}`}
+                label="spent on gas expenses in 2024"
                 custom={4.5}
               />
             </div>
@@ -326,16 +326,29 @@ export default function WrappedPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1, duration: 1 }}
-              className="absolute bottom-8 sm:bottom-14 w-full z-10"
+              className="absolute bottom-8 sm:bottom-14 w-full z-10 flex justify-center space-x-2"
             >
-              <div className="text-center">
-                <button
-                  onClick={() => router.push('/')}
-                  className="font-pixel text-xs sm:text-sm text-white bg-blue-700 px-4 py-1.5 sm:px-5 sm:py-2 rounded-full shadow-lg hover:bg-blue-800 transition-colors"
-                >
-                  Try Another Wallet
-                </button>
-              </div>
+              <button
+                onClick={() => router.push('/')}
+                className="font-pixel text-xs sm:text-sm text-white bg-blue-700 px-4 py-1.5 sm:px-5 sm:py-2 rounded-full shadow-lg hover:bg-blue-800 transition-colors"
+              >
+                Try Another Wallet
+              </button>
+              <button 
+                onClick={() => {
+                  const blob = new Blob([wrappedData.gasExpenses.csv], { type: 'text/csv;charset=utf-8;' });
+                  const url = URL.createObjectURL(blob);
+                  const link = document.createElement('a');
+                  link.setAttribute('href', url);
+                  link.setAttribute('download', `base_gas_expenses_${wrappedData.address.slice(0, 6)}.csv`);
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                }}
+                className="font-pixel text-xs sm:text-sm text-white bg-green-700 px-4 py-1.5 sm:px-5 sm:py-2 rounded-full shadow-lg hover:bg-green-800 transition-colors"
+              >
+                Export Expenses
+              </button>
             </motion.div>
           </Slide>
         );
