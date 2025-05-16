@@ -284,12 +284,22 @@ export default function AnalyticsPage() {
             transition={{ duration: 0.7, ease: "easeOut" }}
             className="text-center mb-8 md:mb-12"
           >
-            <h1 className={`text-4xl sm:text-5xl md:text-6xl font-pixel mb-6 tracking-wider ${chainTheme.accent} animate-float`}>
-              {rank}
-            </h1>
+            <div className="relative group flex items-center justify-center gap-3">
+              {walletData.avatarUrl && (
+                <img
+                  src={walletData.avatarUrl}
+                  alt="Profile Avatar"
+                  className="w-10 h-10 rounded-full border-2 border-base-blue shadow"
+                  style={{ objectFit: 'cover' }}
+                />
+              )}
+              <h1 className={`text-4xl sm:text-5xl md:text-6xl font-pixel mb-6 tracking-wider ${chainTheme.accent} animate-float`}>
+                {rank}
+              </h1>
+            </div>
             <div className="relative group">
               <h2 className="text-xl sm:text-2xl font-pixel text-gray-300">
-                {displayAddress}
+                {walletData.profileName || displayAddress}
               </h2>
               {!walletData.baseName && (
                 <div className="absolute inset-x-0 -bottom-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
