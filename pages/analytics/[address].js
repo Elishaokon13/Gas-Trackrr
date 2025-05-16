@@ -4,7 +4,6 @@ import Head from 'next/head';
 import { motion } from 'framer-motion';
 import { getWalletData } from '../../lib/blockchain';
 import ParticleBackground from '../../components/ParticleBackground';
-import BlueWave from '../../components/BlueWave';
 
 export default function AnalyticsPage() {
   const router = useRouter();
@@ -48,11 +47,16 @@ export default function AnalyticsPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-pixel text-white mb-4">Loading Wallet Data</h1>
-          <p className="text-gray-400 mb-4">Fetching data from Base blockchain...</p>
-          <div className="w-10 h-10 border-t-2 border-blue-500 border-solid rounded-full animate-spin mx-auto"></div>
-        </div>
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="text-center"
+        >
+          <h1 className="text-2xl font-pixel text-white mb-4 text-gradient">Loading Wallet Data</h1>
+          <p className="text-gray-400 mb-6">Fetching data from Base blockchain...</p>
+          <div className="w-12 h-12 border-t-2 border-b-2 border-base-blue border-solid rounded-full animate-spin mx-auto"></div>
+        </motion.div>
       </div>
     );
   }
@@ -60,13 +64,18 @@ export default function AnalyticsPage() {
   // Show error state
   if (error) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="max-w-md p-8 bg-gray-900 rounded-lg">
-          <h1 className="text-2xl font-pixel text-white mb-4">Error</h1>
+      <div className="min-h-screen bg-black flex items-center justify-center p-4">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="max-w-md w-full glass-card p-8"
+        >
+          <h1 className="text-2xl font-pixel text-white mb-4 text-gradient">Error</h1>
           <p className="text-red-400 mb-6">{error}</p>
-          <div className="text-gray-400 mb-4 text-sm">
+          <div className="text-gray-400 mb-6 text-sm">
             <p>Possible issues:</p>
-            <ul className="list-disc pl-5 mt-2">
+            <ul className="list-disc pl-5 mt-2 space-y-1">
               <li>The Basescan API may be rate limited</li>
               <li>The wallet address may not exist on Base</li>
               <li>There may be network issues</li>
@@ -74,11 +83,11 @@ export default function AnalyticsPage() {
           </div>
           <button
             onClick={() => router.push('/')}
-            className="px-4 py-2 bg-blue-600 rounded hover:bg-blue-700 text-white"
+            className="w-full py-3 px-6 bg-base-blue hover:bg-blue-700 text-white font-pixel text-sm rounded-lg transition-all duration-300"
           >
             Go Back
           </button>
-        </div>
+        </motion.div>
       </div>
     );
   }
@@ -102,9 +111,22 @@ export default function AnalyticsPage() {
       return `Just ${walletData.transactionCount} transactions? You're just dipping your toes into the Based waters with $${walletData.volume.usdAmount} in volume. Time to dive in deeper in ${currentYear}!`;
     }
   };
-  
-  // Calculate NFTs (simulated)
-  const estimatedNfts = Math.max(1, Math.floor(walletData.transactionCount / 10));
+
+  // Animation variants for staggered animations
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    show: { y: 0, opacity: 1, transition: { duration: 0.5 } }
+  };
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
@@ -116,14 +138,14 @@ export default function AnalyticsPage() {
       {/* Particle background */}
       <ParticleBackground />
       
-      <div className="container mx-auto max-w-2xl px-4 py-8 relative z-10">
+      <div className="container mx-auto max-w-4xl px-4 py-8 md:py-12 relative z-10 content-container">
         <motion.div
-          initial={{ y: -50, opacity: 0 }}
+          initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-8"
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="text-center mb-8 md:mb-12"
         >
-          <h1 className="text-5xl md:text-6xl font-pixel mb-6 tracking-widest">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-pixel mb-6 tracking-wider text-gradient animate-float">
             {rank}
           </h1>
           
@@ -131,118 +153,87 @@ export default function AnalyticsPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.5 }}
-            className="text-sm sm:text-base md:text-lg max-w-xl mx-auto leading-relaxed"
+            className="text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed"
           >
             {generateCopywriting()}
           </motion.p>
         </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          animate="show"
+          className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 mb-12 md:mb-16 max-w-3xl mx-auto"
+        >
           {/* Transactions Card */}
-          <motion.div
-            initial={{ x: -50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.8, duration: 0.5 }}
-            className="bg-black/30 backdrop-blur-sm rounded-lg p-6 border border-gray-800"
-          >
+          <motion.div variants={itemVariants} className="glass-card p-6 md:p-8">
             <div className="text-center">
-              <h2 className="font-pixel text-5xl md:text-6xl mb-2">
+              <h2 className="value-display">
                 {walletData.transactionCount}
               </h2>
-              <p className="font-pixel text-2xl md:text-3xl mb-4">
+              <p className="font-pixel text-2xl md:text-3xl mb-4 text-gradient">
                 Txns
               </p>
               <p className="text-sm text-gray-400">
-                just dipping your toes into<br />the Based waters
+                {walletData.outgoingTransactions} outgoing transactions<br />on Base blockchain
               </p>
             </div>
           </motion.div>
           
           {/* Volume Card */}
-          <motion.div
-            initial={{ x: 50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 1.0, duration: 0.5 }}
-            className="bg-black/30 backdrop-blur-sm rounded-lg p-6 border border-gray-800"
-          >
+          <motion.div variants={itemVariants} className="glass-card p-6 md:p-8">
             <div className="text-center">
-              <h2 className="font-pixel text-4xl md:text-5xl mb-2">
-                {parseFloat(walletData.volume.ethAmount).toFixed(2)} eth
+              <h2 className="value-display">
+                {parseFloat(walletData.volume.ethAmount).toFixed(2)} <span className="text-base-blue">ETH</span>
               </h2>
-              <p className="font-pixel text-xl md:text-2xl mb-2 text-green-400">
+              <p className="usd-value mb-2">
                 ${walletData.volume.usdAmount}
               </p>
-              <p className="font-pixel text-2xl md:text-3xl mb-4">
+              <p className="font-pixel text-xl md:text-2xl mb-4 text-gradient">
                 Volume
               </p>
               <p className="text-sm text-gray-400">
-                your trading activity is<br />making waves in the Base ocean
+                total transaction volume<br />on Base blockchain
               </p>
             </div>
           </motion.div>
-          
-          {/* Month/Year Card */}
-          {/* <motion.div
-            initial={{ x: -50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 1.2, duration: 0.5 }}
-            className="bg-black/30 backdrop-blur-sm rounded-lg p-6 border border-gray-800"
-          >
-            <div className="text-center">
-              <h2 className="font-pixel text-4xl md:text-5xl mb-2">
-                {currentMonth}
-              </h2>
-              <p className="font-pixel text-3xl md:text-4xl mb-4">
-                {currentYear}
-              </p>
-              <p className="text-sm text-gray-400">
-                your Base grind started to<br />show some serious momentum!
-              </p>
-            </div>
-          </motion.div> */}
           
           {/* Gas Card */}
-          <motion.div
-            initial={{ x: 50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 1.4, duration: 0.5 }}
-            className="bg-black/30 backdrop-blur-sm rounded-lg p-6 border border-gray-800"
-          >
+          <motion.div variants={itemVariants} className="glass-card p-6 md:p-8 sm:col-span-2">
             <div className="text-center">
-              {/* <h2 className="font-pixel text-4xl md:text-5xl mb-2">
-                {parseFloat(walletData.gasSpent.ethAmount).toFixed(2)} eth
-              </h2> */}
-              <p className="font-pixel text-xl md:text-2xl mb-2 text-green-400">
+              <h2 className="value-display">
+                {parseFloat(walletData.gasSpent.ethAmount).toFixed(4)} <span className="text-base-blue">ETH</span>
+              </h2>
+              <p className="usd-value mb-2">
                 ${walletData.gasSpent.usdAmount}
               </p>
-              <p className="font-pixel text-2xl md:text-3xl mb-4">
-                on Gas
+              <p className="font-pixel text-xl md:text-2xl mb-4 text-gradient">
+                Gas Spent
               </p>
               <p className="text-sm text-gray-400">
-                efficient enough to stay<br />Based and keep moving fast!
+                Current ETH price: ${walletData.ethPrice?.toFixed(2) || "N/A"}
               </p>
             </div>
           </motion.div>
-        </div>
+        </motion.div>
         
         {/* Bottom Action Button */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.8, duration: 0.5 }}
-          className="text-center mb-16"
+          transition={{ delay: 0.8, duration: 0.5 }}
+          className="text-center"
         >
-          <button
+          <motion.button
             onClick={() => router.push('/')}
-            className="px-8 py-4 bg-base-blue font-pixel text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="px-8 py-4 bg-base-blue font-pixel text-white rounded-lg transition-all duration-300 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-900/20"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             CHECK ANOTHER WALLET
-          </button>
+          </motion.button>
         </motion.div>
       </div>
-      
-      {/* Blue Wave at bottom */}
-      {/* <BlueWave /> */}
     </div>
   );
 } 
