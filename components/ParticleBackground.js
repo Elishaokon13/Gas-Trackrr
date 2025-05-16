@@ -1,8 +1,32 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Particles from 'react-tsparticles';
 import { loadFull } from 'tsparticles';
 
 const ParticleBackground = () => {
+  const [particleCount, setParticleCount] = useState(30);
+  
+  useEffect(() => {
+    const handleResize = () => {
+      // Adjust particle count based on screen size
+      if (window.innerWidth < 640) {
+        setParticleCount(15); // Fewer particles on mobile
+      } else {
+        setParticleCount(30); // More particles on larger screens
+      }
+    };
+    
+    // Set initial count
+    handleResize();
+    
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+    
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   const particlesInit = useCallback(async (engine) => {
     await loadFull(engine);
   }, []);
@@ -43,7 +67,7 @@ const ParticleBackground = () => {
               enable: true,
               area: 800,
             },
-            value: 30,
+            value: particleCount,
           },
           opacity: {
             value: 0.7,
@@ -59,7 +83,7 @@ const ParticleBackground = () => {
             type: ['square', 'triangle', 'polygon'],
           },
           size: {
-            value: { min: 5, max: 15 },
+            value: { min: 3, max: 12 },
             random: true,
           },
         },
