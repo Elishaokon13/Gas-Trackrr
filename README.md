@@ -28,7 +28,7 @@ A modern, mobile-friendly analytics dashboard for Base, Optimism, and Ethereum w
 
 1. Clone the repository:
    ```bash
-git clone https://github.com/yourusername/base-wrapped.git
+git clone https://github.com/E/base-wrapped.git
 cd base-wrapped
 ```
 2. Install dependencies:
