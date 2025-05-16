@@ -12,6 +12,30 @@ const CHAIN_OPTIONS = [
   { value: 'ethereum', label: 'Ethereum', color: 'bg-purple-700', accent: 'text-purple-400' },
 ];
 
+const RANKS = {
+  base: [
+    { min: 0, max: 9, name: 'Base Newborn' },
+    { min: 10, max: 49, name: 'Base Explorer' },
+    { min: 50, max: 99, name: 'Base DeFi Kid' },
+    { min: 100, max: 499, name: 'Base OG' },
+    { min: 500, max: Infinity, name: 'Base Legend' },
+  ],
+  optimism: [
+    { min: 0, max: 9, name: 'OP Newbie' },
+    { min: 10, max: 49, name: 'OP Explorer' },
+    { min: 50, max: 99, name: 'OP DeFi Kid' },
+    { min: 100, max: 499, name: 'OP OG' },
+    { min: 500, max: Infinity, name: 'OP Legend' },
+  ],
+  ethereum: [
+    { min: 0, max: 19, name: 'ETH Newborn' },
+    { min: 20, max: 99, name: 'ETH Explorer' },
+    { min: 100, max: 499, name: 'ETH DeFi Kid' },
+    { min: 500, max: 1999, name: 'ETH OG' },
+    { min: 2000, max: Infinity, name: 'ETH Legend' },
+  ],
+};
+
 export default function AnalyticsPage() {
   const router = useRouter();
   const { address } = router.query;
@@ -79,6 +103,13 @@ export default function AnalyticsPage() {
   // Theme colors based on chain
   const chainTheme = CHAIN_OPTIONS.find(c => c.value === selectedChain) || CHAIN_OPTIONS[0];
 
+  // Chain-specific rank system
+  function getRank(chain, txCount) {
+    const ranks = RANKS[chain] || RANKS.base;
+    return ranks.find(r => txCount >= r.min && txCount <= r.max)?.name || '';
+  }
+  const rank = getRank(selectedChain, walletData.transactionCount);
+
   // Show loading state
   if (loading) {
     return (
@@ -145,20 +176,6 @@ export default function AnalyticsPage() {
     pageTitle = `Based (${walletData.baseName})`;
   } else if (walletData.address) {
     pageTitle = `Based (${walletData.address.slice(0, 6)})`;
-  }
-  // Improved rank system
-  let rank = '';
-  const txCount = walletData.transactionCount;
-  if (txCount < 10) {
-    rank = 'Base Newborn';
-  } else if (txCount < 50) {
-    rank = 'Base Explorer';
-  } else if (txCount < 100) {
-    rank = 'Base DeFi Kid';
-  } else if (txCount < 500) {
-    rank = 'Base OG';
-  } else {
-    rank = 'Base Legend';
   }
 
   // Animation variants for staggered animations
