@@ -131,7 +131,7 @@ export default function AnalyticsPage() {
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
       <Head>
-        <title>Gas  | {displayAddress}</title>
+        <title>Gas Tracker | {displayAddress}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       
