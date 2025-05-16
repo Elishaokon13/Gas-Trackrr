@@ -161,6 +161,12 @@ export default function AnalyticsPage() {
                 </div>
               </div>
             )}
+            {/* Show BaseName if found and user entered an address */}
+            {walletData.baseName && walletData.baseName.endsWith('.base.eth') && walletData.baseName !== displayAddress && (
+              <div className="mt-2 text-base-blue font-pixel text-sm">
+                BaseName: <span className="text-white">{walletData.baseName}</span>
+              </div>
+            )}
           </div>
         </motion.div>
         
