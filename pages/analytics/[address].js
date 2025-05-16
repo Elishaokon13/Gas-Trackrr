@@ -326,6 +326,9 @@ export default function AnalyticsPage() {
               </p>
               <p className="text-sm text-gray-400">
                 Current ETH price: ${walletData.ethPrice?.toFixed(2) || "N/A"}
+                {walletData.ethPrice && Number(walletData.ethPrice) === 3000 && (
+                  <span className="text-red-400 ml-2">(Not live - using fallback)</span>
+                )}
               </p>
             </div>
           </motion.div>
