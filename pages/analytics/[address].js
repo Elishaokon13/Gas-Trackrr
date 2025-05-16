@@ -189,6 +189,7 @@ export default function AnalyticsPage() {
               </p>
             </div>
           </motion.div>
+          
           {/* Gas Card */}
           <motion.div variants={itemVariants} className="glass-card p-6 md:p-8 sm:col-span-2">
             <div className="text-center">
