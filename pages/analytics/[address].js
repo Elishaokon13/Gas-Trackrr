@@ -103,6 +103,15 @@ export default function AnalyticsPage() {
 
   // Format the wallet address for display
   const displayAddress = walletData.baseName || `${walletData.address.slice(0, 6)}...${walletData.address.slice(-4)}`;
+  let pageTitle = 'Based Baby';
+  if (walletData.baseName && walletData.baseName.endsWith('.base.eth')) {
+    const namePart = walletData.baseName.replace(/\.base\.eth$/, '');
+    pageTitle = `Based ${namePart}`;
+  } else if (walletData.baseName) {
+    pageTitle = `Based ${walletData.baseName}`;
+  } else {
+    pageTitle = `Based ${walletData.address.slice(0, 6)}`;
+  }
   const rank = walletData.transactionCount > 100 ? "Based Baby" : walletData.transactionCount > 50 ? "Base Beginner" : "Base Newbie";
 
   // Animation variants for staggered animations
@@ -127,7 +136,7 @@ export default function AnalyticsPage() {
       svgOptions={{ duration: 15 }}
     >
       <Head>
-        <title>Based Baby | {displayAddress}</title>
+        <title>{pageTitle}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       
