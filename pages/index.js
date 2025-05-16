@@ -42,19 +42,19 @@ export default function Home() {
       {/* Particle background */}
       <ParticleBackground />
       
-      <div className="w-full max-w-md p-4 relative z-10">
+      <main className="w-full max-w-md sm:max-w-lg px-4 relative z-10">
         <motion.div 
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
           className="w-full flex flex-col items-center justify-center"
         >
-          <div className="text-center mb-6">
+          <div className="text-center mb-8">
             <motion.h1 
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-4xl sm:text-5xl font-pixel text-white mb-4 tracking-wider"
+              className="text-4xl sm:text-5xl font-pixel text-white mb-4 tracking-wider text-gradient animate-float"
             >
               Based Baby
             </motion.h1>
@@ -62,9 +62,9 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className="text-base text-gray-400 max-w-xs mx-auto"
+              className="text-base text-gray-300 max-w-xs mx-auto"
             >
-              See your transaction count and gas on Base Wrapped
+              View your transaction data on Base in style
             </motion.p>
           </div>
           
@@ -73,11 +73,11 @@ export default function Home() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.6 }}
             onSubmit={handleSubmit} 
-            className="w-full bg-gray-900/50 backdrop-blur-sm rounded-lg p-6 shadow-lg border border-gray-800"
+            className="w-full glass-card p-8"
           >
-            <div className="mb-4">
-              <label htmlFor="wallet-address" className="block text-white font-pixel text-sm mb-2">
-                ENTER WALLET ADDRESS:
+            <div className="mb-6">
+              <label htmlFor="wallet-address" className="block text-white font-pixel text-sm mb-3 text-gradient">
+                ENTER WALLET ADDRESS
               </label>
               <input
                 id="wallet-address"
@@ -85,53 +85,53 @@ export default function Home() {
                 value={walletAddress}
                 onChange={(e) => setWalletAddress(e.target.value)}
                 placeholder="0x..."
-                className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-base-blue"
+                className="w-full p-4 bg-black/50 border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-base-blue transition-all duration-300"
               />
             </div>
             
             {error && (
-              <p className="text-red-500 text-xs mb-4">{error}</p>
+              <motion.p 
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-red-500 text-xs mb-4"
+              >
+                {error}
+              </motion.p>
             )}
             
-            <button
+            <motion.button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 px-4 bg-base-blue hover:bg-blue-700 text-white font-pixel text-sm rounded-lg transition duration-300 flex items-center justify-center"
+              className="w-full py-4 px-6 bg-base-blue hover:bg-blue-700 text-white font-pixel text-sm rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-blue-900/20"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
               {isLoading ? (
                 <span className="inline-block animate-spin mr-2">↻</span>
               ) : (
                 'GET YOUR WRAPPED'
               )}
-            </button>
+            </motion.button>
           </motion.form>
           
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 0.5 }}
-            className="mt-6 text-center text-gray-500 text-sm"
+            className="mt-8 text-center"
           >
-            <p>
-              View your Base onchain activity in <span className="font-pixel text-base-blue">2024</span>
+            <p className="text-sm text-gray-400">
+              View your onchain activity on <span className="font-pixel text-base-blue">Base</span>
+            </p>
+            <p className="text-xs text-gray-500 mt-2">
+              Powered by Basescan API • {new Date().getFullYear()}
             </p>
           </motion.div>
         </motion.div>
-      </div>
+      </main>
       
-      {/* Decorative elements */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 0.8 }}
-        className="absolute bottom-0 w-full h-20 bg-base-blue/20 backdrop-blur-sm"
-      >
-        <div className="w-full h-full flex items-center justify-center">
-          <span className="font-pixel text-xl text-white mx-4">2023</span>
-          <span className="text-yellow-300 text-2xl">✨</span>
-          <span className="font-pixel text-xl text-white mx-4">2024</span>
-        </div>
-      </motion.div>
+      {/* Decorative glow effect */}
+      <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-base-blue/10 to-transparent"></div>
     </div>
   );
 } 
