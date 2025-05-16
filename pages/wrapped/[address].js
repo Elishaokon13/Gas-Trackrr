@@ -11,6 +11,7 @@ const slides = [
   'welcome',
   'transactions',
   'gas',
+  'gas-expenses',
   'protocols',
   'nfts',
   'busiest-month',
@@ -159,6 +160,70 @@ export default function WrappedPage() {
               label="efficient enough to stay Based and keep moving fast!"
               custom={3}
             />
+          </Slide>
+        );
+      
+      case 'gas-expenses':
+        // Function to download CSV
+        const downloadGasExpenseCSV = () => {
+          // Create a CSV blob
+          const blob = new Blob([wrappedData.gasExpenses.csv], { type: 'text/csv;charset=utf-8;' });
+          const url = URL.createObjectURL(blob);
+          
+          // Create a link to download it
+          const link = document.createElement('a');
+          link.setAttribute('href', url);
+          link.setAttribute('download', `base_gas_expenses_${wrappedData.address.slice(0, 6)}.csv`);
+          link.style.visibility = 'hidden';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        };
+        
+        return (
+          <Slide onNext={handleNextSlide}>
+            <SlideHeading>Gas Expenses</SlideHeading>
+            <SlideParagraph>
+              Monthly breakdown of your gas expenses
+            </SlideParagraph>
+            
+            <div className="w-full max-h-[40vh] overflow-y-auto px-2 flex flex-col items-center space-y-2 pb-16 sm:pb-20">
+              <table className="w-full max-w-sm text-white font-mono text-xs sm:text-sm">
+                <thead className="text-base-blue">
+                  <tr>
+                    <th className="text-left py-2">Month</th>
+                    <th className="text-right py-2">ETH</th>
+                    <th className="text-right py-2">USD</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {wrappedData.gasExpenses.monthlyGasExpenses.map(expense => (
+                    parseFloat(expense.ethCost) > 0 ? (
+                      <tr key={expense.month} className="border-t border-white/10">
+                        <td className="py-2">{expense.monthName}</td>
+                        <td className="text-right py-2">{parseFloat(expense.ethCost).toFixed(4)}</td>
+                        <td className="text-right py-2">${expense.usdCost}</td>
+                      </tr>
+                    ) : null
+                  ))}
+                  <tr className="border-t border-white/20 font-bold text-base-blue">
+                    <td className="py-2">Total</td>
+                    <td className="text-right py-2">{parseFloat(wrappedData.gasExpenses.totalGasEth).toFixed(4)}</td>
+                    <td className="text-right py-2">${wrappedData.gasExpenses.totalGasUsd}</td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              <button 
+                onClick={downloadGasExpenseCSV}
+                className="mt-4 bg-base-blue/80 hover:bg-base-blue px-4 py-2 rounded text-white font-pixel text-xs sm:text-sm flex items-center"
+              >
+                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Export CSV
+              </button>
+            </div>
           </Slide>
         );
       
