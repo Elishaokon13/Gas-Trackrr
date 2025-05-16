@@ -1,164 +1,372 @@
-import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { getTransactionCount, calculateGasSpent, calculateVolume } from '../../lib/blockchain';
+import Head from 'next/head';
+import { motion } from 'framer-motion';
+import { getWrappedData } from '../../lib/blockchain';
+import ParticleBackground from '../../components/ParticleBackground';
+import BlueWave from '../../components/BlueWave';
+import Slide, { SlideHeading, StatDisplay, SlideParagraph } from '../../components/Slide';
 
-export default function Wrapped() {
+const slides = [
+  'welcome',
+  'transactions',
+  'gas',
+  'gas-expenses',
+  'protocols',
+  'nfts',
+  'busiest-month',
+  'summary'
+];
+
+export default function WrappedPage() {
   const router = useRouter();
   const { address } = router.query;
-  const [data, setData] = useState(null);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const [wrappedData, setWrappedData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(null);
 
+  // Handle next slide navigation
+  const handleNextSlide = () => {
+    if (currentSlideIndex < slides.length - 1) {
+      setCurrentSlideIndex(currentSlideIndex + 1);
+    }
+  };
+
+  // Fetch the wrapped data when address is available
   useEffect(() => {
     if (!address) return;
 
-    const fetchData = async () => {
+    async function fetchData() {
       try {
         setLoading(true);
-        setError('');
-
-        // Fetch data sequentially to better handle errors
-        const txCount = await getTransactionCount(address);
-        const gasSpent = await calculateGasSpent(address);
-        const volume = await calculateVolume(address);
-
-        setData({
-          txCount,
-          gasSpent,
-          volume
-        });
+        setError(null);
+        
+        // Use real blockchain data instead of mock data
+        console.log(`Fetching data for address: ${address}`);
+        const data = await getWrappedData(address);
+        console.log('Fetched data:', data);
+        
+        setWrappedData(data);
       } catch (err) {
-        console.error('Error fetching data:', err);
-        let errorMessage = 'Failed to fetch wallet data. ';
-        
-        if (err.message.includes('API key')) {
-          errorMessage += 'API key is not configured. Please check your environment variables.';
-        } else if (err.message.includes('timeout')) {
-          errorMessage += 'Request timed out. Please try again.';
-        } else if (err.message.includes('NOTOK')) {
-          errorMessage += 'API error: ' + err.message;
-        } else {
-          errorMessage += 'Please try again.';
-        }
-        
-        setError(errorMessage);
+        console.error('Error fetching wrapped data:', err);
+        setError('Failed to load your Base activity. Please try again.');
       } finally {
         setLoading(false);
       }
-    };
+    }
 
     fetchData();
   }, [address]);
 
+  // Show loading state
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-blue-900 flex items-center justify-center">
-        <div className="text-center">
-          <div className="text-white text-xl mb-4">Loading wallet data...</div>
-          <div className="w-8 h-8 border-t-2 border-blue-500 border-solid rounded-full animate-spin mx-auto"></div>
+      <div className="min-h-screen flex items-center justify-center">
+        <Head>
+          <title>Loading | Base Wrapped</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        </Head>
+        <div className="app-container">
+          <ParticleBackground />
+          <div className="h-full flex flex-col items-center justify-center">
+            <div className="text-center px-4">
+              <h1 className="text-xl sm:text-2xl font-pixel text-white mb-2 sm:mb-3">Loading Your Base Wrapped</h1>
+              <p className="text-white/70 font-mono text-xs sm:text-sm">Analyzing your on-chain activity...</p>
+              <div className="mt-3 sm:mt-5 w-8 h-8 sm:w-10 sm:h-10 border-t-2 sm:border-t-3 border-blue-500 border-solid rounded-full animate-spin mx-auto"></div>
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 
+  // Show error state
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-blue-900 flex items-center justify-center">
-        <div className="max-w-md mx-auto p-8 text-center">
-          <div className="text-red-400 text-xl mb-4">{error}</div>
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => router.push('/')}
-            className="px-6 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium hover:from-blue-600 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"
-          >
-            Try Another Address
-          </motion.button>
+      <div className="min-h-screen flex items-center justify-center">
+        <Head>
+          <title>Error | Base Wrapped</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        </Head>
+        <div className="app-container">
+          <ParticleBackground />
+          <div className="h-full flex flex-col items-center justify-center">
+            <div className="text-center max-w-xs mx-auto px-4">
+              <h1 className="text-xl sm:text-2xl font-pixel text-white mb-2 sm:mb-3">Oops!</h1>
+              <p className="text-white/70 font-mono text-xs sm:text-sm mb-3 sm:mb-5">{error}</p>
+              <button
+                onClick={() => router.push('/')}
+                className="font-pixel text-xs sm:text-sm text-white bg-base-blue px-4 py-2 sm:px-5 sm:py-2 rounded-full shadow-lg hover:bg-blue-700 transition-colors"
+              >
+                Try Again
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 
-  if (!data) return null;
+  // No data available
+  if (!wrappedData) {
+    return null;
+  }
+
+  // Render the current slide
+  const renderSlide = () => {
+    const currentSlide = slides[currentSlideIndex];
+
+    switch (currentSlide) {
+      case 'welcome':
+        return (
+          <Slide onNext={handleNextSlide}>
+            <SlideHeading>Based Baby</SlideHeading>
+            <SlideParagraph>
+              Let's explore your journey on Base in 2024
+            </SlideParagraph>
+            <StatDisplay
+              value={wrappedData.address.slice(0, 6) + '...' + wrappedData.address.slice(-4)}
+              label="Your wallet"
+              custom={3}
+            />
+          </Slide>
+        );
+      
+      case 'transactions':
+        return (
+          <Slide onNext={handleNextSlide}>
+            <SlideHeading>{wrappedData.transactionCount}</SlideHeading>
+            <SlideParagraph>
+              Total Transactions on Base
+            </SlideParagraph>
+            <StatDisplay
+              value="Txns"
+              label="just dipping your toes into the Based waters"
+              custom={3}
+            />
+          </Slide>
+        );
+      
+      case 'gas':
+        return (
+          <Slide onNext={handleNextSlide}>
+            <SlideHeading>{wrappedData.gasMetrics.gasCostEth} ETH</SlideHeading>
+            <SlideParagraph>
+              Total Gas Spent in 2024
+            </SlideParagraph>
+            <StatDisplay
+              value="on Gas"
+              label="efficient enough to stay Based and keep moving fast!"
+              custom={3}
+            />
+          </Slide>
+        );
+      
+      case 'gas-expenses':
+        // Function to download CSV
+        const downloadGasExpenseCSV = () => {
+          // Create a CSV blob
+          const blob = new Blob([wrappedData.gasExpenses.csv], { type: 'text/csv;charset=utf-8;' });
+          const url = URL.createObjectURL(blob);
+          
+          // Create a link to download it
+          const link = document.createElement('a');
+          link.setAttribute('href', url);
+          link.setAttribute('download', `base_gas_expenses_${wrappedData.address.slice(0, 6)}.csv`);
+          link.style.visibility = 'hidden';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        };
+        
+        return (
+          <Slide onNext={handleNextSlide}>
+            <SlideHeading>Gas Expenses</SlideHeading>
+            <SlideParagraph>
+              Monthly breakdown of your gas expenses
+            </SlideParagraph>
+            
+            <div className="w-full max-h-[40vh] overflow-y-auto px-2 flex flex-col items-center space-y-2 pb-16 sm:pb-20">
+              <table className="w-full max-w-sm text-white font-mono text-xs sm:text-sm">
+                <thead className="text-base-blue">
+                  <tr>
+                    <th className="text-left py-2">Month</th>
+                    <th className="text-right py-2">ETH</th>
+                    <th className="text-right py-2">USD</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {wrappedData.gasExpenses.monthlyGasExpenses.map(expense => (
+                    parseFloat(expense.ethCost) > 0 ? (
+                      <tr key={expense.month} className="border-t border-white/10">
+                        <td className="py-2">{expense.monthName}</td>
+                        <td className="text-right py-2">{parseFloat(expense.ethCost).toFixed(4)}</td>
+                        <td className="text-right py-2">${expense.usdCost}</td>
+                      </tr>
+                    ) : null
+                  ))}
+                  <tr className="border-t border-white/20 font-bold text-base-blue">
+                    <td className="py-2">Total</td>
+                    <td className="text-right py-2">{parseFloat(wrappedData.gasExpenses.totalGasEth).toFixed(4)}</td>
+                    <td className="text-right py-2">${wrappedData.gasExpenses.totalGasUsd}</td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              <button 
+                onClick={downloadGasExpenseCSV}
+                className="mt-4 bg-base-blue/80 hover:bg-base-blue px-4 py-2 rounded text-white font-pixel text-xs sm:text-sm flex items-center"
+              >
+                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Export CSV
+              </button>
+            </div>
+          </Slide>
+        );
+      
+      case 'protocols':
+        return (
+          <Slide onNext={handleNextSlide}>
+            <SlideHeading>Top Protocols</SlideHeading>
+            <SlideParagraph>
+              Your favorite places on Base
+            </SlideParagraph>
+            <div className="w-full max-h-[40vh] overflow-y-auto px-2 flex flex-col items-center space-y-2 pb-16 sm:pb-20">
+              {wrappedData.protocolInteractions.length > 0 ? (
+                wrappedData.protocolInteractions.map((protocol, index) => (
+                  <StatDisplay
+                    key={protocol.address}
+                    value={protocol.name}
+                    label={`${protocol.count} interactions`}
+                    custom={index + 2}
+                  />
+                ))
+              ) : (
+                <StatDisplay
+                  value="No protocols found"
+                  label="Try interacting with some Base protocols"
+                  custom={2}
+                />
+              )}
+            </div>
+          </Slide>
+        );
+      
+      case 'nfts':
+        return (
+          <Slide onNext={handleNextSlide}>
+            <SlideHeading>{wrappedData.nftActivity.nftsMinted} NFTs</SlideHeading>
+            <SlideParagraph>
+              Minted in 2024
+            </SlideParagraph>
+            <StatDisplay
+              value="Minted"
+              label="your collection's growing faster than gas spikes during a bull run"
+              custom={3}
+            />
+            {wrappedData.nftActivity.zoraRewards !== '0' && (
+              <StatDisplay
+                value={`${wrappedData.nftActivity.zoraRewards} ETH`}
+                label="earned in Zora rewards"
+                custom={4}
+              />
+            )}
+          </Slide>
+        );
+      
+      case 'busiest-month':
+        return (
+          <Slide onNext={handleNextSlide}>
+            <SlideHeading>{wrappedData.monthlyActivity.busiestMonthName}</SlideHeading>
+            <SlideParagraph>
+              Your busiest month on Base
+            </SlideParagraph>
+            <StatDisplay
+              value={`${wrappedData.monthlyActivity.busiestMonthCount} Transactions`}
+              label="your Base grind started to show some serious momentum!"
+              custom={3}
+            />
+          </Slide>
+        );
+      
+      case 'summary':
+        return (
+          <Slide isLast={true}>
+            <SlideHeading>Based Baby</SlideHeading>
+            <SlideParagraph>
+              Looks like Jesse Pollak can't keep up with your {wrappedData.transactionCount} transactions on Base Wrapped in 2024! With gas expenses of ${wrappedData.gasExpenses.totalGasUsd}, you're keeping the validators well-fed. Let's step up those onchain moves in 2025!
+            </SlideParagraph>
+            <div className="grid grid-cols-2 gap-2 sm:gap-3 w-full px-2 sm:px-3 mt-1 sm:mt-2">
+              <StatDisplay
+                value={`${wrappedData.transactionCount} Txns`}
+                label="just dipping your toes into the Based waters"
+                custom={3}
+              />
+              <StatDisplay
+                value={`${wrappedData.nftActivity.nftsMinted} NFTs`}
+                label="Minted"
+                custom={3.5}
+              />
+              <StatDisplay
+                value={wrappedData.monthlyActivity.busiestMonthName || "2024"}
+                label="your Base grind started to show some serious momentum!"
+                custom={4}
+              />
+              <StatDisplay
+                value={`$${wrappedData.gasExpenses.totalGasUsd}`}
+                label="spent on gas expenses in 2024"
+                custom={4.5}
+              />
+            </div>
+            <BlueWave />
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1, duration: 1 }}
+              className="absolute bottom-8 sm:bottom-14 w-full z-10 flex justify-center space-x-2"
+            >
+              <button
+                onClick={() => router.push('/')}
+                className="font-pixel text-xs sm:text-sm text-white bg-blue-700 px-4 py-1.5 sm:px-5 sm:py-2 rounded-full shadow-lg hover:bg-blue-800 transition-colors"
+              >
+                Try Another Wallet
+              </button>
+              <button 
+                onClick={() => {
+                  const blob = new Blob([wrappedData.gasExpenses.csv], { type: 'text/csv;charset=utf-8;' });
+                  const url = URL.createObjectURL(blob);
+                  const link = document.createElement('a');
+                  link.setAttribute('href', url);
+                  link.setAttribute('download', `base_gas_expenses_${wrappedData.address.slice(0, 6)}.csv`);
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                }}
+                className="font-pixel text-xs sm:text-sm text-white bg-green-700 px-4 py-1.5 sm:px-5 sm:py-2 rounded-full shadow-lg hover:bg-green-800 transition-colors"
+              >
+                Export Expenses
+              </button>
+            </motion.div>
+          </Slide>
+        );
+      
+      default:
+        return null;
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-blue-900">
-      <div className="container mx-auto px-4 py-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="max-w-4xl mx-auto space-y-8"
-        >
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
-              Base Analytics
-            </h1>
-            <p className="mt-4 text-gray-300 text-sm md:text-base">
-              {address}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 }}
-              className="backdrop-blur-lg bg-white/10 rounded-2xl p-8 shadow-xl"
-            >
-              <h2 className="text-2xl font-bold text-white mb-4">Transactions</h2>
-              <div className="text-4xl font-bold text-blue-400">
-                {data.txCount.toLocaleString()}
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3 }}
-              className="backdrop-blur-lg bg-white/10 rounded-2xl p-8 shadow-xl"
-            >
-              <h2 className="text-2xl font-bold text-white mb-4">Gas Spent</h2>
-              <div className="text-4xl font-bold text-purple-400">
-                {data.gasSpent.toFixed(4)} ETH
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4 }}
-              className="backdrop-blur-lg bg-white/10 rounded-2xl p-8 shadow-xl"
-            >
-              <h2 className="text-2xl font-bold text-white mb-4">Incoming Volume</h2>
-              <div className="text-4xl font-bold text-green-400">
-                {data.volume.incoming.toFixed(4)} ETH
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.5 }}
-              className="backdrop-blur-lg bg-white/10 rounded-2xl p-8 shadow-xl"
-            >
-              <h2 className="text-2xl font-bold text-white mb-4">Outgoing Volume</h2>
-              <div className="text-4xl font-bold text-red-400">
-                {data.volume.outgoing.toFixed(4)} ETH
-              </div>
-            </motion.div>
-          </div>
-
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => router.push('/')}
-            className="mt-8 w-full py-3 px-6 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium hover:from-blue-600 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"
-          >
-            Check Another Address
-          </motion.button>
-        </motion.div>
+    <div className="min-h-screen flex items-center justify-center">
+      <Head>
+        <title>Your Base Wrapped | 2024 Review</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+      </Head>
+      <div className="app-container">
+        <ParticleBackground />
+        {renderSlide()}
       </div>
     </div>
   );
