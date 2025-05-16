@@ -206,9 +206,9 @@ export default function AnalyticsPage() {
             className="bg-black/30 backdrop-blur-sm rounded-lg p-6 border border-gray-800"
           >
             <div className="text-center">
-              <h2 className="font-pixel text-4xl md:text-5xl mb-2">
+              {/* <h2 className="font-pixel text-4xl md:text-5xl mb-2">
                 {parseFloat(walletData.gasSpent.ethAmount).toFixed(2)} eth
-              </h2>
+              </h2> */}
               <p className="font-pixel text-xl md:text-2xl mb-2 text-green-400">
                 ${walletData.gasSpent.usdAmount}
               </p>
