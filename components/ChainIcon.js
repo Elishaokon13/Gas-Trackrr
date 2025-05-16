@@ -1,19 +1,21 @@
 import React from 'react';
 
 export default function ChainIcon({ chain, size = 20 }) {
-  if (chain === 'base') {
+  // Map chain to logo filename
+  const logoMap = {
+    base: '/logos/base.svg',
+    optimism: '/logos/optimism.svg',
+    ethereum: '/logos/ethereum.svg',
+  };
+  if (logoMap[chain]) {
     return (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#0052FF" /><text x="12" y="16" textAnchor="middle" fontSize="10" fill="#fff">BASE</text></svg>
-    );
-  }
-  if (chain === 'optimism') {
-    return (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#FF0420" /><text x="12" y="16" textAnchor="middle" fontSize="10" fill="#fff">OP</text></svg>
-    );
-  }
-  if (chain === 'ethereum') {
-    return (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#7c3aed" /><text x="12" y="16" textAnchor="middle" fontSize="10" fill="#fff">ETH</text></svg>
+      <img
+        src={logoMap[chain]}
+        alt={`${chain} logo`}
+        width={size}
+        height={size}
+        style={{ display: 'inline-block', verticalAlign: 'middle' }}
+      />
     );
   }
   if (chain === 'assetchain') {
