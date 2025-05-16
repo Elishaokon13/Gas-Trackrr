@@ -367,6 +367,7 @@ export default function AnalyticsPage() {
         </motion.div>
         
         {/* Historical Balance Chart */}
+        {/*
         <div className="mt-12">
           <h2 className="font-pixel text-2xl mb-4 text-gradient text-center">Portfolio Value (USD, 30d)</h2>
           {historyLoading ? (
@@ -391,6 +392,7 @@ export default function AnalyticsPage() {
             </ResponsiveContainer>
           )}
         </div>
+        */}
         
         {/* Bottom Action Button */}
         <motion.div
