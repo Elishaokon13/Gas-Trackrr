@@ -127,17 +127,19 @@ export default function Home() {
               <label htmlFor="wallet-address" className="block text-white font-pixel text-sm mb-3 text-gradient">
                 ENTER WALLET OR NAME
               </label>
-              <span className="absolute left-4 top-1/2 -translate-y-1/2">
-                <ChainIcon chain={selectedChain} size={20} />
-              </span>
-              <input
-                id="wallet-address"
-                type="text"
-                value={walletAddress}
-                onChange={(e) => setWalletAddress(e.target.value)}
-                placeholder={getPlaceholder()}
-                className="w-full p-4 pl-12 bg-black/50 border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-base-blue transition-all duration-300"
-              />
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 transform -translate-y-1/2 flex items-center justify-center h-6 w-6">
+                  <ChainIcon chain={selectedChain} size={20} />
+                </span>
+                <input
+                  id="wallet-address"
+                  type="text"
+                  value={walletAddress}
+                  onChange={(e) => setWalletAddress(e.target.value)}
+                  placeholder={getPlaceholder()}
+                  className="w-full p-4 pl-12 bg-black/50 border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-base-blue transition-all duration-300"
+                />
+              </div>
             </div>
             
             {error && (
