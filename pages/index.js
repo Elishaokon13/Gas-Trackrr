@@ -126,9 +126,9 @@ export default function Home() {
               <label htmlFor="wallet-address" className="block text-white font-pixel text-sm mb-3 text-gradient">
                 ENTER WALLET OR NAME
               </label>
-              <span className="absolute left-4 top-1/2 -translate-y-1/2">
+              {/* <span className="absolute left-4 top-1/2 -translate-y-1/2">
                 <ChainIcon chain={selectedChain} size={20} />
-              </span>
+              </span> */}
               <input
                 id="wallet-address"
                 type="text"
