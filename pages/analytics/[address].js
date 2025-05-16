@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { motion } from 'framer-motion';
 import { getWalletData } from '../../lib/blockchain';
 import { BackgroundLines } from '../../components/BackgroundLines';
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend, CartesianGrid } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend, CartesianGrid, AreaChart, Area } from 'recharts';
 
 export default function AnalyticsPage() {
   const router = useRouter();
@@ -368,22 +368,26 @@ export default function AnalyticsPage() {
         
         {/* Historical Balance Chart */}
         <div className="mt-12">
-          <h2 className="font-pixel text-2xl mb-4 text-gradient text-center">Historical Balances (30d)</h2>
+          <h2 className="font-pixel text-2xl mb-4 text-gradient text-center">Portfolio Value (USD, 30d)</h2>
           {historyLoading ? (
             <div className="text-center text-gray-400">Loading chart...</div>
           ) : historyError ? (
             <div className="text-center text-red-400">{historyError}</div>
           ) : (
             <ResponsiveContainer width="100%" height={320}>
-              <LineChart data={history} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
+              <AreaChart data={history} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="usdGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#a78bfa" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#6366f1" stopOpacity={0.2}/>
+                  </linearGradient>
+                </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="#2226" />
-                <XAxis dataKey="date" tick={{ fontFamily: 'monospace', fontSize: 12 }} />
-                <YAxis tick={{ fontFamily: 'monospace', fontSize: 12 }} />
-                <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey="eth" stroke="#facc15" name="ETH" dot={false} strokeWidth={2} />
-                <Line type="monotone" dataKey="usdc" stroke="#60a5fa" name="USDC" dot={false} strokeWidth={2} />
-              </LineChart>
+                <XAxis dataKey="date" tick={{ fontFamily: 'monospace', fontSize: 12, fill: '#a3e635' }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fontFamily: 'monospace', fontSize: 12, fill: '#a3e635' }} axisLine={false} tickLine={false} domain={['auto', 'auto']} />
+                <Tooltip contentStyle={{ background: '#18181b', border: 'none', borderRadius: 8, color: '#fff' }} labelStyle={{ color: '#a3e635' }} />
+                <Area type="monotone" dataKey="usd" stroke="#a78bfa" fillOpacity={1} fill="url(#usdGradient)" strokeWidth={3} name="Portfolio USD" />
+              </AreaChart>
             </ResponsiveContainer>
           )}
         </div>
