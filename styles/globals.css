@@ -23,20 +23,21 @@ body {
   overscroll-behavior: none;
 }
 
-/* Mobile-only app container */
+/* Mobile app container - fully responsive */
 .app-container {
   width: 100%;
-  max-width: 390px;
+  max-width: 100%;
+  height: 100vh;
   margin: 0 auto;
   position: relative;
-  height: 100vh;
   overflow: hidden;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
 }
 
-/* Simulated phone frame for desktop */
+/* Apply phone frame only on tablet and larger screens */
 @media (min-width: 640px) {
   .app-container {
+    max-width: 390px;
     margin-top: 20px;
     margin-bottom: 20px;
     height: calc(100vh - 40px);
@@ -46,7 +47,7 @@ body {
 }
 
 .slide-container {
-  @apply w-full h-full flex flex-col items-center justify-center overflow-hidden;
+  @apply w-full h-full flex flex-col items-center justify-center overflow-hidden p-4;
 }
 
 .pixel-text {
@@ -54,17 +55,31 @@ body {
 }
 
 .stat-card {
-  @apply bg-black/30 backdrop-blur-md rounded-xl p-4 md:p-5 shadow-lg border border-white/10;
-  width: 85%;
+  @apply bg-black/30 backdrop-blur-md rounded-xl p-3 md:p-5 shadow-lg border border-white/10;
+  width: 90%;
   max-width: 300px;
   margin-left: auto;
   margin-right: auto;
 }
 
 .stat-value {
-  @apply font-pixel text-3xl md:text-4xl text-white my-3;
+  @apply font-pixel text-2xl sm:text-3xl md:text-4xl text-white my-2 sm:my-3;
 }
 
 .stat-label {
-  @apply font-mono text-sm md:text-base text-white/70;
+  @apply font-mono text-xs sm:text-sm md:text-base text-white/70;
+}
+
+/* For very small mobile screens */
+@media (max-height: 600px) {
+  .slide-container {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    justify-content: flex-start;
+  }
+  
+  .stat-card {
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+  }
 } 
