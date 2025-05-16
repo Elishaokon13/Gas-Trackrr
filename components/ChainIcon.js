@@ -1,71 +1,35 @@
 import React from 'react';
 
-const ChainIcon = ({ chain, size = 24 }) => {
-  const getIconColor = () => {
-    switch (chain) {
-      case 'base':
-        return '#0052FF';
-      case 'optimism':
-        return '#FF0420';
-      case 'ethereum':
-        return '#627EEA';
-      default:
-        return '#0052FF';
-    }
-  };
-
-  const getIconPath = () => {
-    switch (chain) {
-      case 'base':
-        return (
-          <path
-            d="M12 2L2 7L12 12L22 7L12 2Z"
-            fill={getIconColor()}
-            stroke={getIconColor()}
-            strokeWidth="1"
-          />
-        );
-      case 'optimism':
-        return (
-          <path
-            d="M12 2L2 7L12 12L22 7L12 2Z"
-            fill={getIconColor()}
-            stroke={getIconColor()}
-            strokeWidth="1"
-          />
-        );
-      case 'ethereum':
-        return (
-          <path
-            d="M12 2L2 7L12 12L22 7L12 2Z"
-            fill={getIconColor()}
-            stroke={getIconColor()}
-            strokeWidth="1"
-          />
-        );
-      default:
-        return (
-          <path
-            d="M12 2L2 7L12 12L22 7L12 2Z"
-            fill={getIconColor()}
-            stroke={getIconColor()}
-            strokeWidth="1"
-          />
-        );
-    }
-  };
-
+export default function ChainIcon({ chain, size = 20 }) {
+  if (chain === 'base') {
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#0052FF" /><text x="12" y="16" textAnchor="middle" fontSize="10" fill="#fff">BASE</text></svg>
+    );
+  }
+  if (chain === 'optimism') {
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#FF0420" /><text x="12" y="16" textAnchor="middle" fontSize="10" fill="#fff">OP</text></svg>
+    );
+  }
+  if (chain === 'ethereum') {
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#7c3aed" /><text x="12" y="16" textAnchor="middle" fontSize="10" fill="#fff">ETH</text></svg>
+    );
+  }
+  if (chain === 'assetchain') {
+    // Green chain/asset icon
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="10" fill="#22c55e" />
+        <g>
+          <rect x="7" y="11" width="10" height="2" rx="1" fill="#fff" />
+          <rect x="11" y="7" width="2" height="10" rx="1" fill="#fff" />
+        </g>
+      </svg>
+    );
+  }
+  // Default icon
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      {getIconPath()}
-    </svg>
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#888" /></svg>
   );
-};
-
-export default ChainIcon; 
+} 
