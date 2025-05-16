@@ -17,6 +17,7 @@ A Spotify Wrapped-style year-in-review analytics dashboard for Base blockchain a
 - **TailwindCSS**: For styling and responsive design
 - **ethers.js**: For interacting with the Base blockchain
 - **react-tsparticles**: For particle background effects
+- **Zerion API**: For comprehensive blockchain data (recommended)
 
 ## Getting Started
 
@@ -44,14 +45,13 @@ Create a `.env.local` file in the root directory with the following variables:
 # Base RPC URL - Default is the public endpoint
 NEXT_PUBLIC_BASE_RPC_URL=https://mainnet.base.org
 
-# Optional - If you want to use a paid API provider for better performance
+# RECOMMENDED: Zerion API Key for comprehensive blockchain data
+NEXT_PUBLIC_ZERION_API_KEY=your_zerion_api_key
+
+# Optional - Alternative API providers if you don't use Zerion
 # NEXT_PUBLIC_ALCHEMY_API_KEY=your_alchemy_key_here
 # NEXT_PUBLIC_INFURA_API_KEY=your_infura_key_here
-
-# NFT data API key (for real NFT data instead of mock)
 # NEXT_PUBLIC_SIMPLEHASH_API_KEY=your_simplehash_key
-
-# CoinGecko API key (for better rate limits on price data)
 # NEXT_PUBLIC_COINGECKO_API_KEY=your_coingecko_key
 ```
 
@@ -64,17 +64,23 @@ npm run dev
 
 ## Using API Providers for Better Data
 
-### RPC Providers
-The app uses public RPC endpoints by default, but for better performance and reliability, you can use:
+### Recommended: Zerion API (Most Complete Solution)
+The app now primarily uses Zerion API for the most comprehensive and accurate data:
+- [Zerion Developer API](https://developers.zerion.io/) - Sign up for an API key
+- Provides accurate protocol detection, transaction history, NFT data, and more
+- Handles all Base blockchain data needs through a single API
+- Format: Basic Auth key provided from Zerion dashboard
+
+### Alternative Providers
+
+#### RPC Providers (for blockchain interactions)
 - [Alchemy](https://www.alchemy.com/) - Create an account and get an API key for Base
 - [Infura](https://infura.io/) - Create an account and set up a Base endpoint
 
-### NFT Data
-For real NFT data (instead of mock data):
+#### NFT Data (if not using Zerion)
 - [SimpleHash](https://simplehash.com/) - Offers a free tier that works well for this application
 
-### Price Data
-For more reliable price data and higher rate limits:
+#### Price Data
 - [CoinGecko Pro](https://www.coingecko.com/en/api/pricing) - The free API works but has rate limits
 
 ## Usage
@@ -87,7 +93,7 @@ For more reliable price data and higher rate limits:
 
 This is a prototype version with some limitations:
 
-- Uses a simplified approach to fetch transaction history
+- Uses a simplified approach to fetch transaction history when API keys aren't provided
 - Limited to recent transactions due to RPC limitations
 - Default values used for certain metrics when data is unavailable
 
