@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { getWalletData } from '../../lib/blockchain';
 import { BackgroundLines } from '../../components/BackgroundLines';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend, CartesianGrid, AreaChart, Area } from 'recharts';
+import ChainIcon from '../../components/ChainIcon';
 
 const CHAIN_OPTIONS = [
   { value: 'base', label: 'Base', color: 'bg-base-blue', accent: 'text-base-blue' },
@@ -48,6 +49,7 @@ export default function AnalyticsPage() {
   const [historyError, setHistoryError] = useState(null);
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().toLocaleString('default', { month: 'short' }).toUpperCase();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   // Fetch data when address or chain is available
   useEffect(() => {
@@ -207,15 +209,37 @@ export default function AnalyticsPage() {
       <div className="container mx-auto max-w-4xl px-4 py-8 md:py-12 relative z-10 content-container">
         {/* Chain Selector Dropdown */}
         <div className="flex justify-center mb-8">
-          <select
-            value={selectedChain}
-            onChange={e => setSelectedChain(e.target.value)}
-            className={`font-pixel text-lg rounded-lg px-4 py-2 border-2 border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 ${chainTheme.color} text-white`}
-          >
-            {CHAIN_OPTIONS.map(opt => (
-              <option key={opt.value} value={opt.value}>{opt.label}</option>
-            ))}
-          </select>
+          <div className="relative inline-block w-56">
+            <button
+              type="button"
+              className={`w-full flex items-center justify-between font-pixel text-lg rounded-lg px-4 py-2 border-2 border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 ${chainTheme.color} text-white shadow transition`}
+              onClick={() => setDropdownOpen(v => !v)}
+              aria-haspopup="listbox"
+              aria-expanded={dropdownOpen ? 'true' : 'false'}
+            >
+              <span className="flex items-center gap-2">
+                <ChainIcon chain={selectedChain} size={22} />
+                {CHAIN_OPTIONS.find(opt => opt.value === selectedChain)?.label}
+              </span>
+              <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
+            </button>
+            {dropdownOpen && (
+              <ul className="absolute z-10 mt-2 w-full bg-black border border-gray-700 rounded-lg shadow-lg">
+                {CHAIN_OPTIONS.map(opt => (
+                  <li
+                    key={opt.value}
+                    className={`flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-800 font-pixel text-lg ${opt.value === selectedChain ? 'bg-gray-900' : ''}`}
+                    onClick={() => { setSelectedChain(opt.value); setDropdownOpen(false); }}
+                    role="option"
+                    aria-selected={opt.value === selectedChain}
+                  >
+                    <ChainIcon chain={opt.value} size={20} />
+                    {opt.label}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
         <motion.div
           initial={{ y: -20, opacity: 0 }}
