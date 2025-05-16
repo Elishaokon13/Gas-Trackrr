@@ -182,7 +182,7 @@ export default function AnalyticsPage() {
           </motion.div>
           
           {/* Month/Year Card */}
-          <motion.div
+          {/* <motion.div
             initial={{ x: -50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 1.2, duration: 0.5 }}
@@ -199,7 +199,7 @@ export default function AnalyticsPage() {
                 your Base grind started to<br />show some serious momentum!
               </p>
             </div>
-          </motion.div>
+          </motion.div> */}
           
           {/* Gas Card */}
           <motion.div
