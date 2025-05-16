@@ -22,8 +22,8 @@ export default function Home() {
     setError('');
     
     try {
-      // We'll navigate directly for now, but you could do some validation here
-      router.push(`/wrapped/${walletAddress}`);
+      // Navigate to analytics page
+      router.push(`/analytics/${walletAddress}`);
     } catch (error) {
       console.error('Error:', error);
       setError('Something went wrong. Please try again.');
@@ -32,29 +32,29 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-black">
       <Head>
-        <title>Base Wrapped | Your Year on Base</title>
+        <title>Base Analytics | Wallet Analytics Dashboard</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       </Head>
       
-      <div className="app-container">
+      <div className="w-full max-w-md p-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="w-full h-full flex flex-col items-center justify-center p-4"
+          className="w-full flex flex-col items-center justify-center"
         >
-          <div className="text-center mb-4 sm:mb-6">
-            <h1 className="text-2xl sm:text-3xl font-pixel text-base-blue mb-2 sm:mb-3">Base Wrapped</h1>
-            <p className="text-base sm:text-lg font-mono text-white/80">
-              Your Year on Base
+          <div className="text-center mb-6">
+            <h1 className="text-3xl sm:text-4xl font-bold text-green-400 mb-3">Base Analytics</h1>
+            <p className="text-base sm:text-lg text-white/80">
+              Track your onchain activity on Base
             </p>
           </div>
           
-          <form onSubmit={handleSubmit} className="w-full max-w-xs bg-black/30 backdrop-blur-md rounded-xl p-4 sm:p-5 shadow-lg border border-white/10">
-            <div className="mb-3 sm:mb-4">
-              <label htmlFor="wallet-address" className="block font-mono text-white/80 text-xs sm:text-sm mb-1 sm:mb-2">
+          <form onSubmit={handleSubmit} className="w-full bg-gray-900 rounded-lg p-6 shadow-lg border border-gray-800">
+            <div className="mb-4">
+              <label htmlFor="wallet-address" className="block text-white/80 text-sm mb-2">
                 Enter your wallet address:
               </label>
               <input
@@ -63,30 +63,47 @@ export default function Home() {
                 value={walletAddress}
                 onChange={(e) => setWalletAddress(e.target.value)}
                 placeholder="0x..."
-                className="w-full p-2 sm:p-3 bg-black/50 border border-white/20 rounded-lg text-white font-mono text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-base-blue"
+                className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
               />
             </div>
             
             {error && (
-              <p className="text-red-500 font-mono text-xs mb-3 sm:mb-4">{error}</p>
+              <p className="text-red-500 text-xs mb-4">{error}</p>
             )}
             
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-2 sm:py-3 px-3 sm:px-4 bg-base-blue hover:bg-blue-700 text-white font-pixel text-xs sm:text-sm rounded-lg transition duration-300 flex items-center justify-center"
+              className="w-full py-3 px-4 bg-green-600 hover:bg-green-700 text-white font-medium text-sm rounded-lg transition duration-300 flex items-center justify-center"
             >
               {isLoading ? (
                 <span className="inline-block animate-spin mr-2">↻</span>
               ) : (
-                'View Your Wrapped'
+                'View Analytics'
               )}
             </button>
           </form>
           
-          <p className="text-center text-white/60 font-mono text-xs mt-3 sm:mt-4 px-2">
-            Explore your Base blockchain journey of 2024
-          </p>
+          <div className="mt-8 text-center">
+            <h2 className="text-xl text-white mb-4">Track Your Base Activity</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+              <div className="bg-gray-900 p-4 rounded-lg">
+                <div className="text-green-400 text-xl mb-2">📊</div>
+                <h3 className="font-medium text-white mb-1">Transaction Count</h3>
+                <p className="text-gray-400">See your total transactions on Base</p>
+              </div>
+              <div className="bg-gray-900 p-4 rounded-lg">
+                <div className="text-green-400 text-xl mb-2">⛽</div>
+                <h3 className="font-medium text-white mb-1">Gas Tracking</h3>
+                <p className="text-gray-400">Monitor your gas spending in ETH and USD</p>
+              </div>
+              <div className="bg-gray-900 p-4 rounded-lg">
+                <div className="text-green-400 text-xl mb-2">🏆</div>
+                <h3 className="font-medium text-white mb-1">Onchain Score</h3>
+                <p className="text-gray-400">Get your overall onchain activity score</p>
+              </div>
+            </div>
+          </div>
         </motion.div>
       </div>
     </div>
