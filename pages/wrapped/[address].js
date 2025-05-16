@@ -16,11 +16,12 @@ export default function Wrapped() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const [txCount, gasSpent, volume] = await Promise.all([
-          getTransactionCount(address),
-          calculateGasSpent(address),
-          calculateVolume(address)
-        ]);
+        setError('');
+
+        // Fetch data sequentially to better handle errors
+        const txCount = await getTransactionCount(address);
+        const gasSpent = await calculateGasSpent(address);
+        const volume = await calculateVolume(address);
 
         setData({
           txCount,
@@ -29,7 +30,19 @@ export default function Wrapped() {
         });
       } catch (err) {
         console.error('Error fetching data:', err);
-        setError('Failed to fetch wallet data. Please try again.');
+        let errorMessage = 'Failed to fetch wallet data. ';
+        
+        if (err.message.includes('API key')) {
+          errorMessage += 'API key is not configured. Please check your environment variables.';
+        } else if (err.message.includes('timeout')) {
+          errorMessage += 'Request timed out. Please try again.';
+        } else if (err.message.includes('NOTOK')) {
+          errorMessage += 'API error: ' + err.message;
+        } else {
+          errorMessage += 'Please try again.';
+        }
+        
+        setError(errorMessage);
       } finally {
         setLoading(false);
       }
@@ -41,7 +54,10 @@ export default function Wrapped() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-blue-900 flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
+        <div className="text-center">
+          <div className="text-white text-xl mb-4">Loading wallet data...</div>
+          <div className="w-8 h-8 border-t-2 border-blue-500 border-solid rounded-full animate-spin mx-auto"></div>
+        </div>
       </div>
     );
   }
@@ -49,7 +65,17 @@ export default function Wrapped() {
   if (error) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-blue-900 flex items-center justify-center">
-        <div className="text-red-400 text-xl">{error}</div>
+        <div className="max-w-md mx-auto p-8 text-center">
+          <div className="text-red-400 text-xl mb-4">{error}</div>
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => router.push('/')}
+            className="px-6 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium hover:from-blue-600 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+          >
+            Try Another Address
+          </motion.button>
+        </div>
       </div>
     );
   }
