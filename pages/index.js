@@ -3,32 +3,43 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { motion } from 'framer-motion';
 import { BackgroundLines } from '../components/BackgroundLines';
+import ChainIcon from '../components/ChainIcon';
+
+const CHAIN_OPTIONS = [
+  { value: 'base', label: 'Base', placeholder: '0x... or yourname.base.eth' },
+  { value: 'optimism', label: 'Optimism', placeholder: '0x... or yourname.op' },
+  { value: 'ethereum', label: 'Ethereum', placeholder: '0x... or yourname.eth' },
+];
 
 export default function Home() {
   const [walletAddress, setWalletAddress] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [selectedChain, setSelectedChain] = useState('base');
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const router = useRouter();
+
+  const getPlaceholder = () => CHAIN_OPTIONS.find(opt => opt.value === selectedChain)?.placeholder || '0x...';
+
+  const validateInput = (input) => {
+    if (/^0x[a-fA-F0-9]{40}$/.test(input)) return true;
+    if (selectedChain === 'base' && /^[a-zA-Z0-9]+\.base\.eth$/.test(input)) return true;
+    if (selectedChain === 'optimism' && /^[a-zA-Z0-9]+\.op$/.test(input)) return true;
+    if (selectedChain === 'ethereum' && /^[a-zA-Z0-9]+\.eth$/.test(input)) return true;
+    return false;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Accept ETH address or .base.eth BaseName
-    const isEthAddress = /^0x[a-fA-F0-9]{40}$/.test(walletAddress);
-    const isBaseName = /^[a-zA-Z0-9]+\.base\.eth$/.test(walletAddress);
-    if (!isEthAddress && !isBaseName) {
-      setError('Please enter a valid Ethereum address or .base.eth name');
+    if (!validateInput(walletAddress)) {
+      setError('Please enter a valid address or name for the selected chain');
       return;
     }
-    
     setIsLoading(true);
     setError('');
-    
     try {
-      // Navigate to analytics page
-      router.push(`/analytics/${walletAddress}`);
+      router.push(`/analytics/${walletAddress}?chain=${selectedChain}`);
     } catch (error) {
-      console.error('Error:', error);
       setError('Something went wrong. Please try again.');
       setIsLoading(false);
     }
@@ -77,6 +88,11 @@ export default function Home() {
             onSubmit={handleSubmit} 
             className="w-full glass-card p-8"
           >
+            {/* Chain Selector Dropdown */}
+            <div className="flex justify-center mb-6">
+              <div className="relative inline-block w-56">
+                <button
+                  type="button"
             <div className="mb-6">
               <label htmlFor="wallet-address" className="block text-white font-pixel text-sm mb-3 text-gradient">
                 ENTER WALLET ADDRESS
