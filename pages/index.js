@@ -114,7 +114,7 @@ export default function Home() {
                         role="option"
                         aria-selected={opt.value === selectedChain}
                       >
-                        <ChainIcon chain={opt.value} size={20} />
+                        {/* <ChainIcon chain={opt.value} size={20} /> */}
                         {opt.label}
                       </li>
                     ))}
