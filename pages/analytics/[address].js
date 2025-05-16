@@ -221,7 +221,7 @@ export default function AnalyticsPage() {
                 </div>
                 <div className="space-y-2">
                   <div className="flex items-baseline justify-between">
-                    <span className="text-2xl font-bold text-yellow-400">
+                    <span className="text-2xl font-bold  text-yellow-400">
                       {parseFloat(walletData.ethVolumeIn).toFixed(4)}
                     </span>
                     <span className="text-sm text-yellow-400/70">ETH</span>
