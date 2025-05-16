@@ -76,26 +76,28 @@ function getNativeSymbol(chain) {
 export default function AnalyticsPage() {
   const router = useRouter();
   const { address, chain } = router.query;
+  // Initialize selectedChain from query param if available
+  const initialChain = (chain && CHAIN_OPTIONS.some(opt => opt.value === chain)) ? chain : 'base';
+  const [selectedChain, setSelectedChain] = useState(initialChain);
   const [walletData, setWalletData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedChain, setSelectedChain] = useState('base');
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().toLocaleString('default', { month: 'short' }).toUpperCase();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const resultsRef = useRef(null);
   const [downloading, setDownloading] = useState(false);
 
-  // Set selectedChain from query on initial load
+  // Keep selectedChain in sync with query param
   useEffect(() => {
-    if (chain && CHAIN_OPTIONS.some(opt => opt.value === chain)) {
+    if (chain && CHAIN_OPTIONS.some(opt => opt.value === chain) && chain !== selectedChain) {
       setSelectedChain(chain);
     }
   }, [chain]);
 
-  // Fetch data when address or chain is available
+  // Fetch data only when both address and selectedChain are set and valid
   useEffect(() => {
-    if (!address) return;
+    if (!address || !selectedChain) return;
     async function fetchData() {
       try {
         setLoading(true);
