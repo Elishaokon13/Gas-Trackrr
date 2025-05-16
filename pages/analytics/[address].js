@@ -13,7 +13,7 @@ const CHAIN_OPTIONS = [
   { value: 'base', label: 'Base', color: 'bg-base-blue', accent: 'text-base-blue' },
   { value: 'optimism', label: 'Optimism', color: 'bg-red-600', accent: 'text-red-400' },
   { value: 'ethereum', label: 'Ethereum', color: 'bg-purple-700', accent: 'text-purple-400' },
-  { value: 'assetchain', label: 'AssetChain', color: 'bg-green-700', accent: 'text-green-400' },
+  // { value: 'assetchain', label: 'AssetChain', color: 'bg-green-700', accent: 'text-green-400' },
 ];
 
 const RANKS = {
@@ -38,13 +38,7 @@ const RANKS = {
     { min: 500, max: 1999, name: 'ETH OG' },
     { min: 2000, max: Infinity, name: 'ETH Legend' },
   ],
-  assetchain: [
-    { min: 0, max: 19, name: 'AssetChain Newborn' },
-    { min: 20, max: 99, name: 'AssetChain Explorer' },
-    { min: 100, max: 499, name: 'AssetChain DeFi Kid' },
-    { min: 500, max: 1999, name: 'AssetChain OG' },
-    { min: 2000, max: Infinity, name: 'AssetChain Legend' },
-  ],
+  // assetchain: [ ... ],
 };
 
 // Helper to get provider for each chain
