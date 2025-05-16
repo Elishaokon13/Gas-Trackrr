@@ -93,17 +93,49 @@ export default function Home() {
               <div className="relative inline-block w-56">
                 <button
                   type="button"
-            <div className="mb-6">
+                  className={`w-full flex items-center justify-between font-pixel text-lg rounded-lg px-4 py-2 border-2 border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-base-blue text-white shadow transition`}
+                  onClick={() => setDropdownOpen(v => !v)}
+                  aria-haspopup="listbox"
+                  aria-expanded={dropdownOpen ? 'true' : 'false'}
+                >
+                  <span className="flex items-center gap-2">
+                    <ChainIcon chain={selectedChain} size={22} />
+                    {CHAIN_OPTIONS.find(opt => opt.value === selectedChain)?.label}
+                  </span>
+                  <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
+                </button>
+                {dropdownOpen && (
+                  <ul className="absolute z-10 mt-2 w-full bg-black border border-gray-700 rounded-lg shadow-lg">
+                    {CHAIN_OPTIONS.map(opt => (
+                      <li
+                        key={opt.value}
+                        className={`flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-800 font-pixel text-lg ${opt.value === selectedChain ? 'bg-gray-900' : ''}`}
+                        onClick={() => { setSelectedChain(opt.value); setDropdownOpen(false); }}
+                        role="option"
+                        aria-selected={opt.value === selectedChain}
+                      >
+                        <ChainIcon chain={opt.value} size={20} />
+                        {opt.label}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
+            <div className="mb-6 relative">
               <label htmlFor="wallet-address" className="block text-white font-pixel text-sm mb-3 text-gradient">
-                ENTER WALLET ADDRESS
+                ENTER WALLET OR NAME
               </label>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2">
+                <ChainIcon chain={selectedChain} size={20} />
+              </span>
               <input
                 id="wallet-address"
                 type="text"
                 value={walletAddress}
                 onChange={(e) => setWalletAddress(e.target.value)}
-                placeholder="0x... or yourname.base.eth"
-                className="w-full p-4 bg-black/50 border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-base-blue transition-all duration-300"
+                placeholder={getPlaceholder()}
+                className="w-full p-4 pl-12 bg-black/50 border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-base-blue transition-all duration-300"
               />
             </div>
             
