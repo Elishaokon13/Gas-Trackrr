@@ -19,13 +19,18 @@ export default function AnalyticsPage() {
         setLoading(true);
         setError(null);
         
+        console.log(`Fetching data for address: ${address}`);
         const data = await getWalletData(address);
-        console.log('Fetched wallet data:', data);
+        console.log('Received wallet data:', data);
         
-        setWalletData(data);
+        if (!data.success) {
+          setError(data.error || 'Failed to fetch wallet data');
+        } else {
+          setWalletData(data);
+        }
       } catch (err) {
-        console.error('Error fetching wallet data:', err);
-        setError('Failed to load wallet data. Please try again.');
+        console.error('Error in data fetching:', err);
+        setError(err.message || 'Failed to load wallet data');
       } finally {
         setLoading(false);
       }
@@ -40,6 +45,7 @@ export default function AnalyticsPage() {
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl text-white mb-4">Loading Wallet Data</h1>
+          <p className="text-gray-400 mb-4">Fetching data from Base blockchain...</p>
           <div className="w-10 h-10 border-t-2 border-blue-500 border-solid rounded-full animate-spin mx-auto"></div>
         </div>
       </div>
@@ -53,6 +59,14 @@ export default function AnalyticsPage() {
         <div className="max-w-md p-8 bg-gray-900 rounded-lg">
           <h1 className="text-2xl text-white mb-4">Error</h1>
           <p className="text-red-400 mb-6">{error}</p>
+          <div className="text-gray-400 mb-4 text-sm">
+            <p>Possible issues:</p>
+            <ul className="list-disc pl-5 mt-2">
+              <li>The Basescan API may be rate limited</li>
+              <li>The wallet address may not exist on Base</li>
+              <li>There may be network issues</li>
+            </ul>
+          </div>
           <button
             onClick={() => router.push('/')}
             className="px-4 py-2 bg-blue-600 rounded hover:bg-blue-700 text-white"
@@ -70,7 +84,7 @@ export default function AnalyticsPage() {
   }
 
   // Format the wallet address for display
-  const displayAddress = `${address.slice(0, 6)}...${address.slice(-4)}`;
+  const displayAddress = `${walletData.address.slice(0, 6)}...${walletData.address.slice(-4)}`;
 
   return (
     <div className="min-h-screen bg-black text-white flex items-center justify-center p-4">
@@ -91,14 +105,27 @@ export default function AnalyticsPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           <div className="bg-gray-800 p-4 rounded-lg">
-            <h3 className="text-gray-400 text-sm mb-1">TRANSACTIONS</h3>
+            <h3 className="text-gray-400 text-sm mb-1">TOTAL TRANSACTIONS</h3>
             <p className="text-3xl font-bold">{walletData.transactionCount}</p>
+            <p className="text-gray-400 text-xs mt-1">
+              ({walletData.outgoingTransactions} outgoing)
+            </p>
           </div>
           
           <div className="bg-gray-800 p-4 rounded-lg">
             <h3 className="text-gray-400 text-sm mb-1">GAS SPENT</h3>
             <p className="text-3xl font-bold">{walletData.gasSpent.ethAmount} ETH</p>
+            <p className="text-gray-400 text-xs mt-1">
+              ({parseFloat(walletData.gasSpent.ethAmount).toFixed(8)} ETH)
+            </p>
           </div>
+        </div>
+
+        <div className="bg-gray-800 p-4 rounded-lg mb-6">
+          <h3 className="text-gray-400 text-sm mb-1">DATA SOURCE</h3>
+          <p className="text-sm">
+            Data from <a href="https://basescan.org" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">Basescan API</a>
+          </p>
         </div>
 
         <div className="text-center">
