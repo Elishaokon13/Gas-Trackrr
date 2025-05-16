@@ -169,15 +169,23 @@ export default function WrappedPage() {
             <SlideParagraph>
               Your favorite places on Base
             </SlideParagraph>
-            <div className="w-full max-h-[60vh] overflow-y-auto px-2">
-              {wrappedData.protocolInteractions.map((protocol, index) => (
+            <div className="w-full max-h-[40vh] overflow-y-auto px-2 flex flex-col items-center space-y-2 pb-16 sm:pb-20">
+              {wrappedData.protocolInteractions.length > 0 ? (
+                wrappedData.protocolInteractions.map((protocol, index) => (
+                  <StatDisplay
+                    key={protocol.address}
+                    value={protocol.name}
+                    label={`${protocol.count} interactions`}
+                    custom={index + 2}
+                  />
+                ))
+              ) : (
                 <StatDisplay
-                  key={protocol.address}
-                  value={protocol.name}
-                  label={`${protocol.count} interactions`}
-                  custom={index + 2}
+                  value="No protocols found"
+                  label="Try interacting with some Base protocols"
+                  custom={2}
                 />
-              ))}
+              )}
             </div>
           </Slide>
         );
