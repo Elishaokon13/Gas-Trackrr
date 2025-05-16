@@ -28,34 +28,34 @@ A modern, mobile-friendly analytics dashboard for Base, Optimism, and Ethereum w
 
 1. Clone the repository:
    ```bash
-git clone https://github.com/Elishaokon13/DAY5.git
-cd DAY5
-```
+   git clone https://github.com/Elishaokon13/DAY5.git
+   cd DAY5
+   ```
 2. Install dependencies:
    ```bash
-npm install
-```
+   npm install
+   ```
 3. Set up environment variables (optional, for better data and higher rate limits):
    Create a `.env.local` file in the root directory with any of the following:
    ```
-# Base, Ethereum, and Optimism RPC URLs (defaults provided)
-NEXT_PUBLIC_BASE_RPC_URL=https://mainnet.base.org
-NEXT_PUBLIC_ETH_MAINNET_RPC_URL=https://mainnet.infura.io/v3/your_infura_key
-NEXT_PUBLIC_OPTIMISM_MAINNET_RPC_URL=https://mainnet.optimism.io
+   # Base, Ethereum, and Optimism RPC URLs (defaults provided)
+   NEXT_PUBLIC_BASE_RPC_URL=https://mainnet.base.org
+   NEXT_PUBLIC_ETH_MAINNET_RPC_URL=https://mainnet.infura.io/v3/your_infura_key
+   NEXT_PUBLIC_OPTIMISM_MAINNET_RPC_URL=https://mainnet.optimism.io
 
-# API keys for scan APIs (optional, for higher rate limits)
-NEXT_PUBLIC_BASESCAN_API_KEY=your_basescan_key
-NEXT_PUBLIC_ETHERSCAN_API_KEY=your_etherscan_key
-NEXT_PUBLIC_OPTIMISM_ETHERSCAN_API_KEY=your_opscan_key
+   # API keys for scan APIs (optional, for higher rate limits)
+   NEXT_PUBLIC_BASESCAN_API_KEY=your_basescan_key
+   NEXT_PUBLIC_ETHERSCAN_API_KEY=your_etherscan_key
+   NEXT_PUBLIC_OPTIMISM_ETHERSCAN_API_KEY=your_opscan_key
 
-# Optional: Alchemy/Infura for enhanced reliability
-NEXT_PUBLIC_ALCHEMY_API_KEY=your_alchemy_key
-NEXT_PUBLIC_INFURA_API_KEY=your_infura_key
-```
+   # Optional: Alchemy/Infura for enhanced reliability
+   NEXT_PUBLIC_ALCHEMY_API_KEY=your_alchemy_key
+   NEXT_PUBLIC_INFURA_API_KEY=your_infura_key
+   ```
 4. Start the development server:
    ```bash
-npm run dev
-```
+   npm run dev
+   ```
 5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Usage
