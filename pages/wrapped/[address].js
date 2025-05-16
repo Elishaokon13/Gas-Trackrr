@@ -41,33 +41,10 @@ export default function WrappedPage() {
         setLoading(true);
         setError(null);
         
-        // In a real app, we would fetch actual data
-        // For now, we're using placeholder data
-        
-        // const data = await getWrappedData(address);
-        // Placeholder data for development
-        const data = {
-          address,
-          transactionCount: 168,
-          gasMetrics: {
-            gasUsed: '1250000',
-            gasCostEth: '0.00',
-          },
-          protocolInteractions: [
-            { name: 'Zora', address: '0x123...', count: 45 },
-            { name: 'Wormhole', address: '0x456...', count: 32 },
-            { name: 'Uniswap', address: '0x789...', count: 21 },
-          ],
-          nftActivity: {
-            nftsMinted: 17,
-            zoraRewards: '0.25',
-          },
-          monthlyActivity: {
-            busiestMonth: 3,
-            busiestMonthName: 'March',
-            busiestMonthCount: 42,
-          },
-        };
+        // Use real blockchain data instead of mock data
+        console.log(`Fetching data for address: ${address}`);
+        const data = await getWrappedData(address);
+        console.log('Fetched data:', data);
         
         setWrappedData(data);
       } catch (err) {
@@ -224,51 +201,51 @@ export default function WrappedPage() {
           </Slide>
         );
       
-             case 'summary':
-         return (
-           <Slide isLast={true}>
-             <SlideHeading>Based Baby</SlideHeading>
-             <SlideParagraph>
-               Looks like Jesse Pollak can't keep up with your {wrappedData.transactionCount} transactions on Base Wrapped in 2024! With a total volume of $1.8k, you're more of a minnow than a whale. Let's step up those onchain moves in 2025!
-             </SlideParagraph>
-             <div className="grid grid-cols-2 gap-6 max-w-2xl mx-auto w-full">
-               <StatDisplay
-                 value={`${wrappedData.transactionCount} Txns`}
-                 label="just dipping your toes into the Based waters"
-                 custom={3}
-               />
-               <StatDisplay
-                 value={`${wrappedData.nftActivity.nftsMinted} NFTs`}
-                 label="Minted"
-                 custom={3.5}
-               />
-               <StatDisplay
-                 value="MAR 2024"
-                 label="your Base grind started to show some serious momentum!"
-                 custom={4}
-               />
-               <StatDisplay
-                 value={`${wrappedData.gasMetrics.gasCostEth} eth`}
-                 label="on Gas"
-                 custom={4.5}
-               />
-             </div>
-             <BlueWave />
-             <motion.div
-               initial={{ opacity: 0 }}
-               animate={{ opacity: 1 }}
-               transition={{ delay: 1, duration: 1 }}
-               className="absolute bottom-20 w-full z-10"
-             >
-               <div className="text-center">
-                 <button
-                   onClick={() => router.push('/')}
-                   className="font-pixel text-white bg-blue-700 px-6 py-3 rounded-full shadow-lg hover:bg-blue-800 transition-colors"
-                 >
-                   Try Another Wallet
-                 </button>
-               </div>
-             </motion.div>
+      case 'summary':
+        return (
+          <Slide isLast={true}>
+            <SlideHeading>Based Baby</SlideHeading>
+            <SlideParagraph>
+              Looks like Jesse Pollak can't keep up with your {wrappedData.transactionCount} transactions on Base Wrapped in 2024! With a total volume of $1.8k, you're more of a minnow than a whale. Let's step up those onchain moves in 2025!
+            </SlideParagraph>
+            <div className="grid grid-cols-2 gap-6 max-w-2xl mx-auto w-full">
+              <StatDisplay
+                value={`${wrappedData.transactionCount} Txns`}
+                label="just dipping your toes into the Based waters"
+                custom={3}
+              />
+              <StatDisplay
+                value={`${wrappedData.nftActivity.nftsMinted} NFTs`}
+                label="Minted"
+                custom={3.5}
+              />
+              <StatDisplay
+                value={wrappedData.monthlyActivity.busiestMonthName || "2024"}
+                label="your Base grind started to show some serious momentum!"
+                custom={4}
+              />
+              <StatDisplay
+                value={`${wrappedData.gasMetrics.gasCostEth} eth`}
+                label="on Gas"
+                custom={4.5}
+              />
+            </div>
+            <BlueWave />
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1, duration: 1 }}
+              className="absolute bottom-20 w-full z-10"
+            >
+              <div className="text-center">
+                <button
+                  onClick={() => router.push('/')}
+                  className="font-pixel text-white bg-blue-700 px-6 py-3 rounded-full shadow-lg hover:bg-blue-800 transition-colors"
+                >
+                  Try Another Wallet
+                </button>
+              </div>
+            </motion.div>
           </Slide>
         );
       
