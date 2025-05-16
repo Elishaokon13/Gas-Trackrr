@@ -45,16 +45,16 @@ export default function Home() {
           transition={{ duration: 0.5 }}
           className="w-full h-full flex flex-col items-center justify-center p-4"
         >
-          <div className="text-center mb-6">
-            <h1 className="text-3xl font-pixel text-base-blue mb-3">Base Wrapped</h1>
-            <p className="text-lg font-mono text-white/80">
+          <div className="text-center mb-4 sm:mb-6">
+            <h1 className="text-2xl sm:text-3xl font-pixel text-base-blue mb-2 sm:mb-3">Base Wrapped</h1>
+            <p className="text-base sm:text-lg font-mono text-white/80">
               Your Year on Base
             </p>
           </div>
           
-          <form onSubmit={handleSubmit} className="w-full max-w-xs bg-black/30 backdrop-blur-md rounded-xl p-5 shadow-lg border border-white/10">
-            <div className="mb-4">
-              <label htmlFor="wallet-address" className="block font-mono text-white/80 text-sm mb-2">
+          <form onSubmit={handleSubmit} className="w-full max-w-xs bg-black/30 backdrop-blur-md rounded-xl p-4 sm:p-5 shadow-lg border border-white/10">
+            <div className="mb-3 sm:mb-4">
+              <label htmlFor="wallet-address" className="block font-mono text-white/80 text-xs sm:text-sm mb-1 sm:mb-2">
                 Enter your wallet address:
               </label>
               <input
@@ -63,18 +63,18 @@ export default function Home() {
                 value={walletAddress}
                 onChange={(e) => setWalletAddress(e.target.value)}
                 placeholder="0x..."
-                className="w-full p-3 bg-black/50 border border-white/20 rounded-lg text-white font-mono text-sm focus:outline-none focus:ring-2 focus:ring-base-blue"
+                className="w-full p-2 sm:p-3 bg-black/50 border border-white/20 rounded-lg text-white font-mono text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-base-blue"
               />
             </div>
             
             {error && (
-              <p className="text-red-500 font-mono text-xs mb-4">{error}</p>
+              <p className="text-red-500 font-mono text-xs mb-3 sm:mb-4">{error}</p>
             )}
             
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 px-4 bg-base-blue hover:bg-blue-700 text-white font-pixel text-sm rounded-lg transition duration-300 flex items-center justify-center"
+              className="w-full py-2 sm:py-3 px-3 sm:px-4 bg-base-blue hover:bg-blue-700 text-white font-pixel text-xs sm:text-sm rounded-lg transition duration-300 flex items-center justify-center"
             >
               {isLoading ? (
                 <span className="inline-block animate-spin mr-2">↻</span>
@@ -84,7 +84,7 @@ export default function Home() {
             </button>
           </form>
           
-          <p className="text-center text-white/60 font-mono text-xs mt-4">
+          <p className="text-center text-white/60 font-mono text-xs mt-3 sm:mt-4 px-2">
             Explore your Base blockchain journey of 2024
           </p>
         </motion.div>
