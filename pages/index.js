@@ -9,7 +9,7 @@ const CHAIN_OPTIONS = [
   { value: 'base', label: 'Base', placeholder: '0x... or yourname.base.eth' },
   { value: 'optimism', label: 'Optimism', placeholder: '0x... or yourname.op' },
   { value: 'ethereum', label: 'Ethereum', placeholder: '0x... or yourname.eth' },
-  { value: 'assetchain', label: 'AssetChain', placeholder: '0x... (address only)' },
+  // { value: 'assetchain', label: 'AssetChain', placeholder: '0x... (address only)' },
 ];
 
 export default function Home() {
@@ -27,16 +27,11 @@ export default function Home() {
     if (selectedChain === 'base' && /^[a-zA-Z0-9]+\.base\.eth$/.test(input)) return true;
     if (selectedChain === 'optimism' && /^[a-zA-Z0-9]+\.op$/.test(input)) return true;
     if (selectedChain === 'ethereum' && /^[a-zA-Z0-9]+\.eth$/.test(input)) return true;
-    if (selectedChain === 'assetchain') return false; // Only allow 0x... for AssetChain
     return false;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (selectedChain === 'assetchain' && !/^0x[a-fA-F0-9]{40}$/.test(walletAddress)) {
-      setError('Please enter a valid 0x... address for AssetChain');
-      return;
-    }
     if (!validateInput(walletAddress)) {
       setError('Please enter a valid address or name for the selected chain');
       return;
