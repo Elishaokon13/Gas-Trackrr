@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { motion } from 'framer-motion';
-import ParticleBackground from '../components/ParticleBackground';
+import { BackgroundLines } from '../components/BackgroundLines';
 
 export default function Home() {
   const [walletAddress, setWalletAddress] = useState('');
@@ -33,14 +33,14 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-black overflow-hidden relative">
+    <BackgroundLines 
+      className="min-h-screen flex flex-col items-center justify-center overflow-hidden"
+      svgOptions={{ duration: 15 }}
+    >
       <Head>
         <title>Based Baby | Your Base Wrapped Experience</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       </Head>
-      
-      {/* Particle background */}
-      <ParticleBackground />
       
       <main className="w-full max-w-md sm:max-w-lg px-4 relative z-10">
         <motion.div 
@@ -129,9 +129,6 @@ export default function Home() {
           </motion.div>
         </motion.div>
       </main>
-      
-      {/* Decorative glow effect */}
-      <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-base-blue/10 to-transparent"></div>
-    </div>
+    </BackgroundLines>
   );
 } 
