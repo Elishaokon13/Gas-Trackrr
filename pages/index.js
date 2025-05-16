@@ -111,7 +111,7 @@ export default function Home() {
               {isLoading ? (
                 <span className="inline-block animate-spin mr-2">↻</span>
               ) : (
-                'GET YOUR WRAPPED'
+                'C'
               )}
             </motion.button>
           </motion.form>
