@@ -242,7 +242,7 @@ export default function AnalyticsPage() {
       </div>
       
       {/* Blue Wave at bottom */}
-      <BlueWave />
+      {/* <BlueWave /> */}
     </div>
   );
 } 
