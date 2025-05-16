@@ -182,7 +182,7 @@ export default function AnalyticsPage() {
           <motion.div variants={itemVariants} className="glass-card p-6 md:p-8 sm:col-span-2">
             <div className="text-center">
               <h2 className="value-display">
-                {parseFloat(walletData.gasSpent.ethAmount).toFixed(4)} <span className="text-base-blue">ETH</span>
+                {parseFloat(walletData.gasSpent.ethAmount).toFixed(4)} <span className="text-base-">ETH</span>
               </h2>
               <p className="usd-value mb-2">
                 ${walletData.gasSpent.usdAmount}
