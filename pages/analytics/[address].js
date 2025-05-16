@@ -100,17 +100,6 @@ export default function AnalyticsPage() {
   // Format the wallet address for display
   const displayAddress = `${walletData.address.slice(0, 6)}...${walletData.address.slice(-4)}`;
   const rank = walletData.transactionCount > 100 ? "Based Baby" : walletData.transactionCount > 50 ? "Base Beginner" : "Base Newbie";
-  
-  // Generate fun copywriting based on transaction count
-  const generateCopywriting = () => {
-    if (walletData.transactionCount > 100) {
-      return `You've made ${walletData.transactionCount} transactions on Base in ${currentYear}! With a total volume of $${walletData.volume.usdAmount}, you're becoming a true onchain explorer. Keep building those Based moves!`;
-    } else if (walletData.transactionCount > 50) {
-      return `With ${walletData.transactionCount} transactions on Base, you're starting to make some waves! Your transaction volume of $${walletData.volume.usdAmount} shows you're getting comfortable with Base.`;
-    } else {
-      return `${walletData.transactionCount} transactions on Base with a volume of $${walletData.volume.usdAmount}`;
-    }
-  };
 
   // Animation variants for staggered animations
   const containerVariants = {
@@ -148,15 +137,6 @@ export default function AnalyticsPage() {
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-pixel mb-6 tracking-wider text-gradient animate-float">
             {rank}
           </h1>
-          
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
-            className="text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed"
-          >
-            {generateCopywriting()}
-          </motion.p>
         </motion.div>
         
         <motion.div 
