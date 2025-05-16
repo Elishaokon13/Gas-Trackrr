@@ -7,7 +7,7 @@ const BlueWave = () => {
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.5 }}
-        className="relative h-32 md:h-48"
+        className="relative h-24 sm:h-32 md:h-48"
       >
         <svg
           className="absolute bottom-0 w-full h-full"
@@ -22,7 +22,7 @@ const BlueWave = () => {
           ></path>
         </svg>
         
-        <div className="absolute w-full h-full flex items-center justify-around text-white font-pixel text-3xl md:text-5xl">
+        <div className="absolute w-full h-full flex items-center justify-around text-white font-pixel text-xl sm:text-3xl md:text-5xl">
           <motion.span
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -34,7 +34,7 @@ const BlueWave = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.3, duration: 0.5 }}
-            className="text-yellow-300 text-4xl md:text-6xl"
+            className="text-yellow-300 text-2xl sm:text-4xl md:text-6xl"
           >
             ✨
           </motion.span>
@@ -49,7 +49,7 @@ const BlueWave = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.9, duration: 0.5 }}
-            className="text-yellow-300 text-4xl md:text-6xl"
+            className="text-yellow-300 text-2xl sm:text-4xl md:text-6xl"
           >
             ✨
           </motion.span>
