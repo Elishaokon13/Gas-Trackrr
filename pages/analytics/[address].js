@@ -7,6 +7,7 @@ import { BackgroundLines } from '../../components/BackgroundLines';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend, CartesianGrid, AreaChart, Area } from 'recharts';
 import ChainIcon from '../../components/ChainIcon';
 import html2canvas from 'html2canvas';
+import { ethers } from 'ethers';
 
 const CHAIN_OPTIONS = [
   { value: 'base', label: 'Base', color: 'bg-base-blue', accent: 'text-base-blue' },
@@ -45,6 +46,23 @@ const RANKS = {
     { min: 2000, max: Infinity, name: 'AssetChain Legend' },
   ],
 };
+
+// Helper to get provider for each chain
+function getProviderForChain(chain) {
+  if (chain === 'assetchain') {
+    return new ethers.providers.JsonRpcProvider('https://mainnet-rpc.assetchain.org', 42420);
+  }
+  if (chain === 'base') {
+    return new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_BASE_RPC_URL || 'https://mainnet.base.org');
+  }
+  if (chain === 'optimism') {
+    return new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_OPTIMISM_MAINNET_RPC_URL || 'https://mainnet.optimism.io');
+  }
+  if (chain === 'ethereum') {
+    return new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ETH_MAINNET_RPC_URL || 'https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161');
+  }
+  return null;
+}
 
 export default function AnalyticsPage() {
   const router = useRouter();
