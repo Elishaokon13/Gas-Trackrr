@@ -226,7 +226,7 @@ export default function AnalyticsPage() {
                     </span>
                     <span className="text-sm text-yellow-400/70">ETH</span>
                   </div>
-                  <div className="text-sm  text-gray-400">
+                  <div className="text-sm font-pixel text-gray-400">
                     ${walletData.ethVolumeInUsd}
                   </div>
                 </div>
@@ -252,7 +252,7 @@ export default function AnalyticsPage() {
                     </span>
                     <span className="text-sm text-red-400/70">ETH</span>
                   </div>
-                  <div className="text-sm text-gray-400">
+                  <div className="text-sm font-pixel text-gray-400">
                     ${walletData.ethVolumeOutUsd}
                   </div>
                 </div>
@@ -278,7 +278,7 @@ export default function AnalyticsPage() {
                     </span>
                     <span className="text-sm text-blue-400/70">USDC</span>
                   </div>
-                  <div className="text-sm text-gray-400">
+                  <div className="text-sm font-pixel text-gray-400">
                     ${walletData.usdcVolumeInUsd}
                   </div>
                 </div>
@@ -304,7 +304,7 @@ export default function AnalyticsPage() {
                     </span>
                     <span className="text-sm text-purple-400/70">USDC</span>
                   </div>
-                  <div className="text-sm text-gray-400">
+                  <div className="text-sm font-pixel text-gray-400">
                     ${walletData.usdcVolumeOutUsd}
                   </div>
                 </div>
@@ -324,7 +324,7 @@ export default function AnalyticsPage() {
               <p className="font-pixel text-xl md:text-2xl mb-4 text-gradient">
                 Gas Spent
               </p>
-              <p className="text-sm text-gray-400">
+              <p className="text-sm font-pixel text-gray-400">
                 Current ETH price: ${walletData.ethPrice?.toFixed(2) || "N/A"}
                 {walletData.ethPrice && Number(walletData.ethPrice) === 3000 && (
                   <span className="text-red-400 ml-2">(Not live - using fallback)</span>
