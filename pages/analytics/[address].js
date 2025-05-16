@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { motion } from 'framer-motion';
 import { getWalletData } from '../../lib/blockchain';
-import ParticleBackground from '../../components/ParticleBackground';
+import { BackgroundLines } from '../../components/BackgroundLines';
 
 export default function AnalyticsPage() {
   const router = useRouter();
@@ -83,7 +83,7 @@ export default function AnalyticsPage() {
           </div>
           <button
             onClick={() => router.push('/')}
-            className="w-full py-3 px-6 bg-base-blue hover:bg-blue-700 text-white font-pixel text-sm rounded-lg transition-all duration-300"
+            className="w-full py-3 px-6 bg-base-blue font-pixel text-white text-sm rounded-lg transition-all duration-300"
           >
             Go Back
           </button>
@@ -129,14 +129,14 @@ export default function AnalyticsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+    <BackgroundLines
+      className="min-h-screen text-white relative"
+      svgOptions={{ duration: 15 }}
+    >
       <Head>
-        <title>Gas Tracker | {displayAddress}</title>
+        <title>Based Baby | {displayAddress}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      
-      {/* Particle background */}
-      <ParticleBackground />
       
       <div className="container mx-auto max-w-4xl px-4 py-8 md:py-12 relative z-10 content-container">
         <motion.div
@@ -234,6 +234,6 @@ export default function AnalyticsPage() {
           </motion.button>
         </motion.div>
       </div>
-    </div>
+    </BackgroundLines>
   );
 } 
