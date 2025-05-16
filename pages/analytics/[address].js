@@ -160,20 +160,32 @@ export default function AnalyticsPage() {
             </div>
           </motion.div>
           
-          {/* Volume Card */}
+          {/* Outgoing Volume Card */}
           <motion.div variants={itemVariants} className="glass-card p-6 md:p-8">
             <div className="text-center">
               <h2 className="value-display">
-                {parseFloat(walletData.volume.ethAmount).toFixed(2)} <span className="text-base-blue">ETH</span>
+                {parseFloat(walletData.outgoingVolume.ethAmount).toFixed(2)} <span className="text-base-blue">ETH</span>
               </h2>
               <p className="usd-value mb-2">
-                ${walletData.volume.usdAmount}
+                ${walletData.outgoingVolume.usdAmount}
               </p>
               <p className="font-pixel text-xl md:text-2xl mb-4 text-gradient">
-                Volume
+                Outgoing Volume
               </p>
-              <p className="text-sm text-gray-400">
-                total transaction volume<br />on Base blockchain
+            </div>
+          </motion.div>
+          
+          {/* Incoming Volume Card */}
+          <motion.div variants={itemVariants} className="glass-card p-6 md:p-8">
+            <div className="text-center">
+              <h2 className="value-display">
+                {parseFloat(walletData.incomingVolume.ethAmount).toFixed(2)} <span className="text-green-400">ETH</span>
+              </h2>
+              <p className="usd-value mb-2">
+                ${walletData.incomingVolume.usdAmount}
+              </p>
+              <p className="font-pixel text-xl md:text-2xl mb-4 text-gradient">
+                Incoming Volume
               </p>
             </div>
           </motion.div>
