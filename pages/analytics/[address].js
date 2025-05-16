@@ -113,7 +113,20 @@ export default function AnalyticsPage() {
   } else if (walletData.address) {
     pageTitle = `Based (${walletData.address.slice(0, 6)})`;
   }
-  const rank = walletData.transactionCount > 100 ? "Based Baby" : walletData.transactionCount > 50 ? "Base Beginner" : "Base Newbie";
+  // Improved rank system
+  let rank = '';
+  const txCount = walletData.transactionCount;
+  if (txCount < 10) {
+    rank = 'Base Newborn';
+  } else if (txCount < 50) {
+    rank = 'Base Explorer';
+  } else if (txCount < 100) {
+    rank = 'Base DeFi Kid';
+  } else if (txCount < 500) {
+    rank = 'Base OG';
+  } else {
+    rank = 'Base Legend';
+  }
 
   // Animation variants for staggered animations
   const containerVariants = {
