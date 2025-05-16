@@ -12,6 +12,7 @@ This project is a Base blockchain wallet analytics tool that allows users to che
 - Adding real-time ETH price conversion for gas calculations
 - Calculating total transaction volume from transaction history
 - Creating a sleek, modern UI that adapts to all device sizes
+- Implementing animated line background for a more professional look
 
 ## High-level Task Breakdown
 - [Current state] The application allows users to enter a Base wallet address and view both their total transaction count and the amount of ETH spent on gas fees, with clear distinction between total and outgoing transactions.
@@ -19,6 +20,7 @@ This project is a Base blockchain wallet analytics tool that allows users to che
 - [Completed] Add USD conversion for gas spent using real-time ETH price from CoinGecko
 - [Completed] Replace simulated NFTs with actual transaction volume data
 - [Completed] Enhance the UI to be sleeker and more responsive across all device sizes
+- [Completed] Add animated line background for a more professional and engaging look
 
 ## Project Status Board
 - [x] Initial project setup with Next.js and Tailwind CSS
@@ -37,10 +39,10 @@ This project is a Base blockchain wallet analytics tool that allows users to che
 - [x] Calculate and display total transaction volume in ETH and USD
 - [x] Enhance UI with sleek animations and glass-morphism design
 - [x] Optimize responsive design for all device sizes
-- [x] Improve particle background with better responsiveness
+- [x] Replace particle background with animated line background
 
 ## Current Status / Progress Tracking
-The application now has a sleek, modern UI with a pixel art aesthetic for the "Based Baby" brand. It features responsive glass-morphism cards, smooth animations, and an enhanced particle background. The app displays transaction data (count and volume) and gas usage in both ETH and USD, with the UI optimized for all device sizes from mobile to desktop.
+The application now has a sleek, modern UI with a pixel art aesthetic for the "Based Baby" brand. It features responsive glass-morphism cards, smooth animations, and an animated line background that creates a sophisticated, dynamic feel. The app displays transaction data (count and volume) and gas usage in both ETH and USD, with the UI optimized for all device sizes from mobile to desktop.
 
 ## Executor's Feedback or Assistance Requests
 No current requests.
@@ -54,4 +56,5 @@ No current requests.
 - Always include error handling and fallback values when fetching external API data like cryptocurrency prices
 - When displaying financial data, show both cryptocurrency and fiat values when possible
 - Use CSS custom properties for better theming and consistency across components
-- Implement progressive enhancement for animations to ensure they don't affect performance on lower-end devices 
+- Implement progressive enhancement for animations to ensure they don't affect performance on lower-end devices
+- Consider the visual weight of animated elements to avoid overwhelming the user interface 
