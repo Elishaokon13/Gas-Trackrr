@@ -111,7 +111,7 @@ export default function Home() {
               {isLoading ? (
                 <span className="inline-block animate-spin mr-2">↻</span>
               ) : (
-                ''
+                'TR'
               )}
             </motion.button>
           </motion.form>
