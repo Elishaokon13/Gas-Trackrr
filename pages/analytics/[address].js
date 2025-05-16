@@ -199,7 +199,7 @@ export default function AnalyticsPage() {
               <p className="font-pixel text-2xl md:text-3xl mb-4 text-gradient">
                 Txns
               </p>
-              <p className="text-sm text-gray-400">
+              <p className="text-sm  text-gray-400">
                 {walletData.outgoingTransactions} outgoing transactions<br />on Base blockchain
               </p>
             </div>
