@@ -104,14 +104,14 @@ export default function AnalyticsPage() {
   // Format the wallet address for display
   const displayAddress = walletData.baseName || `${walletData.address.slice(0, 6)}...${walletData.address.slice(-4)}`;
   // Always compute pageTitle from the latest walletData
-  let pageTitle = 'Based Baby';
+  let pageTitle = 'Based (Baby)';
   if (walletData.baseName && walletData.baseName.endsWith('.base.eth')) {
     const namePart = walletData.baseName.replace(/\.base\.eth$/, '');
-    pageTitle = `Based ${namePart}`;
+    pageTitle = `Based (${namePart})`;
   } else if (walletData.baseName) {
-    pageTitle = `Based ${walletData.baseName}`;
+    pageTitle = `Based (${walletData.baseName})`;
   } else if (walletData.address) {
-    pageTitle = `Based ${walletData.address.slice(0, 6)}`;
+    pageTitle = `Based (${walletData.address.slice(0, 6)})`;
   }
   const rank = walletData.transactionCount > 100 ? "Based Baby" : walletData.transactionCount > 50 ? "Base Beginner" : "Base Newbie";
 
