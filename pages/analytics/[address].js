@@ -95,7 +95,7 @@ export default function AnalyticsPage() {
   // Generate fun copywriting based on transaction count
   const generateCopywriting = () => {
     if (walletData.transactionCount > 100) {
-      return `Looks like Jesse Pollak can't keep up with your ${walletData.transactionCount} transactions on Base Wrapped in ${currentYear}! With a total volume of $${(parseFloat(walletData.gasSpent.ethAmount) * 2000).toFixed(2)}k, you're more of a whale than a minnow. Let's step up those onchain moves in ${currentYear}!`;
+      return `Looks like Jesse Pollak can't keep up with your ${walletData.transactionCount} transactions on Base Wrapped in ${currentYear}! With a total volume of $${walletData.gasSpent.usdAmount}, you're more of a whale than a minnow. Let's step up those onchain moves in ${currentYear}!`;
     } else if (walletData.transactionCount > 50) {
       return `With ${walletData.transactionCount} transactions on Base, you're starting to make some waves! Keep this momentum going and you'll be a Based whale by ${currentYear}!`;
     } else {
