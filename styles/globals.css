@@ -12,6 +12,7 @@
 
 * {
   box-sizing: border-box;
+  font-family: 'Press Start 2P', cursive, 'font-pixel', monospace, sans-serif;
 }
 
 body {
@@ -26,6 +27,7 @@ body {
   justify-content: center;
   overscroll-behavior: none;
   font-feature-settings: "tnum" on, "lnum" on;
+  font-family: 'Press Start 2P', cursive, 'font-pixel', monospace, sans-serif;
 }
 
 /* Glass effect for cards */
@@ -163,4 +165,13 @@ body {
     margin-bottom: 0.5rem;
     padding: 0.5rem;
   }
+}
+
+/* Hide scrollbar utility */
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 } 

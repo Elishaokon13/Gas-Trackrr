@@ -183,14 +183,17 @@ Current Features:
 - [x] Add USD value calculation for gas spent using CoinGecko API
 - [x] Calculate and display total transaction volume in ETH and USD
 - [x] Enhance UI with sleek animations and glass-morphism design
-- [x] Optimize responsive design for all device sizes
+- [x] Optimize responsive design for all device sizes from mobile to desktop
 - [x] Replace particle background with animated line background
 - [ ] Multi-Chain Support: Not started
 - [ ] Historical Balance & Portfolio Chart: Backend function for daily ETH/USDC balances in progress
 - [ ] Protocol/Category Breakdown: Not started
+- [x] Fix heatmap responsiveness by limiting hover/transition effects to desktop only
 
 ## Current Status / Progress Tracking
 The application now has a sleek, modern UI with a pixel art aesthetic for the "Based Baby" brand. It features responsive glass-morphism cards, smooth animations, and an animated line background that creates a sophisticated, dynamic feel. The app displays transaction data (count and volume) and gas usage in both ETH and USD, with the UI optimized for all device sizes from mobile to desktop.
+
+- [2024-06-10] Limited hover/transition effects on OnchainHeatmap day cells to desktop (sm: and up) to improve mobile responsiveness. Added a note for future virtualization if needed.
 
 Currently implementing: Backend function to fetch ETH and USDC balances for a given address at daily intervals over a date range using Alchemy.
 
@@ -208,7 +211,7 @@ Currently implementing: Backend function to fetch ETH and USDC balances for a gi
 - Use CSS custom properties for better theming and consistency across components
 - Implement progressive enhancement for animations to ensure they don't affect performance on lower-end devices
 - Consider the visual weight of animated elements to avoid overwhelming the user interface
-- None yet.
+- For large interactive grids, avoid hover/transition effects on mobile to prevent lag. Use sm: or md: breakpoints to limit interactivity to desktop. Consider virtualization for very large grids if performance is still an issue.
 
 ## Mini App Conversion Plan (Coinbase MiniKit)
 
