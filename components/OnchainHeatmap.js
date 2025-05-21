@@ -116,7 +116,7 @@ export default function OnchainHeatmap({ dailyActivity = {}, currentStreak = 0, 
   }, [weeks]);
 
   return (
-    <div className="w-full bg-gray-900 max-w-6xl rounded-xl p-4 sm:p-6 md:p-8 border border-gray-700 shadow-lg overflow-x-hidden">
+    <div className="w-full bg-gray-900 rounded-xl p-4 sm:p-6 md:p-8 border border-gray-700 shadow-lg">
       {/* Year Tabs */}
       <div className="flex flex-wrap gap-2 sm:gap-3 mb-4 sm:mb-6 justify-end">
         {allYears.map(year => (
@@ -141,9 +141,9 @@ export default function OnchainHeatmap({ dailyActivity = {}, currentStreak = 0, 
           <div className="text-xl sm:text-2xl md:text-3xl text-white font-mono mb-2">
             {totalContributions.toLocaleString()} contributions in {selectedYear}
           </div>
-          <h2 className="font-mono text-xl sm:text-2xl md:text-3xl text-white bg-clip-text bg-gradient-to-r from-green-400 to-blue-500 mb-2">
+          {/* <h2 className="font-mono text-xl sm:text-2xl md:text-3xl text-white bg-clip-text bg-gradient-to-r from-green-400 to-blue-500 mb-2">
             Onchain Streak
-          </h2>
+          </h2> */}
           <div className="flex flex-wrap gap-4 sm:gap-6 text-xs sm:text-sm font-mono text-gray-300">
             <span>
               Current Streak: <span className="text-green-400 font-semibold">{currentStreak}</span>
@@ -158,17 +158,16 @@ export default function OnchainHeatmap({ dailyActivity = {}, currentStreak = 0, 
         </div>
       </div>
 
-      {/* Synced scrollable container */}
-      <div className="relative overflow-x-auto hide-scrollbar w-full max-w-full">
+      {/* Scrollable container */}
+      <div className="relative overflow-x-auto w-full">
         {/* Month Labels */}
-        <div className="flex mb-2">
+        <div className="flex mb-1">
           {weeks.map((week, i) => {
             const found = monthLabelPositions.find(pos => pos.index === i);
             return (
               <div
                 key={i}
-                className="flex items-center justify-center flex-shrink-0 text-[10px] xs:text-xs sm:text-sm font-semibold text-gray-200 font-mono text-center min-w-[1.1rem] xs:min-w-[1.2rem] sm:min-w-[1.3rem] md:min-w-[1.5rem] h-5 md:h-6 leading-tight"
-                style={{ letterSpacing: '0.05em', textShadow: '0 1px 4px rgba(0,0,0,0.3)' }}
+                className="flex items-center justify-center flex-shrink-0 text-[6px] xs:text-[8px] sm:text-[10px] md:text-xs font-semibold text-gray-200 font-mono text-center min-w-[0.6rem] xs:min-w-[0.8rem] sm:min-w-[1rem] md:min-w-[1.2rem] h-4 sm:h-5 md:h-6 leading-tight"
               >
                 {found ? found.label : ''}
               </div>
@@ -177,14 +176,14 @@ export default function OnchainHeatmap({ dailyActivity = {}, currentStreak = 0, 
         </div>
 
         {/* Heatmap Grid */}
-        <div className="flex min-w-[600px] max-w-full">
+        <div className="flex w-full">
           {/* Day-of-week Labels */}
-          <div className="flex flex-col mr-2 sm:mr-3 mt-1">
+          <div className="flex flex-col mr-1 mt-1">
             {DAY_LABELS.map((label, i) => (
               <div
                 key={i}
-                className="h-4 xs:h-[1.15rem] sm:h-5 text-[10px] xs:text-xs sm:text-sm text-gray-400 font-mono text-right pr-1"
-                style={{ minHeight: '1.15rem' }}
+                className="h-2 xs:h-3 sm:h-4 md:h-5 text-[6px] xs:text-[8px] sm:text-[10px] md:text-xs text-gray-400 font-mono text-right pr-1"
+                style={{ minHeight: '0.6rem' }}
               >
                 {label}
               </div>
@@ -192,19 +191,18 @@ export default function OnchainHeatmap({ dailyActivity = {}, currentStreak = 0, 
           </div>
 
           {/* Heatmap */}
-          <div className="flex w-fit max-w-full">
+          <div className="flex w-fit">
             {weeks.map((week, wi) => (
               <div key={wi} className="flex flex-col">
                 {Array.from({ length: 7 }).map((_, di) => {
                   const day = week[di];
-                  // Only apply hover/transition on sm: and up for performance
                   const cellClasses = [
-                    'w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 border rounded-sm',
+                    'w-[0.4rem] h-[0.4rem] xs:w-[0.5rem] xs:h-[0.5rem] sm:w-[0.7rem] sm:h-[0.7rem] md:w-4 md:h-4 border rounded-sm',
                     'cursor-pointer',
                     day && !day.isPadding ? getColor(day.count) : 'bg-transparent border-transparent',
-                    'sm:transition-all',
-                    'sm:hover:scale-110',
-                    'sm:hover:shadow-md',
+                    'md:transition-all',
+                    'md:hover:scale-110',
+                    'md:hover:shadow-md',
                   ].join(' ');
                   return (
                     <div
@@ -223,26 +221,16 @@ export default function OnchainHeatmap({ dailyActivity = {}, currentStreak = 0, 
 
       {/* Legend */}
       <div className="flex items-center gap-2 sm:gap-3 mt-4 sm:mt-6">
-        <span className="text-xs sm:text-sm text-gray-400 font-mono">Less</span>
+        <span className="text-[8px] xs:text-[10px] sm:text-xs md:text-sm text-gray-400 font-mono">Less</span>
         {COLOR_SCALE.map((cls, i) => (
           <div
             key={i}
-            className={`w-[1.05rem] h-[1.05rem] xs:w-[1.15rem] xs:h-[1.15rem] sm:w-5 sm:h-5 border rounded-sm ${cls}`}
+            className={`w-[0.6rem] h-[0.6rem] xs:w-[0.8rem] xs:h-[0.8rem] sm:w-[1rem] sm:h-[1rem] md:w-[1.15rem] md:h-[1.15rem] border rounded-sm ${cls}`}
             aria-label={`Activity level ${i}`}
           />
         ))}
-        {/* <span className="text-xs sm:text-sm text-gray-400 font-mono">More</span>
-        <a
-          href="#"
-          className="ml-4 text-xs sm:text-sm text-gray-400 font-mono underline hover:text-gray-200"
-        >
-          Learn how we count contributions
-        </a> */}
+        <span className="text-[8px] xs:text-[10px] sm:text-xs md:text-sm text-gray-400 font-mono">More</span>
       </div>
     </div>
   );
 }
-
-// NOTE: For further performance, consider virtualization of weeks/columns if lag persists on low-end devices.
-
-// NOTE: To fully prevent horizontal scroll, ensure the parent analytics page main container also has 'overflow-x-hidden'.
