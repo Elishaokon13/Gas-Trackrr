@@ -185,10 +185,9 @@ Current Features:
 - [x] Enhance UI with sleek animations and glass-morphism design
 - [x] Optimize responsive design for all device sizes from mobile to desktop
 - [x] Replace particle background with animated line background
-- [ ] Multi-Chain Support: Not started
-- [ ] Historical Balance & Portfolio Chart: Backend function for daily ETH/USDC balances in progress
-- [ ] Protocol/Category Breakdown: Not started
-- [x] Fix heatmap responsiveness by limiting hover/transition effects to desktop only
+- [x] Add isValidOpName helper and improve resolveOpName and getWalletData for robust OP Name Service resolution (validation, error handling, caching)
+- [x] Fix Analytics page chain selector to update URL and UI theme when switching chains
+- [ ] (next) Planner to review and confirm Analytics page chain selector bug is resolved
 
 ## Current Status / Progress Tracking
 The application now has a sleek, modern UI with a pixel art aesthetic for the "Based Baby" brand. It features responsive glass-morphism cards, smooth animations, and an animated line background that creates a sophisticated, dynamic feel. The app displays transaction data (count and volume) and gas usage in both ETH and USD, with the UI optimized for all device sizes from mobile to desktop.
@@ -198,7 +197,14 @@ The application now has a sleek, modern UI with a pixel art aesthetic for the "B
 Currently implementing: Backend function to fetch ETH and USDC balances for a given address at daily intervals over a date range using Alchemy.
 
 ## Executor's Feedback or Assistance Requests
-- Starting backend implementation for historical balance charting. Will need Alchemy API key and USDC contract address for each chain supported.
+- Implemented isValidOpName helper for .op names (alphanumeric/dash, min 3 chars)
+- Added in-memory cache (1-hour TTL) for resolved OP names
+- Improved error handling and user-facing error messages for OP Name Service resolution in getWalletData
+- Now, invalid or unregistered OP names return clear errors, and valid names are cached for 1 hour
+- Ready for Planner review and cross-check
+- Updated the chain selector dropdown so that selecting a new chain updates the router query param (URL), keeping the UI, data, and theme in sync
+- This resolves the issue where the UI theme did not update after changing chains
+- Ready for Planner review and confirmation
 
 ## Lessons
 - Include info useful for debugging in the program output
@@ -212,6 +218,8 @@ Currently implementing: Backend function to fetch ETH and USDC balances for a gi
 - Implement progressive enhancement for animations to ensure they don't affect performance on lower-end devices
 - Consider the visual weight of animated elements to avoid overwhelming the user interface
 - For large interactive grids, avoid hover/transition effects on mobile to prevent lag. Use sm: or md: breakpoints to limit interactivity to desktop. Consider virtualization for very large grids if performance is still an issue.
+- Always validate name format before attempting onchain resolution
+- Use in-memory cache for name resolutions to reduce RPC calls and improve UX
 
 ## Mini App Conversion Plan (Coinbase MiniKit)
 

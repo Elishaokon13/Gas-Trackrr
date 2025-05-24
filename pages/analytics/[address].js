@@ -287,6 +287,10 @@ export default function AnalyticsPage() {
                     onClick={() => {
                       setSelectedChain(opt.value);
                       setDropdownOpen(false);
+                      router.push({
+                        pathname: router.pathname,
+                        query: { ...router.query, chain: opt.value }
+                      }, undefined, { shallow: true });
                     }}
                     role="option"
                     aria-selected={opt.value === selectedChain}
