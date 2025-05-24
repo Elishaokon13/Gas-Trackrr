@@ -21,7 +21,7 @@
     "@coinbase/onchainkit": "^0.38.13",
     "@heroicons/react": "^2.2.0",
     "@tanstack/react-query": "^5.76.1",
-    "alchemy-sdk": "^3.5.8",
+    "alchemy-sdk": "^3.5.10",
     "axios": "^1.5.1",
     "clsx": "^2.1.1",
     "ethereum-block-by-date": "^1.5.0",
