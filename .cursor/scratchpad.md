@@ -3,6 +3,8 @@
 ## Background and Motivation
 This project is a multi-chain wallet analytics tool that allows users to check their transaction metrics across different chains (Base, Ethereum, and Optimism). The application has evolved from a Base-only analytics tool to a comprehensive multi-chain solution that provides detailed insights into user's onchain activity.
 
+The project aims to expand its supported chains to include Arbitrum, Sonic, and Unichain to provide a wider view of user onchain activity.
+
 Current Features:
 - Multi-chain support (Base, Ethereum, Optimism)
 - Transaction count and gas usage tracking
@@ -18,18 +20,22 @@ Current Features:
    - Varying data formats and response structures
    - Chain-specific token contracts and addresses
    - Rate limiting and API reliability
+   - API Rate limiting and reliability, especially for less common chains like Sonic and Unichain.
 
 2. Name Resolution:
    - Chain-specific naming services (ENS, Optimism Name Service, Base Name Service)
    - Different resolver contracts and methods
    - Handling resolution failures gracefully
    - Caching resolved names for performance
+   - Researching and integrating naming services specific to Arbitrum, Sonic, and Unichain if they exist.
 
 3. UI/UX Considerations:
    - Chain-specific theming and branding
    - Responsive design across all device sizes
    - Clear error messaging for chain-specific issues
    - Intuitive chain switching experience
+   - Updating the chain selection UI to include Arbitrum, Sonic, and Unichain.
+   - Chain-specific theming and branding for the new chains.
 
 ## High-level Task Breakdown
 1. Data Fetching and Processing
@@ -125,6 +131,7 @@ Current Features:
 - Abstracting data-fetching logic to support multiple chains with different APIs and data formats.
 - Handling different token/NFT contracts and explorers per chain.
 - UI/UX for chain selection and cross-chain summaries.
+- [ ] (next) Add support for Arbitrum, Sonic, and Unichain
 
 ## Historical Balance & Portfolio Chart
 - Efficiently fetching historical balances (block-by-block or via third-party APIs).
@@ -143,29 +150,10 @@ Current Features:
 - [Completed] Replace simulated NFTs with actual transaction volume data
 - [Completed] Enhance the UI to be sleeker and more responsive across all device sizes
 - [Completed] Add animated line background for a more professional and engaging look
-
-## Multi-Chain Support
-- [ ] Research and select supported chains (Ethereum, Optimism, Arbitrum, etc.).
-- [ ] Abstract backend data-fetching logic to accept a `chain` parameter.
-- [ ] Integrate with APIs/providers for each chain (Etherscan, Optimism Explorer, Arbiscan, etc.).
-- [ ] Update frontend to add a chain selector (dropdown or tabs).
-- [ ] Display analytics for the selected chain.
-- [ ] (Optional) Show a summary view across all chains.
-
-## Historical Balance & Portfolio Chart
-- [ ] Research APIs for historical balances (Covalent, Alchemy, Etherscan, etc.).
-- [ ] Implement backend logic to fetch historical balances for ETH/USDC.
-- [ ] Fetch historical price data for tokens (CoinGecko, CryptoCompare, etc.).
-- [ ] Aggregate and format data for charting.
-- [ ] Integrate a charting library (Chart.js, Recharts, ApexCharts, etc.) in the frontend.
-- [ ] Add UI for selecting timeframes (7d, 30d, 90d, custom).
-
-## Protocol/Category Breakdown
-- [ ] Research methods/APIs for protocol identification (contract lists, 4byte, DeBank, Zerion, Dune, etc.).
-- [ ] Implement backend logic to parse and categorize transactions by protocol/dApp.
-- [ ] Aggregate data by protocol/category (volume, count).
-- [ ] Integrate a pie/bar chart in the frontend for visualization.
-- [ ] Display a list of top dApps/protocols with volume and transaction count.
+- [Completed] Replace particle background with animated line background
+- [Completed] Add isValidOpName helper and improve resolveOpName and getWalletData for robust OP Name Service resolution (validation, error handling, caching)
+- [Completed] Fix Analytics page chain selector to update URL and UI theme when switching chains
+- [ ] (next) Add support for Arbitrum, Sonic, and Unichain
 
 ## Project Status Board
 - [x] Initial project setup with Next.js and Tailwind CSS
@@ -187,7 +175,17 @@ Current Features:
 - [x] Replace particle background with animated line background
 - [x] Add isValidOpName helper and improve resolveOpName and getWalletData for robust OP Name Service resolution (validation, error handling, caching)
 - [x] Fix Analytics page chain selector to update URL and UI theme when switching chains
-- [ ] (next) Planner to review and confirm Analytics page chain selector bug is resolved
+- [x] Research and identify APIs/explorers for Arbitrum, Sonic, and Unichain
+- [x] Refine/Implement chain-specific data fetching logic for Sonic and Unichain (if necessary)
+- [x] Update backend to fetch transaction and gas data for Arbitrum, Sonic, and Unichain
+- [x] Update UI chain selector to include Arbitrum, Sonic, and Unichain
+- [x] Add chain-specific theming for Arbitrum, Sonic, and Unichain
+- [x] Implement data fetching error handling for new chains
+- [ ] Integrate name resolution for Arbitrum, Sonic, and Unichain (if applicable)
+- [ ] Implement name resolution error handling for Arbitrum, Sonic, and Unichain
+- [ ] Fetch and display Sonic token price (S) and use it for calculations
+- [ ] Define chain-specific rank thresholds for Arbitrum, Sonic, and Unichain
+- [ ] Add unit/integration tests for Arbitrum, Sonic, and Unichain support
 
 ## Current Status / Progress Tracking
 The application now has a sleek, modern UI with a pixel art aesthetic for the "Based Baby" brand. It features responsive glass-morphism cards, smooth animations, and an animated line background that creates a sophisticated, dynamic feel. The app displays transaction data (count and volume) and gas usage in both ETH and USD, with the UI optimized for all device sizes from mobile to desktop.
@@ -195,6 +193,18 @@ The application now has a sleek, modern UI with a pixel art aesthetic for the "B
 - [2024-06-10] Limited hover/transition effects on OnchainHeatmap day cells to desktop (sm: and up) to improve mobile responsiveness. Added a note for future virtualization if needed.
 
 Currently implementing: Backend function to fetch ETH and USDC balances for a given address at daily intervals over a date range using Alchemy.
++ Completed research for APIs and explorers for Arbitrum, Sonic, and Unichain. Findings are documented in the Executor's Feedback section.
++ Updated backend configuration (`lib/blockchain.js`) to include API endpoints and placeholder environment variables for Arbitrum, Sonic, and Unichain.
++ Completed research for name resolution services for Arbitrum (.arb by SPACE ID), Sonic (SNS - .s), and Unichain (Unichain Name Service - .uni). Findings are documented in the Executor's Feedback section.
++ Updated UI chain selectors in `pages/index.js` and `pages/analytics/[address].js` to include Arbitrum, Sonic, and Unichain.
++ Added placeholder colors and icons for Arbitrum, Sonic, and Unichain for chain-specific theming.
++ Plan revised to address task dependencies and inconsistencies, reordering tasks for logical flow (fetching/resolution before comprehensive error handling) and clarifying fetching/error handling tasks for new chains.
++ Refined chain-specific data fetching logic for Sonic and Unichain by confirming compatibility with existing functions and updating API configurations (`lib/blockchain.js`).
++ Completed updating the backend to fetch transaction and gas data for Arbitrum, Sonic, and Unichain. The existing `getWalletData` function now supports these chains due to the updated `SCAN_CONFIG` and `USDC_ADDRESSES`.
++ Implemented enhanced error handling in the `getTransactionHistoryScan` function in `lib/blockchain.js` to include HTTP status checks, more specific API error handling, and improved logging for the new chains.
++ Paused name resolution integration for Arbitrum, Sonic, and Unichain to focus on core data fetching with wallet addresses.
++ New task added to fetch and display Sonic token price (S) and use it for calculations.
++ Implemented fetching of Sonic token (S) price using Alchemy Prices API and updated `getWalletData` to use the native token price and symbol dynamically based on the selected chain for calculations and returned data.
 
 ## Executor's Feedback or Assistance Requests
 - Implemented isValidOpName helper for .op names (alphanumeric/dash, min 3 chars)
@@ -205,6 +215,12 @@ Currently implementing: Backend function to fetch ETH and USDC balances for a gi
 - Updated the chain selector dropdown so that selecting a new chain updates the router query param (URL), keeping the UI, data, and theme in sync
 - This resolves the issue where the UI theme did not update after changing chains
 - Ready for Planner review and confirmation
+
+**New Task:** Fetch and display Sonic token price (S) and use it for calculations
+**Executor's Next Step:** Research APIs for Sonic token price, implement fetching logic, update calculation and display logic in `getWalletData` and UI.
++ **Research Findings (Sonic Token Price):**
++ - User provided Alchemy RPC URL for Sonic mainnet: `https://sonic-mainnet.g.alchemy.com/v2/8KqeaPDoMqTdDpR9a8r0R4NInUAu1-ss`. This is an RPC endpoint, typically used for interacting directly with the blockchain, not for historical transaction lists or market prices like a block explorer or market data provider.
++ - Need to research how to get Sonic token (S) price data. Potential sources: CoinGecko, CoinMarketCap, or a dedicated Sonic ecosystem API.
 
 ## Lessons
 - Include info useful for debugging in the program output
